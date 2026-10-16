@@ -1,0 +1,30 @@
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteRunScriptsTests.swift
+  s_3cfb40aa57d8d6::t_539d2abb76c385 128
+  s_3cfb40aa57d8d6::t_8333a21477f89a 58-113,115-127,129-130
+  s_3cfb40aa57d8d6::t_62030b2773f327 114
+docs/remote-agent/a1-remote-exec/spec.md
+  s_3cfb40aa57d8d6::t_b2de26ae4b80ea 155-160
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/Golden/launch.sh
+  s_3cfb40aa57d8d6::t_8333a21477f89a 2
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteRunScripts.swift
+  s_3cfb40aa57d8d6::t_e85fef74d9f56e 20
+  s_3cfb40aa57d8d6::t_cb6308c8c85abb 16,48-49,69-76
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/Golden/cancel-tree.sh
+  s_3cfb40aa57d8d6::t_8333a21477f89a 11-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "2a07bfe9476521c6e52edca21d8b796a79b2bc4f",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
