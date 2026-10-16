@@ -1,0 +1,21 @@
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteRouting.swift
+  s_3cfb40aa57d8d6::t_8a6abea4b9314f 1-90
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteRoutingTests.swift
+  s_3cfb40aa57d8d6::t_b9722ff8b46e79 1-102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "b846228c1d9ca55f0ab6d4372cc995af1c0942d1",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
