@@ -1,0 +1,28 @@
+docs/remote-agent/decisions.md
+  s_3cfb40aa57d8d6::t_b5a86ff06e235d 1-45
+docs/remote-agent/a1-remote-exec/plan.md
+  s_3cfb40aa57d8d6::t_5e0bb138907466 17
+  s_3cfb40aa57d8d6::t_fec23bb5755d82 1-16,18-525
+docs/remote-agent/b-push/scope.md
+  s_3cfb40aa57d8d6::t_854bdd1424bfee 1-85
+docs/remote-agent/README.md
+  s_3cfb40aa57d8d6::t_f567bfbf8fc458 1-43
+docs/remote-agent/a1-remote-exec/spec.md
+  s_3cfb40aa57d8d6::t_5e0bb138907466 1-326
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.49-trip",
+  "base_commit_sha": "6c9d2f3fc23ac5d3a70a9a4ec4c6b492daa4a510",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": null
+    }
+  }
+}
