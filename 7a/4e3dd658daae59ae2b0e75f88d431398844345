@@ -1,0 +1,25 @@
+src/ios/Agent/Remote/AIChatViewModel+RemoteTools.swift
+  s_3cfb40aa57d8d6::t_8c8e680e58386f 2,49,67-68,70,72
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteToolCall.swift
+  s_3cfb40aa57d8d6::t_8c8e680e58386f 303-320
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteToolCallTests.swift
+  s_3cfb40aa57d8d6::t_3cff732c7bda96 268-286
+src/ios/Agent/Chat/AIChatViewModel+ConcurrentTools.swift
+  s_3cfb40aa57d8d6::t_8c8e680e58386f 374,602,623,644
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "7a4e3dd658daae59ae2b0e75f88d431398844345",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
