@@ -1,0 +1,47 @@
+src/ios/NativeOffloads/RemoteOffloadBridge.swift
+  s_3cfb40aa57d8d6::t_00f18d66ed0517 200
+src/ios/Views/Chat/AIChatView.swift
+  s_3cfb40aa57d8d6::t_3833275770eb70 2156-2157,5477,5806,5816-5817
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteToolCallTests.swift
+  s_3cfb40aa57d8d6::t_932614b8532729 144-149,151,153,155-156,161
+src/ios/Agent/Remote/RemoteAgentToolSchema.swift
+  s_3cfb40aa57d8d6::t_fd8959e1b47fd9 5,7-10,12
+src/ios/Agent/Remote/AIChatViewModel+RemoteTools.swift
+  s_3cfb40aa57d8d6::t_79440a9c044458 51-59,62,71-72,82-84,86
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteToolSchema.swift
+  s_3cfb40aa57d8d6::t_fd8959e1b47fd9 22-25
+src/ios/MinisTests/Remote/RemoteToolBridgeTests.swift
+  s_3cfb40aa57d8d6::t_97076dc21bb670 10-11,21,186,202,209-229
+  s_3cfb40aa57d8d6::t_670d8daaec454a 163-170,172-173
+  s_3cfb40aa57d8d6::t_fd8959e1b47fd9 108-109,117-118
+  s_3cfb40aa57d8d6::t_fe1159d1569cf7 171
+  s_3cfb40aa57d8d6::t_3d3b3c2e9ce78c 32-33
+src/ios/MinisTests/Remote/RemoteOffloadBridgeTests.swift
+  s_3cfb40aa57d8d6::t_97076dc21bb670 10-11,20,29,35,48,54,59
+src/ios/Agent/Remote/RemoteToolBridge.swift
+  s_3cfb40aa57d8d6::t_3b5287740bcbeb 26-30,60-62,68-100
+  s_3cfb40aa57d8d6::t_670d8daaec454a 31-34,36,38-42,63-67
+src/ios/Views/Remote/RemoteHostsSettingsView.swift
+  s_3cfb40aa57d8d6::t_00f18d66ed0517 164
+src/ios/Agent/Chat/AIChatViewModel+ConcurrentTools.swift
+  s_3cfb40aa57d8d6::t_f9a3ede36c0b69 1047
+src/ios/Agent/Remote/RemoteAppWiring.swift
+  s_3cfb40aa57d8d6::t_00f18d66ed0517 110-112,146
+  s_3cfb40aa57d8d6::t_b8551751fd62de 102-109,113-129,147,151-153
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "e9628d3543b935f7f01b3cabbe4851d1f7e00592",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
