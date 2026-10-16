@@ -1,0 +1,23 @@
+src/ios/Packages/MinisRemote/Package.swift
+  s_3cfb40aa57d8d6::t_6f69dbeec1a1e7 12-18,26-29,37-39
+docs/remote-agent/a1-remote-exec/spec.md
+  s_3cfb40aa57d8d6::t_60cac143fd392e 300-303
+docs/remote-agent/decisions.md
+  s_3cfb40aa57d8d6::t_60cac143fd392e 33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "fd338f5dfa40ae045223030cfaea5e0da157c5ec",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
