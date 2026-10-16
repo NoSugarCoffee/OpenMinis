@@ -1,0 +1,28 @@
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteExecutor.swift
+  s_3cfb40aa57d8d6::t_a7dd163175c2f0 1-302
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteExecutorTests.swift
+  s_3cfb40aa57d8d6::t_4252e20001b4f5 1-103,109-154,166-168,175,178-180,184-211
+  s_3cfb40aa57d8d6::t_1552d07a76e680 104-108,169-174,176-177,183
+  s_3cfb40aa57d8d6::t_cc704ec428a9f5 155-165
+  s_3cfb40aa57d8d6::t_8dc3ef43d8aef1 181-182
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/SSHFixture.swift
+  s_3cfb40aa57d8d6::t_db9e7aa9155f54 1-110
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/SSHConnectionPoolTests.swift
+  s_3cfb40aa57d8d6::t_cc704ec428a9f5 318-320
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "7d7949e267a47e2e69b81e28f790ac225b1074c6",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
