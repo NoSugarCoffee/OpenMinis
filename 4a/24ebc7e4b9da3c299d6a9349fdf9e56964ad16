@@ -1,0 +1,23 @@
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteFileServiceTests.swift
+  s_3cfb40aa57d8d6::t_700846a9c97532 146,148-149,151,226-240
+  s_3cfb40aa57d8d6::t_21a6e1b7738ec5 241
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteFileService.swift
+  s_3cfb40aa57d8d6::t_b3bb672bdcc9e1 246,248-249
+  s_3cfb40aa57d8d6::t_21a6e1b7738ec5 111-113,159,242-245,247
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "4a24ebc7e4b9da3c299d6a9349fdf9e56964ad16",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
