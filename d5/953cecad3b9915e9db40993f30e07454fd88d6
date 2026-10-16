@@ -1,0 +1,19 @@
+docs/remote-agent/a1-remote-exec/plan.md
+  s_3cfb40aa57d8d6::t_9d4679ec61f5dd 8,22-25,57,59,61-63,75,78-82,87-93,96-117,122-123,174-175,210-211,255-257,259-260,267-270,272-273,279,290,295,304-305,340,347-348,384-385,413,425-433
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "d5953cecad3b9915e9db40993f30e07454fd88d6",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
