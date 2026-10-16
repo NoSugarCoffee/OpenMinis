@@ -1,0 +1,47 @@
+docs/specs/proactive-events.md
+  s_3cfb40aa57d8d6::t_ba1cc5c7449f0b 203-272
+  s_3cfb40aa57d8d6::t_d194e7859460b4 361,364
+  s_3cfb40aa57d8d6::t_b7d1369625b66b 1-156,273-302,319-322,324-325,329-331,346-347,351,354,356-357,360,362-363,365-367,372-378
+  s_3cfb40aa57d8d6::t_a08eae69584b80 309-318
+  s_3cfb40aa57d8d6::t_60cd37e1103196 157-202
+  s_3cfb40aa57d8d6::t_c83b168edc1967 303-308
+  s_3cfb40aa57d8d6::t_95911e728df653 368-371
+  s_3cfb40aa57d8d6::t_e3e2c0f2896741 323,326-328,353,355
+  s_3cfb40aa57d8d6::t_0a0ebc005676f0 358-359
+  s_3cfb40aa57d8d6::t_92f857bf82d9cd 332-345,348-350,352
+docs/specs/personal-agent-capabilities.md
+  s_3cfb40aa57d8d6::t_5f00bc5d7cb1fd 22,84-103,117,127-128,137
+  s_3cfb40aa57d8d6::t_e3e2c0f2896741 119-122,134,139
+  s_3cfb40aa57d8d6::t_b6661799bf3899 1-21,23-83,104-116,118,123-126,129-133,135-136,138,140-144
+docs/specs/companion-heartbeat-v1.md
+  s_3cfb40aa57d8d6::t_8ad71a54d6d1af 3-4
+  s_3cfb40aa57d8d6::t_d7bbe088b168d0 14
+  s_3cfb40aa57d8d6::t_3bea398d966094 1-2,5-13,15-67,86-90,92-112,116-134
+  s_3cfb40aa57d8d6::t_5f00bc5d7cb1fd 68-85,91,113-115
+docs/specs/remote-agent-plan.md
+  s_3cfb40aa57d8d6::t_d7bbe088b168d0 28
+  s_3cfb40aa57d8d6::t_23ced88b2bc038 1-27,29-128
+docs/superpowers/specs/2026-10-16-remote-host-a1-design.md
+  s_3cfb40aa57d8d6::t_f0ac4669aac0d2 107
+  s_3cfb40aa57d8d6::t_ac3818582ca367 1-106,108-115,118-290
+  s_3cfb40aa57d8d6::t_0fe25b78cafad2 116-117
+docs/specs/remote-host-v1.md
+  s_3cfb40aa57d8d6::t_53f876b1063e65 1-29,31-146
+  s_3cfb40aa57d8d6::t_d7bbe088b168d0 30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.49-trip",
+  "base_commit_sha": "fc2716d727bb5c3a44a8ff1a0bbf9bc0d82a97d1",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "unknown"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
