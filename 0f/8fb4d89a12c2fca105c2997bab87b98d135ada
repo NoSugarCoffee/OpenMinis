@@ -1,0 +1,52 @@
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/FileToolLogicTests.swift
+  s_3cfb40aa57d8d6::t_29edd8675f1478 146-169
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteToolCallTests.swift
+  s_3cfb40aa57d8d6::t_d88af581d2db5d 1-128,144-200,208-258
+  s_3cfb40aa57d8d6::t_be1565fa4dbf1b 129-143,201-207
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteFileServiceTests.swift
+  s_3cfb40aa57d8d6::t_29edd8675f1478 176-190
+src/ios/Agent/Chat/AIChatViewModel+ConcurrentTools.swift
+  s_3cfb40aa57d8d6::t_80f5e7e9172f15 374,602,623,644
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteExecutor.swift
+  s_3cfb40aa57d8d6::t_1c4f6649603f37 16,223-224
+src/ios/Agent/Remote/RemoteAppWiring.swift
+  s_3cfb40aa57d8d6::t_70e8596d840e3f 1-108
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteFileService.swift
+  s_3cfb40aa57d8d6::t_1c4f6649603f37 143-160,353-357
+src/ios/Minis.xcodeproj/project.pbxproj
+  s_3cfb40aa57d8d6::t_f3c7fe143a3252 102,1295-1296,1337,1651,1829,2498-2499,2508,2621,3934-3940,3977-3981
+src/ios/Agent/Chat/AIChatViewModel.swift
+  s_3cfb40aa57d8d6::t_e7989bdf8bd21e 2498,5911
+src/ios/Agent/Chat/AIChatViewModel+FileTools.swift
+  s_3cfb40aa57d8d6::t_745a08de2ef3ba 2,296-308,310,569-570,574-583,598
+src/ios/Agent/Remote/RemoteToolBridge.swift
+  s_3cfb40aa57d8d6::t_b1448aba1a9f05 1-134
+src/ios/MinisTests/Remote/RemoteToolBridgeTests.swift
+  s_3cfb40aa57d8d6::t_eaca779ef03f10 1-157
+src/ios/Agent/Chat/AIChatViewModel+ToolDefinitions.swift
+  s_3cfb40aa57d8d6::t_392c1d0334c426 47-48,51,63,66,88,91,102,105
+src/ios/Packages/MinisRemote/Package.swift
+  s_3cfb40aa57d8d6::t_18fedcfde24aea 6
+src/ios/Agent/Remote/AIChatViewModel+RemoteTools.swift
+  s_3cfb40aa57d8d6::t_4f7f1656098428 1-33
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteToolCall.swift
+  s_3cfb40aa57d8d6::t_03741543ef0252 1-65,78-230,240-304,306,308-310
+  s_3cfb40aa57d8d6::t_ec54de4158bd37 66-77,231-239
+  s_3cfb40aa57d8d6::t_76a1cf5f7b3ddd 305,307
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "0f8fb4d89a12c2fca105c2997bab87b98d135ada",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
