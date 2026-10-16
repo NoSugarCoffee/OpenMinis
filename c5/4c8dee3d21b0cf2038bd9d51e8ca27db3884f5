@@ -1,0 +1,36 @@
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteCopyArgumentsTests.swift
+  s_3cfb40aa57d8d6::t_8c2a656b109e46 1-59
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteCopyArguments.swift
+  s_3cfb40aa57d8d6::t_d6c68995836626 1-156
+src/ios/NativeOffloads/RemoteOffloadBridge.swift
+  s_3cfb40aa57d8d6::t_87e0743ca690ca 1-116
+src/ios/MinisTests/Remote/RemoteOffloadBridgeTests.swift
+  s_3cfb40aa57d8d6::t_9f4fe467da6987 1-46
+src/ios/iSH/ISHKernel.m
+  s_3cfb40aa57d8d6::t_ba42b6d01614c9 70,921
+src/ios/Minis.xcodeproj/project.pbxproj
+  s_3cfb40aa57d8d6::t_6d2d02ce05d7e9 386-387,2891-2892
+  s_3cfb40aa57d8d6::t_ba42b6d01614c9 1111-1113,1992-1994
+src/ios/NativeOffloads/RemoteOffload.m
+  s_3cfb40aa57d8d6::t_ba42b6d01614c9 1-110
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteRoutingTests.swift
+  s_3cfb40aa57d8d6::t_9f4fe467da6987 88
+src/ios/NativeOffloads/RemoteOffload.h
+  s_3cfb40aa57d8d6::t_87e0743ca690ca 1-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "c54c8dee3d21b0cf2038bd9d51e8ca27db3884f5",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
