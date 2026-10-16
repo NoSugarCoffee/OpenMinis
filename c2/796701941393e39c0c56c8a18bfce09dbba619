@@ -1,0 +1,21 @@
+docs/remote-agent/a1-remote-exec/acceptance.md
+  s_3cfb40aa57d8d6::t_a6604456788012 1-69
+docs/remote-agent/README.md
+  s_3cfb40aa57d8d6::t_a6604456788012 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "c2796701941393e39c0c56c8a18bfce09dbba619",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
