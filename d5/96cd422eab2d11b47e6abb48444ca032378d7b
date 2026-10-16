@@ -1,0 +1,21 @@
+deps/build_ish.sh
+  s_3cfb40aa57d8d6::t_2fd6a0c177c826 91-93,163
+deps/prepare_alpine_rootfs.sh
+  s_3cfb40aa57d8d6::t_2fd6a0c177c826 79-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "d596cd422eab2d11b47e6abb48444ca032378d7b",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
