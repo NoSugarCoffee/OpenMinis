@@ -1,0 +1,31 @@
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteToolCallTests.swift
+  s_3cfb40aa57d8d6::t_c25e71f50f5964 244-257
+src/ios/MinisTests/Remote/RemoteToolBridgeTests.swift
+  s_3cfb40aa57d8d6::t_7e3b5d6044ae3e 145-159
+src/ios/Views/Remote/RemoteHost.xcstrings
+  s_3cfb40aa57d8d6::t_5362f7f21ece13 1586-1698,2716-2828,5880-5992,10061-10169
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteToolCall.swift
+  s_3cfb40aa57d8d6::t_3c1052dd477eed 66-93,95,97-100,103-106
+src/ios/Agent/Remote/RemotePermissionRows.swift
+  s_3cfb40aa57d8d6::t_78b2b9eeedcf90 1-28
+src/ios/Agent/Offload/OffloadPermissionManager.swift
+  s_3cfb40aa57d8d6::t_78b2b9eeedcf90 46
+src/ios/Agent/Remote/RemoteAppWiring.swift
+  s_3cfb40aa57d8d6::t_7f1a1a862f504c 105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "f1117a0f8683101fd271e154cc6e169c63d8bac8",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
