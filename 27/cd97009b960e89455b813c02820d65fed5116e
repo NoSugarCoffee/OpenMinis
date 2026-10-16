@@ -1,0 +1,27 @@
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteRunScriptsTests.swift
+  s_3cfb40aa57d8d6::t_1fed57461e8441 1-58
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/Golden/launch.sh
+  s_3cfb40aa57d8d6::t_1fed57461e8441 1-13
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteRunScripts.swift
+  s_3cfb40aa57d8d6::t_b94eb1d00c9a3b 1-81
+src/ios/Packages/MinisRemote/Package.swift
+  s_3cfb40aa57d8d6::t_1fed57461e8441 20-21
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/Golden/cancel-tree.sh
+  s_3cfb40aa57d8d6::t_1fed57461e8441 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "27cd97009b960e89455b813c02820d65fed5116e",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
