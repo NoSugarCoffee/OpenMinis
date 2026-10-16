@@ -1,0 +1,72 @@
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/FileToolLogicTests.swift
+  s_3cfb40aa57d8d6::t_218a307e4a3751 7-9,16,100-107,129,137,151,182
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteToolSchema.swift
+  s_3cfb40aa57d8d6::t_4f6ce7993c130e 1-30
+src/ios/MinisTests/Remote/RemoteToolBridgeTests.swift
+  s_3cfb40aa57d8d6::t_812e4d9e05d1ca 27-30,35,42-43,88-139,144,146,152,154,156,162,168,178,191
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteFileServiceTests.swift
+  s_3cfb40aa57d8d6::t_218a307e4a3751 67,207,211,220,224,233,251,255,265,274,281,307,317,364
+src/ios/Agent/Remote/RemoteAppWiring.swift
+  s_3cfb40aa57d8d6::t_b79213e0ed731c 34,39-43,45,83,85-87,90-96
+src/ios/Agent/Remote/RemoteToolBridge.swift
+  s_3cfb40aa57d8d6::t_8518829059551f 12-13,16-17,25,49-50,59,108
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RequestCoalescer.swift
+  s_3cfb40aa57d8d6::t_4f6ce7993c130e 1-17
+src/ios/Packages/MinisRemote/Sources/MinisRemote/FileToolLogic.swift
+  s_3cfb40aa57d8d6::t_18f1788ac9fbae 49-50,63
+src/ios/Agent/Chat/AIChatViewModel.swift
+  s_3cfb40aa57d8d6::t_641617ef1923b0 2498
+src/ios/Agent/Remote/RemoteAgentToolSchema.swift
+  s_3cfb40aa57d8d6::t_8518829059551f 1-25
+src/ios/Agent/Chat/AIChatViewModel+ToolDefinitions.swift
+  s_3cfb40aa57d8d6::t_641617ef1923b0 49,63,87,100,134
+src/ios/Agent/Remote/AIChatViewModel+RemoteTools.swift
+  s_3cfb40aa57d8d6::t_ab7f3fad732867 2-37,40-43,48-71,78-83
+src/ios/Agent/Chat/AIChatViewModel+BackgroundTask.swift
+  s_3cfb40aa57d8d6::t_641617ef1923b0 697
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/SSHFixture.swift
+  s_3cfb40aa57d8d6::t_218a307e4a3751 45
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteHostConfig.swift
+  s_3cfb40aa57d8d6::t_18f1788ac9fbae 13-14,16-18,25
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteExecutorTests.swift
+  s_3cfb40aa57d8d6::t_e1841aa8ba6c93 247,254
+  s_3cfb40aa57d8d6::t_51c69a86f411e4 245-246,248-253,255-269
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteExecutor.swift
+  s_3cfb40aa57d8d6::t_18f1788ac9fbae 108-110,119,289-292
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteHostStore.swift
+  s_3cfb40aa57d8d6::t_18f1788ac9fbae 58
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteToolCall.swift
+  s_3cfb40aa57d8d6::t_4f6ce7993c130e 227
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/SSHConnectionPoolTests.swift
+  s_3cfb40aa57d8d6::t_218a307e4a3751 177
+  s_3cfb40aa57d8d6::t_642ead3baadbe8 38,156
+src/ios/Agent/Chat/AIChatViewModel+ConcurrentTools.swift
+  s_3cfb40aa57d8d6::t_641617ef1923b0 374,602,623,644
+src/ios/Agent/Chat/AIChatViewModel+FileTools.swift
+  s_3cfb40aa57d8d6::t_641617ef1923b0 299-300
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RequestCoalescerTests.swift
+  s_3cfb40aa57d8d6::t_e1841aa8ba6c93 1-7,9,12-48,53-55
+  s_3cfb40aa57d8d6::t_50746c4da86c24 8,10-11,49-52
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteFileService.swift
+  s_3cfb40aa57d8d6::t_18f1788ac9fbae 94-95,123-124
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteHostStoreTests.swift
+  s_3cfb40aa57d8d6::t_218a307e4a3751 27,101-114
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteToolCallTests.swift
+  s_3cfb40aa57d8d6::t_e1841aa8ba6c93 126,144-155
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "4d7d1010ba40b6fe72297d95fb6df9fe5957798e",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
