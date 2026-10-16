@@ -1,0 +1,47 @@
+src/ios/Views/Remote/RemoteHostsSettingsView.swift
+  s_3cfb40aa57d8d6::t_5bf028ae7b7f69 352,411-412
+  s_3cfb40aa57d8d6::t_1a0c5ddd3a1cd0 12,49,63,70,73,79,107,110,121,125,141,212,215,251,253,265,268,279-281,283,298-299,301,308,310,313,328,332,361,366,368,470,472,474,476,478,481,483,497,513,550,557,606,620-622,626,629,636,648,653,675
+src/ios/Agent/Remote/RemoteHostSetup.swift
+  s_3cfb40aa57d8d6::t_1a0c5ddd3a1cd0 96,150,156,160,162,164,166
+  s_3cfb40aa57d8d6::t_5bf028ae7b7f69 106,133-134,140-148,151-154,158,167-175,181-242
+src/ios/Views/Remote/RemoteHost.xcstrings
+  s_3cfb40aa57d8d6::t_892367120a2909 1-11080
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteKeyStore.swift
+  s_3cfb40aa57d8d6::t_5e908626af8536 93,116
+src/ios/Agent/Remote/RemoteHostL10n.swift
+  s_3cfb40aa57d8d6::t_1a0c5ddd3a1cd0 1-12
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteHostChecks.swift
+  s_3cfb40aa57d8d6::t_46898b60b12a1f 6-60,64-84,111-116,135-137,140-144,147-150,153,155-157
+src/ios/Views/Remote/RemoteHostTrustSheet.swift
+  s_3cfb40aa57d8d6::t_1a0c5ddd3a1cd0 29,42,45,47,52
+src/ios/MinisTests/Remote/RemoteHostSetupTests.swift
+  s_3cfb40aa57d8d6::t_27bc2f21b94cc2 79-99,105
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteHostCatalogTests.swift
+  s_3cfb40aa57d8d6::t_7a58e10398e792 1-46,48-63,66-74
+  s_3cfb40aa57d8d6::t_44bdef724a51e2 47,64-65
+src/ios/Views/Remote/SessionRemoteHostView.swift
+  s_3cfb40aa57d8d6::t_1a0c5ddd3a1cd0 15,34,77,97,99,182,186,194,211
+  s_3cfb40aa57d8d6::t_5bf028ae7b7f69 26,28
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteHostChecksTests.swift
+  s_3cfb40aa57d8d6::t_1f012a19fd00dd 18-23,25-40
+src/ios/Localizable.xcstrings
+  s_3cfb40aa57d8d6::t_6f4c27e0684ef2 11814,11817,11820
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteHostStoreTests.swift
+  s_3cfb40aa57d8d6::t_79c426fede4520 285-298
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "7de4e2c7dbf9613b0ab691cfdc3ffa3f39333b11",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
