@@ -1,0 +1,27 @@
+docs/superpowers/specs/2026-10-16-remote-host-a1-design.md
+  s_3cfb40aa57d8d6::t_b04b569d52d01a 7
+docs/specs/remote-host-v1.md
+  s_3cfb40aa57d8d6::t_17cdfc78cf544e 4-8,117
+docs/specs/remote-agent-plan.md
+  s_3cfb40aa57d8d6::t_63936482c92801 1,3-8,10,12-16,18-19,21,23,25-39,42-54,57,59-64,66,68-98
+docs/specs/personal-agent-capabilities.md
+  s_3cfb40aa57d8d6::t_17cdfc78cf544e 3-4,120-122
+docs/specs/proactive-events.md
+  s_3cfb40aa57d8d6::t_17cdfc78cf544e 3-4,323-325
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.49-trip",
+  "base_commit_sha": "1a4a93e51ed3d12278b6d86c8688c971b0be2574",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
