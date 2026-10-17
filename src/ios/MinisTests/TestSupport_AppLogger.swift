@@ -2,8 +2,8 @@ import Foundation
 
 // Test-target-only stand-in for the app's AppLogger (Shared/AppLogger.swift).
 //
-// The MinisTests target compiles a few production sources directly (ContextPolicy,
-// ToolLoopDetector, GeminiWireFormat, TextSegmenter, JiebaWrapper). ToolLoopDetector
+// The MinisTests target compiles a few production sources directly (ToolLoopDetector,
+// GeminiWireFormat, TextSegmenter, JiebaWrapper). ToolLoopDetector
 // declares `private let logger = AppLogger(category:)`, but the real AppLogger calls
 // `CrashReporter.shared.appendLog(...)`, and CrashReporter in turn pulls in
 // SessionActivityTracker / BackgroundKeepAliveManager / BrowserTabPoolRegistry /
