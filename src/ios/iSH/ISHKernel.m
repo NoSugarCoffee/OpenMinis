@@ -67,6 +67,7 @@
 #import "SessionsOffload.h"
 #import "ConfigOffload.h"
 #import "ScheduledOffload.h"
+#import "RemoteOffload.h" // fork(remote-host):
 #import "BrowserUseOffload.h"
 #import "DebugOffload.h"
 
@@ -917,6 +918,7 @@ static void handle_process_exit(struct task *task, int code) {
     nfc_offload_register();
     sessions_offload_register();
     scheduled_offload_register();
+    remote_offload_register(); // fork(remote-host):
     browser_use_offload_register();
     config_offload_register();
     // Registered in every build: the `minis-debug logs` subcommand reads the

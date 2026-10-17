@@ -27,6 +27,17 @@ Direct packages declared in `src/ios/Minis.xcodeproj`:
 | SwiftMath | 1.7.3 | https://github.com/mgriebling/SwiftMath | **MIT** |
 | RealTimeCutVADLibrary | 1.0.14 | https://github.com/helloooideeeeea/RealTimeCutVADLibrary | **MIT** |
 
+<!-- fork(remote-host): -->
+Packages pulled in by the local package `src/ios/Packages/MinisRemote` (pinned exactly in its `Package.swift`) and linked into the app:
+
+| Package | Version | Repository | License |
+|---|---|---|---|
+| Citadel | 0.9.2 (exact) | https://github.com/orlandos-nl/Citadel | **MIT** |
+| swift-nio-ssh (Joannis fork) | 0.3.5 (exact) | https://github.com/Joannis/swift-nio-ssh | **Apache-2.0** |
+| BigInt | 5.7.0 (exact) | https://github.com/attaswift/BigInt | **MIT** |
+| ColorizeSwift | 1.7.0 (exact) | https://github.com/mtynior/ColorizeSwift | **MIT** |
+<!-- /fork(remote-host) -->
+
 RealTimeCutVADLibrary (and its Android counterpart below) bundles [ONNX Runtime](https://github.com/microsoft/onnxruntime) (**MIT**), the [WebRTC audio processing](https://gitlab.freedesktop.org/pulseaudio/webrtc-audio-processing) module (**BSD-3-Clause**) and the [Silero VAD](https://github.com/snakers4/silero-vad) model (**MIT**).
 
 Transitive packages (pinned in `Package.resolved`), all **Apache-2.0**, maintained by Apple / the Swift Server Workgroup: `async-http-client`, `swift-algorithms`, `swift-asn1`, `swift-async-algorithms`, `swift-atomics`, `swift-certificates`, `swift-collections`, `swift-crypto`, `swift-distributed-tracing`, `swift-http-structured-headers`, `swift-http-types`, `swift-log`, `swift-nio` (+ `-extras`, `-http2`, `-ssl`, `-transport-services`), `swift-numerics`, `swift-service-context`, `swift-service-lifecycle`, `swift-system`.

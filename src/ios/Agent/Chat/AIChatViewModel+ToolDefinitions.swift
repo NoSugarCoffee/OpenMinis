@@ -131,6 +131,7 @@ extension AIChatViewModel {
                 propertyOrdering: ["tool_title", "action", "tab_id", "url", "selector", "text", "coordinate_x", "coordinate_y", "direction", "amount", "scroll_count", "item_selector", "script", "user_agent", "max_depth", "keywords", "fuzzy", "cookies", "timeout", "viewport_width", "viewport_height", "reset", "full_page"]
             ),
         ]
+        tools = RemoteAgentToolSchema.augment(tools, sessionId: remoteBindingSessionId) // fork(remote-host):
 
         if includeMemoryTools {
             tools.append(AgentToolDefinition(

@@ -99,6 +99,7 @@
 		E52000003 /* LLMProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52000013 /* LLMProvider.swift */; };
 		E52000004 /* AnthropicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52000014 /* AnthropicProvider.swift */; };
 		E52000005 /* SwiftAnthropic in Frameworks */ = {isa = PBXBuildFile; productRef = E52000021 /* SwiftAnthropic */; };
+		FA7E00000000000000000001 /* MinisRemote in Frameworks */ = {isa = PBXBuildFile; productRef = FA7E00000000000000000002 /* MinisRemote */; };
 		E52000006 /* OAuthHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52000015 /* OAuthHTTPClient.swift */; };
 		E52000007 /* ClaudeOAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52000016 /* ClaudeOAuthManager.swift */; };
 		E52000009 /* AnthropicModelsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52000018 /* AnthropicModelsAPI.swift */; };
@@ -382,6 +383,8 @@
 		E5S000005 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5S000015 /* CloudKit.framework */; };
 		E5S000006 /* SyncDirtyScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5S000016 /* SyncDirtyScanner.swift */; };
 		E5SAC0010 /* SubAgentsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SAC0020 /* SubAgentsCollection.swift */; };
+		E5REM0002 /* RemoteOffload.m in Sources */ = {isa = PBXBuildFile; fileRef = E5REM0012 /* RemoteOffload.m */; };
+		E5REM0003 /* RemoteOffloadBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5REM0013 /* RemoteOffloadBridge.swift */; };
 		E5SCH0001 /* ScheduledJobRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SCH0011 /* ScheduledJobRunner.swift */; };
 		E5SCH0002 /* ScheduledOffload.m in Sources */ = {isa = PBXBuildFile; fileRef = E5SCH0012 /* ScheduledOffload.m */; };
 		E5SCH0003 /* ScheduledOffloadBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5SCH0013 /* ScheduledOffloadBridge.swift */; };
@@ -1105,6 +1108,9 @@
 		E5S000015 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		E5S000016 /* SyncDirtyScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncDirtyScanner.swift; sourceTree = "<group>"; };
 		E5SAC0020 /* SubAgentsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SubAgentsCollection.swift; path = Config/Collections/SubAgentsCollection.swift; sourceTree = "<group>"; };
+		E5REM0010 /* RemoteOffload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RemoteOffload.h; sourceTree = "<group>"; };
+		E5REM0012 /* RemoteOffload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemoteOffload.m; sourceTree = "<group>"; };
+		E5REM0013 /* RemoteOffloadBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteOffloadBridge.swift; sourceTree = "<group>"; };
 		E5SCH0010 /* ScheduledOffload.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScheduledOffload.h; sourceTree = "<group>"; };
 		E5SCH0011 /* ScheduledJobRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledJobRunner.swift; sourceTree = "<group>"; };
 		E5SCH0012 /* ScheduledOffload.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScheduledOffload.m; sourceTree = "<group>"; };
@@ -1291,6 +1297,8 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AA0838CB2F3CA8A900049557 /* Terminal */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Terminal; sourceTree = "<group>"; };
+		FA7E00000000000000000003 /* Remote */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Remote; sourceTree = "<group>"; };
+		FA7E00000000000000000004 /* Remote */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Remote; sourceTree = "<group>"; };
 		AA8A568C2F6FBB7A00A3E54E /* MinisUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MinisUITests; sourceTree = "<group>"; };
 		BB1000012F700000000000AA /* MinisTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (E5EXC0001 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = MinisTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -1331,6 +1339,7 @@
 				E5M000002 /* cmark-gfm-extensions in Frameworks */,
 				E5S000005 /* CloudKit.framework in Frameworks */,
 				891443CAA4679D09A6D32AE4 /* RealTimeCutVADLibrary in Frameworks */,
+				FA7E00000000000000000001 /* MinisRemote in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1644,6 +1653,7 @@
 				F1A00012 /* Markdown */,
 				F1A00011 /* MessageList */,
 				F1A00017 /* Offload */,
+				FA7E00000000000000000003 /* Remote */,
 				F1A00015 /* Session */,
 				E5BSH0100 /* Shell */,
 				F1A00018 /* Speech */,
@@ -1821,6 +1831,7 @@
 				F1V00013 /* Rootfs */,
 				F1V00011 /* Settings */,
 				F1V00016 /* Skills */,
+				FA7E00000000000000000004 /* Remote */,
 				F1VMCPG0 /* MCP */,
 				EAB000060 /* Sync */,
 			);
@@ -1978,6 +1989,9 @@
 				E5L200NF0 /* NFCOffload.h */,
 				E5L200NF1 /* NFCOffload.m */,
 				E5L200SS0 /* SessionsOffload.h */,
+				E5REM0010 /* RemoteOffload.h */,
+				E5REM0012 /* RemoteOffload.m */,
+				E5REM0013 /* RemoteOffloadBridge.swift */,
 				E5SCH0010 /* ScheduledOffload.h */,
 				E5SCH0012 /* ScheduledOffload.m */,
 				E5SCH0013 /* ScheduledOffloadBridge.swift */,
@@ -2489,6 +2503,8 @@
 			);
 			fileSystemSynchronizedGroups = (
 				AA0838CB2F3CA8A900049557 /* Terminal */,
+				FA7E00000000000000000003 /* Remote */,
+				FA7E00000000000000000004 /* Remote */,
 			);
 			name = Minis;
 			packageProductDependencies = (
@@ -2497,6 +2513,7 @@
 				E5M000022 /* cmark-gfm-extensions */,
 				E5X000021 /* SwiftMath */,
 				C42120806C66A2C804F89620 /* RealTimeCutVADLibrary */,
+				FA7E00000000000000000002 /* MinisRemote */,
 			);
 			productName = Minis;
 			productReference = E51000010 /* Minis.app */;
@@ -2609,6 +2626,7 @@
 				E5M000020 /* XCRemoteSwiftPackageReference "swift-cmark" */,
 				E5X000020 /* XCRemoteSwiftPackageReference "SwiftMath" */,
 				B318C2F47DB3F301A17E49BE /* XCRemoteSwiftPackageReference "RealTimeCutVADLibrary" */,
+				FA7E00000000000000000005 /* XCLocalSwiftPackageReference "Packages/MinisRemote" */,
 			);
 			productRefGroup = E51000032 /* Products */;
 			projectDirPath = "";
@@ -2870,6 +2888,8 @@
 				E5ACB0001 /* AgentCallback.swift in Sources */,
 				E5AMI0001 /* HelperModelIdentity.swift in Sources */,
 				E5ACB0002 /* AgentCallbackCellView.swift in Sources */,
+				E5REM0002 /* RemoteOffload.m in Sources */,
+				E5REM0003 /* RemoteOffloadBridge.swift in Sources */,
 				E5SCH0001 /* ScheduledJobRunner.swift in Sources */,
 				E5SCH0002 /* ScheduledOffload.m in Sources */,
 				E5SCH0003 /* ScheduledOffloadBridge.swift in Sources */,
@@ -3921,6 +3941,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		FA7E00000000000000000005 /* XCLocalSwiftPackageReference "Packages/MinisRemote" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/MinisRemote;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		B318C2F47DB3F301A17E49BE /* XCRemoteSwiftPackageReference "RealTimeCutVADLibrary" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -3957,6 +3984,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FA7E00000000000000000002 /* MinisRemote */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA7E00000000000000000005 /* XCLocalSwiftPackageReference "Packages/MinisRemote" */;
+			productName = MinisRemote;
+		};
 		C42120806C66A2C804F89620 /* RealTimeCutVADLibrary */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B318C2F47DB3F301A17E49BE /* XCRemoteSwiftPackageReference "RealTimeCutVADLibrary" */;
