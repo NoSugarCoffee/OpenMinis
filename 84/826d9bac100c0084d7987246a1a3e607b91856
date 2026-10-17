@@ -1,0 +1,97 @@
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteToolSchema.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-37
+src/ios/Packages/MinisRemote/Tests/Fixtures/sshd/Dockerfile
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-11
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/HostKeyFingerprintTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-16
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/FileToolLogicTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-257
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteHostCatalogTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-74
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteCopyArgumentsTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-129
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteRunState.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-67
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RequestCoalescer.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-17
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteKeyFixtures.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-37
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteRunScriptsTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-183
+src/ios/Packages/MinisRemote/.gitignore
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-3
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteCopyArguments.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-201
+src/ios/Packages/MinisRemote/Sources/MinisRemote/SSHConnectionPool.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-619
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteRouting.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-90
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteHostStoreTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-310
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteRunScripts.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-110
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteToolCallTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-346
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/Golden/cancel-tree.sh
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-19
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteHostStore.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-192
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/FileToolDriftTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-64
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteHostChecksTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-158
+src/ios/Packages/MinisRemote/Sources/MinisRemote/FileToolLogic.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-293
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteHostChecks.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-168
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteHostConfig.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-27
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteFileService.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-557
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteKeyStore.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-137
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteToolCall.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-374
+src/ios/Packages/MinisRemote/Package.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-46
+src/ios/Packages/MinisRemote/Tests/Fixtures/sshd/up.sh
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-37
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/Golden/launch.sh
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-15
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteRoutingTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-102
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/SSHConnectionPoolTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-560
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RequestCoalescerTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-55
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/SSHFixture.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-111
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteSSHSmokeTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-35
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteRunStateTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-100
+src/ios/Packages/MinisRemote/Sources/MinisRemote/HostKeyFingerprint.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-19
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteFileServiceTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-403
+src/ios/Packages/MinisRemote/Sources/MinisRemote/RemoteExecutor.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-478
+src/ios/Packages/MinisRemote/Tests/MinisRemoteTests/RemoteExecutorTests.swift
+  s_3cfb40aa57d8d6::t_ec6477ab529de7 1-555
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "84826d9bac100c0084d7987246a1a3e607b91856",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
