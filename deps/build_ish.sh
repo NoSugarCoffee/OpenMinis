@@ -88,8 +88,9 @@ check_prerequisites() {
     fi
 
     # Check for LLVM (needed for VDSO)
-    LLVM_CLANG=""
-    for clang_path in "/opt/homebrew/opt/llvm/bin/clang" "/usr/local/opt/llvm/bin/clang" "/opt/local/bin/clang"; do
+    # fork(remote-host): LLVM_CLANG may be preset (e.g. a nix store path) on machines without Homebrew.
+    LLVM_CLANG="${LLVM_CLANG:-}"
+    for clang_path in "$LLVM_CLANG" "/opt/homebrew/opt/llvm/bin/clang" "/usr/local/opt/llvm/bin/clang" "/opt/local/bin/clang"; do
         if [ -x "$clang_path" ]; then
             LLVM_CLANG="$clang_path"
             break
@@ -159,6 +160,7 @@ c = ['clang', '-arch', 'arm64', '-isysroot', '$IOS_SDK', '-miphoneos-version-min
 ar = 'ar'
 strip = 'strip'
 pkg-config = 'false'
+${LLVM_CLANG:+clang = '$LLVM_CLANG'}
 
 [host_machine]
 system = 'darwin'
