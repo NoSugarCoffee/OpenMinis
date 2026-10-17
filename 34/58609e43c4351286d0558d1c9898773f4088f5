@@ -1,0 +1,71 @@
+THIRD_PARTY_LICENSES.md
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 30-40
+src/ios/iSH/ISHKernel.m
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 70,921
+src/ios/Agent/Chat/AIChatViewModel+BackgroundTask.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 697
+src/ios/MinisTests/Remote/RemoteToolBridgeTests.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-288
+src/ios/Minis.xcodeproj/project.pbxproj
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 102,386-387,1111-1113,1300-1301,1342,1656,1834,1992-1994,2506-2507,2516,2629,2891-2892,3944-3950,3987-3991
+src/ios/Agent/Chat/AIChatViewModel+ToolDefinitions.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 134
+src/ios/MinisTests/Remote/RemoteHostSetupTests.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-150
+src/ios/Agent/Offload/OffloadPermissionManager.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 46,225-228
+src/ios/Agent/Chat/AIChatViewModel.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 2498
+src/ios/Agent/Remote/AIChatViewModel+RemoteTools.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-102
+src/ios/Views/Remote/SessionRemoteHostView.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-265
+src/ios/Views/Remote/RemoteHost.xcstrings
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-11532
+src/ios/Views/Chat/AIChatView.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 389,1085-1087,1967,1979,2156,5476,5773,5784,5805,5816,5934
+src/ios/Agent/Remote/RemoteAgentToolSchema.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-40
+src/ios/Agent/Remote/RemoteToolBridge.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-172
+src/ios/NativeOffloads/RemoteOffloadBridge.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-224
+src/ios/Views/ContentView.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 8194
+src/ios/Agent/Remote/RemotePermissionRows.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-28
+src/ios/Agent/Remote/RemoteHostL10n.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-12
+src/ios/MinisTests/Remote/RemoteOffloadBridgeTests.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-65
+src/ios/Agent/Chat/AIChatViewModel+ConcurrentTools.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 374,602,623,644,1047
+src/ios/NativeOffloads/RemoteOffload.m
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-118
+src/ios/Agent/Remote/RemoteHostSetup.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-256
+src/ios/Views/Remote/RemoteHostTrustSheet.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-68
+src/ios/Views/Remote/RemoteHostsSettingsView.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-678
+src/ios/NativeOffloads/RemoteOffload.h
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-10
+src/ios/Agent/Remote/RemoteAppWiring.swift
+  s_3cfb40aa57d8d6::t_ea90d44a7b609d 1-166
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.50-trip",
+  "base_commit_sha": "3458609e43c4351286d0558d1c9898773f4088f5",
+  "prompts": {},
+  "sessions": {
+    "s_3cfb40aa57d8d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "664ebc01-6240-47dc-bac3-1bc855fe301e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "NoSugarCoffee <25247325+NoSugarCoffee@users.noreply.github.com>"
+    }
+  }
+}
