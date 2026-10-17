@@ -24,9 +24,9 @@ public enum RemoteRunScripts {
           *) S=/bin/sh ;;
         esac
         export R
-        if [ -e "$R/exit" ]; then echo "minis: run was cancelled before it started" >&2; exit 95; fi
+        if ! mkdir "$R/started" 2>/dev/null || [ -e "$R/exit" ]; then echo "minis: run was cancelled before it started" >&2; exit 95; fi
         nohup "$S" -lc '( . "$R/cmd" ); echo $? > "$R/exit.tmp"; mv "$R/exit.tmp" "$R/exit"' </dev/null >"$R/out" 2>&1 &
-        echo $! > "$R/pid"
+        echo $! > "$R/pid.tmp" && mv "$R/pid.tmp" "$R/pid"
 
         """
     }
@@ -93,14 +93,21 @@ public enum RemoteRunScripts {
         """
     }
 
-    /// For a launch whose reply was lost: prints `launched` when the launcher got as far as starting the
-    /// command, otherwise marks the run cancelled (so the launch, if it is still on its way, refuses to start)
-    /// and prints `claimed`.
+    /// For a launch whose reply was lost. The launcher and the claim race for the atomic `mkdir "$R/started"`,
+    /// so exactly one of them proceeds. Winning marks the run cancelled and prints `claimed`; losing waits for
+    /// the launcher's `pid` and prints `launched`, or `claimed` when an earlier claim already won. No output
+    /// means the launcher took the token but wrote no `pid` in time, so the outcome is unknown.
     public static func claimUnlaunched(runId: String) -> String {
         """
         \(runDirAssignment(runId))
-        if [ -f "$R/pid" ]; then echo launched; exit 0; fi
-        \(markCancelled) && echo claimed
+        if mkdir -p "$R" && mkdir "$R/started" 2>/dev/null; then \(markCancelled) && echo claimed; exit 0; fi
+        [ -d "$R/started" ] || exit 1
+        i=0
+        while [ $i -lt 5 ]; do
+          if [ -f "$R/pid" ]; then echo launched; exit 0; fi
+          if [ -f "$R/exit" ]; then echo claimed; exit 0; fi
+          sleep 1; i=$((i+1))
+        done
 
         """
     }

@@ -120,11 +120,13 @@ echo $! > ~/.minis/runs/$ID/pid
 - **No stdin:** stdin is `/dev/null`, so interactive prompts fail immediately. The tool
   description says interactive work belongs in the terminal.
 - **Unconfirmed launch:** when the launch exec's reply is lost (stop, timeout, dropped connection),
-  one probe of the run directory decides: if `pid` exists the run is followed, or cancelled when the
-  user stopped it; otherwise the probe writes `cancelled` to `exit`, and the launcher refuses to start
-  a run whose `exit` already exists (exit 95), so a call reported as not run never starts later. A
-  probe that cannot reach the host returns the run id as "may still be running". A stop that lands
-  while connecting sends nothing.
+  one probe of the run directory decides. The launcher and the probe both take the atomic token
+  `mkdir started`, and only the winner proceeds. A probe that wins writes `cancelled` to `exit`, and
+  the launcher refuses to start without the token or when `exit` already exists (exit 95), so a call
+  reported as not run never starts later. A probe that loses waits up to 5 s for the launcher's `pid`
+  (written atomically), and then the run is followed, or cancelled when the user stopped it. A probe
+  that cannot reach the host, or sees no `pid` in time, returns the run id as "may still be running".
+  A stop that lands while connecting sends nothing.
 - The exact script is produced by a pure function and pinned by golden tests. The quoting above is
   illustrative; the implementation must survive commands containing quotes, `$` and newlines,
   which is why the command travels as a file.

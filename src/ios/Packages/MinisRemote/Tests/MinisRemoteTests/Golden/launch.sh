@@ -10,6 +10,6 @@ case "${SHELL##*/}" in
   *) S=/bin/sh ;;
 esac
 export R
-if [ -e "$R/exit" ]; then echo "minis: run was cancelled before it started" >&2; exit 95; fi
+if ! mkdir "$R/started" 2>/dev/null || [ -e "$R/exit" ]; then echo "minis: run was cancelled before it started" >&2; exit 95; fi
 nohup "$S" -lc '( . "$R/cmd" ); echo $? > "$R/exit.tmp"; mv "$R/exit.tmp" "$R/exit"' </dev/null >"$R/out" 2>&1 &
-echo $! > "$R/pid"
+echo $! > "$R/pid.tmp" && mv "$R/pid.tmp" "$R/pid"

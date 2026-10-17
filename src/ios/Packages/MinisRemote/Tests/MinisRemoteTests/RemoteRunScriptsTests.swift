@@ -148,6 +148,29 @@ final class RemoteRunScriptsTests: XCTestCase {
         XCTAssertEqual(lateLaunch.status, 95)
     }
 
+    func testRetriedClaimStillReportsClaimed() throws {
+        let home = try makeHome()
+        _ = try runLocally(RemoteRunScripts.claimUnlaunched(runId: "lost"), home: home)
+
+        let retry = try runLocally(RemoteRunScripts.claimUnlaunched(runId: "lost"), home: home)
+
+        XCTAssertEqual(retry.stdout, "claimed\n")
+    }
+
+    func testClaimThatLosesTheTokenWaitsForTheLauncherPid() throws {
+        let home = try makeHome()
+        let launcherMidway = #"""
+        mkdir -p "$HOME/.minis/runs/racing/started"
+        (sleep 1; echo 1 > "$HOME/.minis/runs/racing/pid") &
+
+        """#
+
+        let claim = try runLocally(launcherMidway + RemoteRunScripts.claimUnlaunched(runId: "racing"), home: home)
+
+        XCTAssertEqual(claim.stdout, "launched\n")
+        XCTAssertFalse(FileManager.default.fileExists(atPath: runDir(home, "racing").appendingPathComponent("exit").path))
+    }
+
     func testClaimOfALaunchedRunLeavesItAlone() throws {
         let home = try makeHome()
         let launch = RemoteRunScripts.launch(
