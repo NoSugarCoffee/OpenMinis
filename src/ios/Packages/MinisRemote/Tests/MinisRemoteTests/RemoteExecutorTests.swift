@@ -446,6 +446,40 @@ final class RemoteExecutorTests: XCTestCase {
         XCTAssertEqual(after.subtracting(before), [], "a stopped call must not start the command")
     }
 
+    /// The connection is already up, so the stop lands while the launch exec is in flight and `run` must hand
+    /// over to `recoverUnconfirmedLaunch`. Whichever side wins the `started` token, nothing is left running.
+    func testStopWhileTheLaunchExecIsInFlightLeavesNothingRunning() async throws {
+        let (executor, pool) = try await makeExecutor()
+        let before = try await runDirectories(pool)
+        try runTool("/usr/bin/env", ["docker", "pause", "minis-sshtest"])
+        let run = Task {
+            try await executor.run(
+                host: "mini", workdir: "/tmp", command: "sleep 30; echo ran", timeout: .seconds(60), detach: false,
+                onOutput: { _ in })
+        }
+        try await Task.sleep(for: .milliseconds(500))
+        run.cancel()
+        try await Task.sleep(for: .milliseconds(500))
+        try runTool("/usr/bin/env", ["docker", "unpause", "minis-sshtest"])
+        let outcome = await run.result
+
+        switch outcome {
+        case .success(.finished(_, .cancelled, _)), .failure(is CancellationError):
+            break
+        default:
+            XCTFail("Expected CancellationError or a cancelled run, got \(outcome)")
+        }
+        let started = try await runDirectories(pool).subtracting(before)
+        XCTAssertEqual(started.count, 1, "the launch probe must have claimed or followed exactly one run")
+        for runId in started {
+            let state = try await pool.exec(
+                host: "mini",
+                script: #"R="$HOME/.minis/runs/"\#(RemoteRunScripts.shellQuote(runId)); cat "$R/exit"; echo; cat "$R/out" 2>/dev/null; true"#,
+                timeout: .seconds(10))
+            XCTAssertEqual(state.stdoutText, "cancelled\n")
+        }
+    }
+
     private func launchDirectly(
         _ pool: SSHConnectionPool, runId: String, command: String
     ) async throws -> RemoteRunHandle {
