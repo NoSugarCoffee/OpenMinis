@@ -1,0 +1,13 @@
+# Managed by minis-hostd. Written by `minis-hostd install-service`, removed by `minis-hostd uninstall-service`.
+[Unit]
+Description=minis-hostd: pushes mail and GitHub notices to Minis
+
+[Service]
+Type=simple
+ExecStart=/home/me/.minis/bin/minis-hostd run
+WorkingDirectory=/home/me/.minis/hostd
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
