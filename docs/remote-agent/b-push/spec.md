@@ -211,11 +211,32 @@ key, event or batch id, state, attempts, last_error), `pacing` (last push time, 
 
 ## 7. Notifier: Bark (D13)
 
-- **Request:** `POST https://api.day.app/push` (or a self-hosted `bark-server`) with the device key,
-  title, body, `url` (the `minis://` link), `group: "minis"`.
-- **Encryption:** on by default. The fields are sent as AES-256-GCM `ciphertext` with the key set in
-  the Bark app, so Bark's server and APNs see only the device key and timing. The exact request
-  format is checked in S3.
+- **Request:** `POST https://api.day.app/<device key>` (or a self-hosted `bark-server`), form
+  fields `ciphertext` and `iv`. The encrypted JSON holds `title`, `body`, `url` (the `minis://`
+  link) and `group: "minis"`.
+- **Encryption** (checked in S3, §7.1): on by default and required by `doctor`. Bark's server and
+  APNs see only the device key and timing.
+
+### 7.1 Bark encryption (S3)
+
+Verified on 2026-10-18 against Bark from the App Store (iOS 27) and `api.day.app`, and against
+Bark's source (`Model/Algorithm.swift`, `CiphertextProcessor.swift`, CryptoSwift 1.8.4):
+
+- **Algorithm:** AES-256-GCM. The key is the UTF-8 bytes of a 32-character string the user enters
+  in Bark (Push Encryption → AES256, GCM, noPadding). `ciphertext` is base64 of the sealed text
+  followed by the 16-byte tag, which is exactly Go's `cipher.AEAD.Seal` output.
+- **IV:** 12 characters, sent per push in the `iv` field; Bark's server forwards it and the app
+  uses it in place of its stored IV. Bark removed the IV field from its settings on 2026-08-18.
+  hostd draws a fresh random IV for every push, since reusing an IV under one GCM key breaks it.
+- **Key alphabet:** hostd generates the key from `abcdefghjkmnpqrstuvwxyz23456789`. In S3 the
+  first key, typed by hand, was saved with two Cyrillic look-alikes and a `0` for an `O`: Bark
+  accepted it (it counts characters, not bytes) and every push then failed with "Decryption
+  Failed".
+- **Checking the key:** `doctor --push-test` sends an encrypted test push, so a mistyped key shows
+  up during setup rather than on the first real event.
+- **Tap:** opens Minis directly from the notification. A route handled only inside one screen is
+  lost: `minis://open_terminal` opened Minis on its home screen without the terminal, because only
+  `AIChatView` listens for it. The `host-event` route is therefore handled at the app root (§9.1).
 - **Interface:** the notifier is a small Go interface (`Send(ctx, Notice) error` plus a
   "may have been delivered" error kind). The built-in push of §15, ntfy, Telegram or an iMessage
   sender on macOS hosts can be added later without touching the gate.
@@ -252,7 +273,8 @@ The CLI opens the database read-only, except `ack`, so it never blocks the daemo
 ### 9.1 Opening an event or a batch
 
 1. **Deep link:** the router parses `minis://host-event/<host>/<id>` and
-   `minis://host-event/<host>/batch/<id>`. An unknown host shows "“<host>” is not configured. Add it
+   `minis://host-event/<host>/batch/<id>`, and the opener runs from the app root, so the link works
+   on a cold start and from any screen (S3). An unknown host shows "“<host>” is not configured. Add it
    in Settings → Remote Hosts."
 2. **Fetch:** `events get <id>` or `batches get <id>` over the host's pooled connection. The same A1
    host key pin and the same `remote-host:<name>` permission apply.
@@ -364,7 +386,7 @@ in the Simulator opens a `minis://host-event` link and checks the banner and sum
 |---|---|---|
 | S1 | Gmail: app-password login, how long `IDLE` lasts, `X-GM-RAW` category search, `BODY.PEEK` leaving mail unread, the `Authentication-Results` header Gmail writes | A Go script against the user's Gmail shows each |
 | S2 | GitHub: `/notifications` with a classic token scoped to `notifications` only; a fine-grained token is refused | Both responses recorded |
-| S3 | Bark: encrypted request format; tapping a notification opens `minis://host-event/…` in Minis | Push received and tap lands in Minis on the iPhone |
+| S3 | Bark: encrypted request format; tapping a notification opens `minis://host-event/…` in Minis | **Done 2026-10-18** (§7.1); the `host-event` route itself is tested once it exists |
 | S4 | A1 exec of `~/.minis/bin/minis-hostd` under the host's login-shell rules, on macOS and Linux | **Done 2026-10-18** (§9.4) |
 
 ## 14. Prior art
