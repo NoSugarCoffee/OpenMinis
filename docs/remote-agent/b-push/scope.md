@@ -14,7 +14,7 @@ notifications. Tapping one opens the event in Minis as untrusted content in a re
 Host
  └─ minis-hostd          Go binary or Docker image (D15); systemd / launchd / container
       ├─ sources   IMAP (IDLE + reconcile) · GitHub notifications API
-      ├─ gate      allowlists · dedup · quiet hours · cooldown · drop automated mail   (no model call, D14)
+      ├─ gate      allowlists · dedup · quiet hours · coalescing · drop automated mail (no model call, D14)
       ├─ store     SQLite: cursors, events, notice keys, liveness                       (retention D16)
       ├─ notifier  pluggable: Bark (D13) · ntfy · Telegram · webhook
       └─ CLI       minis-hostd events list|get|ack --json   (versioned contract)
@@ -41,7 +41,7 @@ Minis ◄──────┘ tap → events get over SSH → wrap as untrusted
 - **Allowlists:** a sender allowlist for mail; a repo and reason filter for GitHub.
 - **Automated mail is dropped:** `Auto-Submitted`, `Precedence: bulk`, `List-Unsubscribe`, noreply.
 - **Quiet hours:** the window may wrap past midnight.
-- **Cooldown and daily cap:** counted over notice keys.
+- **Coalescing and daily cap:** a burst becomes one batch push; the cap counts notices (spec §5.3).
 - **Notice keys:** `mail:<acct>:<uv>:<uid>`, `gh:<threadId>:<updatedAt>`. A key is inserted only
   if absent, so each notice is delivered at most once across retries and restarts.
 
