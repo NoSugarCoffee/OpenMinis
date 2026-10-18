@@ -1,9 +1,8 @@
 # A1 acceptance
 
 Status: implementation complete and reviewed (package: 269 tests passing against an sshd container; app
-builds for device). **Nothing below has run on a device yet.** The app's `MinisTests` target does not
-build at the base commit (upstream: `MinisTests/Standalone/` scripts and `ContextPolicy.swift`), so the
-app-side tests are compiled only.
+builds for device; the 36 app-side Remote tests pass in the iOS Simulator). **Nothing below has run on
+a device yet.**
 
 ## Before merge
 
@@ -13,8 +12,10 @@ app-side tests are compiled only.
    `mkdir "$R/started"`; spec §4.1 describes it.
 3. **Done: test the launch-recovery wiring.** `testStopWhileTheLaunchExecIsInFlightLeavesNothingRunning`
    stops `RemoteExecutor.run` while the launch exec is in flight.
-4. **Fix the app test target.** It needs the upstream `MinisTests` build fix, then a device run of
-   `RemoteToolBridgeTests`, `RemoteOffloadBridgeTests` and `RemoteHostSetupTests`.
+4. **Done: fix the app test target.** `MinisTests` builds again. `RemoteToolBridgeTests`,
+   `RemoteOffloadBridgeTests` and `RemoteHostSetupTests` (36 tests) pass in the iOS 27 Simulator, using
+   the Simulator build support on `build/ios-simulator`; the run caught OSStatus codes shown with digit
+   grouping. Device-only behavior (Keychain, backgrounding) stays in the device checklist.
 5. **History.** Squash the series into logical commits and retarget the PR to the `fork` branch. Some
    early commits carry a "Claude Sonnet 5.5" trailer.
 
