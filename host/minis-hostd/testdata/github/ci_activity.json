@@ -1,0 +1,24 @@
+{
+  "id": "11738222019",
+  "unread": true,
+  "reason": "ci_activity",
+  "updated_at": "2026-10-18T12:05:31Z",
+  "last_read_at": null,
+  "subject": {
+    "title": "CI workflow run failed for feat/hostd-github branch",
+    "url": null,
+    "latest_comment_url": null,
+    "type": "CheckSuite"
+  },
+  "repository": {
+    "id": 812345678,
+    "name": "OpenMinis",
+    "full_name": "NoSugarCoffee/OpenMinis",
+    "private": false,
+    "owner": {"login": "NoSugarCoffee", "id": 41234567, "type": "User"},
+    "html_url": "https://github.com/NoSugarCoffee/OpenMinis",
+    "url": "https://api.github.com/repos/NoSugarCoffee/OpenMinis"
+  },
+  "url": "https://api.github.com/notifications/threads/11738222019",
+  "subscription_url": "https://api.github.com/notifications/threads/11738222019/subscription"
+}

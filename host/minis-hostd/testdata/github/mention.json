@@ -1,0 +1,25 @@
+{
+  "id": "11738195213",
+  "unread": true,
+  "reason": "mention",
+  "updated_at": "2026-10-18T09:14:02Z",
+  "last_read_at": null,
+  "subject": {
+    "title": "Retry Bark push on 5xx with backoff",
+    "url": "https://api.github.com/repos/NoSugarCoffee/OpenMinis/pulls/42",
+    "latest_comment_url": "https://api.github.com/repos/NoSugarCoffee/OpenMinis/issues/comments/2310558841",
+    "type": "PullRequest"
+  },
+  "repository": {
+    "id": 812345678,
+    "node_id": "R_kgDOMGtbTg",
+    "name": "OpenMinis",
+    "full_name": "NoSugarCoffee/OpenMinis",
+    "private": false,
+    "owner": {"login": "NoSugarCoffee", "id": 41234567, "type": "User"},
+    "html_url": "https://github.com/NoSugarCoffee/OpenMinis",
+    "url": "https://api.github.com/repos/NoSugarCoffee/OpenMinis"
+  },
+  "url": "https://api.github.com/notifications/threads/11738195213",
+  "subscription_url": "https://api.github.com/notifications/threads/11738195213/subscription"
+}
