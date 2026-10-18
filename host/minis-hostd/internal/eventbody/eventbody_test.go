@@ -135,7 +135,7 @@ func TestTitlesAndSummaries(t *testing.T) {
 	if got := GitHubTitle(g); got != "NoSugarCoffee/OpenMinis" {
 		t.Errorf("GitHubTitle = %q", got)
 	}
-	if got := GitHubSummary(g); got != "review_requested: feat(hostd): add the push gate" {
+	if got := GitHubSummary(g); got != "Review requested: feat(hostd): add the push gate" {
 		t.Errorf("GitHubSummary = %q", got)
 	}
 }

@@ -193,7 +193,8 @@ or window ends.
 ### 5.5 Notice text
 
 - Mail: title `<sender name>`, body `<subject>`.
-- GitHub: title `<owner/repo>`, body `<reason>: <subject title>`.
+- GitHub: title `<owner/repo>`, body `<reason in words>: <subject title>` ("Review requested: …";
+  an unknown reason is shown as GitHub names it).
 - Batch: title `<n> new: <m> mail, <k> GitHub`, body the distinct sender names and repos in arrival
   order ("Alice Chen, Bob Li, owner/repo").
 - All are truncated to 120 characters. The tap URL is `minis://host-event/<host>/<event id>` for one

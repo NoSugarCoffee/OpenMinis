@@ -115,7 +115,29 @@ func MailSummary(m candidate.Mail) string {
 
 func GitHubTitle(n candidate.GitHub) string { return n.Repo }
 
-func GitHubSummary(n candidate.GitHub) string { return n.Reason + ": " + n.SubjectTitle }
+// reasonLabels turn GitHub's notification reasons into words for the push and the event list; an
+// unknown reason is shown as GitHub names it.
+var reasonLabels = map[string]string{
+	"mention":          "Mentioned",
+	"team_mention":     "Team mentioned",
+	"review_requested": "Review requested",
+	"assign":           "Assigned",
+	"ci_activity":      "CI",
+	"author":           "Your thread",
+	"comment":          "Comment",
+	"state_change":     "State changed",
+	"subscribed":       "Subscribed",
+	"manual":           "Subscribed",
+	"security_alert":   "Security alert",
+}
+
+func GitHubSummary(n candidate.GitHub) string {
+	label, ok := reasonLabels[n.Reason]
+	if !ok {
+		label = n.Reason
+	}
+	return label + ": " + n.SubjectTitle
+}
 
 func address(a candidate.Address) Address { return Address{Name: a.Name, Address: a.Address} }
 
