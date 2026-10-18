@@ -100,8 +100,8 @@ else
 	"$binary" new-config --host-name "$host_name"
 fi
 
-"$binary" install-service
-
+# The service is not started here: with the template's placeholders the daemon would exit and be
+# restarted every few seconds. install-service refuses until the config loads.
 cat >&2 <<EOF
 
 Next steps:
@@ -110,4 +110,6 @@ Next steps:
      from the file.
   2. Check everything and send a test push:
        $binary doctor --push-test
+  3. Start it as a service:
+       $binary install-service
 EOF

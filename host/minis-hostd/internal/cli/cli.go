@@ -41,6 +41,7 @@ type Env struct {
 	Stderr   io.Writer
 	StateDir string
 	Now      func() time.Time
+	Setup    Setup
 }
 
 type versionOutput struct {
@@ -87,6 +88,12 @@ func Run(env Env, args []string) int {
 		return runBatches(env, args[1:])
 	case "status":
 		return runStatus(env, args[1:])
+	case "new-config":
+		return runNewConfig(env, args[1:])
+	case "install-service":
+		return runInstallService(env, args[1:])
+	case "uninstall-service":
+		return runUninstallService(env, args[1:])
 	default:
 		return fail(env, CodeBadRequest, fmt.Sprintf("unknown command %q", strings.Join(args, " ")))
 	}
