@@ -371,6 +371,7 @@ extension AIChatViewModel {
         do {
         switch tu.name {
         case "shell_execute":
+            if let remote = await remoteToolResult(toolName: tu.name, argsJson: argsJson, msgIdx: msgIdx, blockIdx: blockIdx) { toolOutput = remote.output; toolSuccess = remote.success; cancelledHere = remote.stoppedByUser; break } // fork(remote-host):
             let (command, timeout, delay) = parseToolInput(from: argsJson)
 
             if command.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -598,6 +599,7 @@ extension AIChatViewModel {
             toolOutput = redactedOut
 
         case "file_read":
+            if let remote = await remoteToolResult(toolName: tu.name, argsJson: argsJson, msgIdx: msgIdx, blockIdx: blockIdx) { toolOutput = remote.output; toolSuccess = remote.success; cancelledHere = remote.stoppedByUser; break } // fork(remote-host):
             let fileResult: FileToolResult
             do {
                 fileResult = try await executeFileRead(from: argsJson)
@@ -618,6 +620,7 @@ extension AIChatViewModel {
             }
 
         case "file_write":
+            if let remote = await remoteToolResult(toolName: tu.name, argsJson: argsJson, msgIdx: msgIdx, blockIdx: blockIdx) { toolOutput = remote.output; toolSuccess = remote.success; cancelledHere = remote.stoppedByUser; break } // fork(remote-host):
             let fileResult: FileToolResult
             do {
                 fileResult = try await executeFileWrite(from: argsJson)
@@ -638,6 +641,7 @@ extension AIChatViewModel {
             }
 
         case "file_edit":
+            if let remote = await remoteToolResult(toolName: tu.name, argsJson: argsJson, msgIdx: msgIdx, blockIdx: blockIdx) { toolOutput = remote.output; toolSuccess = remote.success; cancelledHere = remote.stoppedByUser; break } // fork(remote-host):
             let fileResult: FileToolResult
             do {
                 fileResult = try await executeFileEdit(from: argsJson)
@@ -1040,6 +1044,7 @@ extension AIChatViewModel {
             } else {
                 snapshot = ToolSnapshot(type: .text, text: toolOutput, mediaRef: nil, duration: toolDuration)
             }
+        case _ where ["file_write", "file_edit"].contains(tu.name) && RemoteToolBridge.answersCall(toolName: tu.name, argsJson: argsJson, sessionId: remoteBindingSessionId): snapshot = ToolSnapshot(type: .text, text: toolOutput, mediaRef: nil, duration: toolDuration) // fork(remote-host): a host file is not on the phone
         case "file_write", "file_edit":
             if let path = toolArgs["path"] as? String,
                let hostURL = await resolvePathForDirectRead(path),

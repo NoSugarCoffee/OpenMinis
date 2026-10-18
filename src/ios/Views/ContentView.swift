@@ -8191,6 +8191,7 @@ private struct SettingsSheet: View {
                                 .background(HelperAccent.color, in: Circle())
                         }
                     }
+                    RemoteHostsSettingsLink() // fork(remote-host):
                     NavigationLink {
                         SkillsManagementView()
                     } label: {

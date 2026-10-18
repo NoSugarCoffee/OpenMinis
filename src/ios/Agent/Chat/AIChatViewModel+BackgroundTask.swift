@@ -694,6 +694,7 @@ extension AIChatViewModel {
         // here because runningCommandPids was empty. Bail only when NONE apply,
         // so random taps don't poison the flag for a future real invocation.
         let browserLoading = browserTabPool.hasLoadingTab
+        if cancelRemoteRun(), runningCommandPids.isEmpty, !toolDelayWaitActive, !browserLoading { return } // fork(remote-host):
         guard !runningCommandPids.isEmpty || toolDelayWaitActive || browserLoading else { return }
         commandCancelledByUser = true
         // Stop any in-flight browser page loads. stopLoading() resolves the

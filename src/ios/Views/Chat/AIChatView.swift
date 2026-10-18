@@ -386,6 +386,7 @@ struct AIChatView: View {
     @State private var showModelPicker = false
     @State private var showThinkingLevelSheet = false
     @State private var showSessionSkills = false
+    @State private var showSessionRemoteHost = false // fork(remote-host):
     @State private var showSessionMCPs = false
     @State private var showSessionMemory = false
     @State private var showEnhancedCacheAlert = false
@@ -1081,6 +1082,9 @@ struct AIChatView: View {
                 await vm.ensureSessionReturningId()
             }
         }
+        .sheet(isPresented: $showSessionRemoteHost) { // fork(remote-host):
+            SessionRemoteHostView(sessionId: vm.sessionId) { await vm.ensureSessionReturningId() } // fork(remote-host):
+        } // fork(remote-host):
         .sheet(isPresented: $showSessionMCPs) {
             SessionMCPsView(sessionId: vm.sessionId) {
                 await vm.ensureSessionReturningId()
@@ -1960,6 +1964,7 @@ struct AIChatView: View {
             enhancedCacheEnabled: cached.vm.enhancedCacheEnabled,
             showFastModeToggle: activeModelSupportsFastMode,
             fastModeEnabled: codexFastModeEnabled,
+            remoteHostTitle: SessionRemoteHostView.menuTitle(sessionId: vm.sessionId), // fork(remote-host):
             onNewChat: { requestNewChatFromMenu() },
             // [T-chat-menu-compact-entry] Same effect as the /compact slash
             // command (AIChatViewModel+SlashCommands case "compact").
@@ -1971,6 +1976,7 @@ struct AIChatView: View {
             onOpenBrowser: { showBrowserSheet = true },
             onBrowseFiles: { showFileBrowser = true },
             onSkills: { showSessionSkills = true },
+            onRemoteHost: { showSessionRemoteHost = true }, // fork(remote-host):
             onMCPs: { showSessionMCPs = true },
             onMemories: { showSessionMemory = true },
             setSpeakEnabled: { enabled in
@@ -2147,6 +2153,7 @@ struct AIChatView: View {
             showEnhancedCacheToggle: cached.vm.showEnhancedCacheToggle,
             enhancedCacheEnabled: cached.vm.enhancedCacheEnabled,
             showFastModeToggle: activeModelSupportsFastMode,
+            remoteHostTitle: SessionRemoteHostView.menuTitle(sessionId: vm.sessionId), // fork(remote-host):
             fastModeEnabled: codexFastModeEnabled
         )
     }
@@ -5466,6 +5473,7 @@ private struct ChatToolbarKey: Equatable {
     let enhancedCacheEnabled: Bool
     /// [T-codex-fast-mode] Menu row shown only for Codex OAuth models.
     let showFastModeToggle: Bool
+    let remoteHostTitle: String // fork(remote-host):
     let fastModeEnabled: Bool
 }
 
@@ -5762,6 +5770,7 @@ private struct ChatTrailingMenuButton: UIViewRepresentable {
     /// Codex OAuth instance (OpenAI OAuth, no custom base).
     let showFastModeToggle: Bool
     let fastModeEnabled: Bool
+    let remoteHostTitle: String // fork(remote-host):
 
     let onNewChat: () -> Void
     let onCompact: () -> Void
@@ -5772,6 +5781,7 @@ private struct ChatTrailingMenuButton: UIViewRepresentable {
     let onOpenBrowser: () -> Void
     let onBrowseFiles: () -> Void
     let onSkills: () -> Void
+    let onRemoteHost: () -> Void // fork(remote-host):
     let onMCPs: () -> Void
     let onMemories: () -> Void
     let setSpeakEnabled: (Bool) -> Void
@@ -5792,6 +5802,7 @@ private struct ChatTrailingMenuButton: UIViewRepresentable {
         let showEnhancedCacheToggle: Bool
         let enhancedCacheEnabled: Bool
         let showFastModeToggle: Bool
+        let remoteHostTitle: String // fork(remote-host):
         let fastModeEnabled: Bool
     }
 
@@ -5802,6 +5813,7 @@ private struct ChatTrailingMenuButton: UIViewRepresentable {
             showEnhancedCacheToggle: showEnhancedCacheToggle,
             enhancedCacheEnabled: enhancedCacheEnabled,
             showFastModeToggle: showFastModeToggle,
+            remoteHostTitle: remoteHostTitle, // fork(remote-host):
             fastModeEnabled: fastModeEnabled)
     }
 
@@ -5919,6 +5931,7 @@ private struct ChatTrailingMenuButton: UIViewRepresentable {
         var sessionGroup: [UIMenuElement] = [
             UIAction(title: AppLocalized("Skills in Session"),
                      image: UIImage(systemName: "puzzlepiece.extension")) { _ in coordinator.parent.onSkills() },
+            UIAction(title: key.remoteHostTitle, image: UIImage(systemName: "server.rack")) { _ in coordinator.parent.onRemoteHost() }, // fork(remote-host):
             UIAction(title: AppLocalized("MCPs in Session"),
                      image: UIImage(systemName: "wrench.and.screwdriver")) { _ in coordinator.parent.onMCPs() },
         ]

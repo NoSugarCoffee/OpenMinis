@@ -60,11 +60,13 @@ struct MemoryManagementView: View {
         .navigationTitle("Memory")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if #available(iOS 17.0, *), iCloudSyncEnabled {
-                ToolbarItem(placement: .topBarTrailing) {
+            // fork(remote-host): Xcode 27's SDK makes `if #available` in a toolbar builder require iOS 17.5, so
+            // the check moved to showsForceSync; .primaryAction (iOS 14+) sits where .topBarTrailing (iOS 17+) did.
+            if showsForceSync {
+                ToolbarItem(placement: .primaryAction) {
                     Menu {
                         Button {
-                            Task { await forceSyncMemory() }
+                            Task { if #available(iOS 17.0, *) { await forceSyncMemory() } }
                         } label: {
                             Label(AppLocalized("Force iCloud Sync"),
                                   systemImage: "arrow.triangle.2.circlepath.icloud")
@@ -95,6 +97,12 @@ struct MemoryManagementView: View {
         .onReceive(NotificationCenter.default.publisher(for: .memoryFilesDidChange)) { _ in
             loadFiles()
         }
+    }
+
+    // fork(remote-host): see the toolbar.
+    private var showsForceSync: Bool {
+        guard #available(iOS 17.0, *) else { return false }
+        return iCloudSyncEnabled
     }
 
     @available(iOS 17.0, *)

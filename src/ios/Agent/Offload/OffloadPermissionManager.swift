@@ -43,6 +43,7 @@ struct PermissionRequest: Identifiable {
     /// snippet as `arg` rows, pushing the Allow / Deny buttons below the
     /// sheet's bottom edge.
     var parsedArguments: [(key: String, value: String)] {
+        if let rows = RemotePermissionRows.rows(commandName: commandName, fullCommand: fullCommand) { return rows } // fork(remote-host):
         let parts = Self.firstCommandTokens(fullCommand)
         guard parts.count > 1 else { return [] }
 
@@ -219,6 +220,12 @@ final class OffloadPermissionManager: ObservableObject {
             return basename
         }
         return nil
+    }
+
+    // fork(remote-host): read-only lookup so listing hosts never opens a prompt.
+    func hasSessionGrant(for command: String, sessionId: String?) -> Bool {
+        let trimmed = sessionId?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        return sessionGrants[trimmed.isEmpty ? OFFLOAD_GLOBAL_SESSION_ID : trimmed]?.contains(command) == true
     }
 
     // MARK: - Permission Check

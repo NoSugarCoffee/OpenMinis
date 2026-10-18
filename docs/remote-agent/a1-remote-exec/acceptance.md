@@ -1,24 +1,23 @@
 # A1 acceptance
 
-Status: implementation complete and reviewed (package: 260 tests passing against an sshd container; app
-builds for device). **Nothing below has run on a device yet.** The app's `MinisTests` target does not
-build at the base commit (upstream: `MinisTests/Standalone/` scripts and `ContextPolicy.swift`), so the
-app-side tests are compiled only.
+Status: implementation complete and reviewed (package: 269 tests passing against an sshd container; app
+builds for device; the 36 app-side Remote tests pass in the iOS Simulator). **Nothing below has run on
+a device yet.**
 
 ## Before merge
 
-1. **Pin upstream's permission key format.** Add a `#filePath` test, in the style of
-   `FileToolDriftTests`, that fails if `Agent/Offload/OffloadPermissionManager.swift` stops using
-   `"offloadPermission.\(command)"`. A silent rename would reset every host's stored level to Ask Once.
-2. **Close the claim/launch race.** Make claim and launch exclusive with an atomic
-   `mkdir "$R/started"`. Otherwise, reword spec §4 ("a call reported as not run never starts later")
-   and record the window there.
-3. **Test the launch-recovery wiring.** Add a fixture test that drives `RemoteExecutor.run` into
-   `recoverUnconfirmedLaunch`, cancelling while the launch exec is in flight.
-4. **Fix the app test target.** It needs the upstream `MinisTests` build fix, then a device run of
-   `RemoteToolBridgeTests`, `RemoteOffloadBridgeTests` and `RemoteHostSetupTests`.
-5. **History.** Squash the series into logical commits and retarget the PR to the `fork` branch. Some
-   early commits carry a "Claude Sonnet 5.5" trailer.
+1. **Done: pin upstream's permission key format.** `PermissionKeyDriftTests` (package) fails if
+   `OffloadPermissionManager.defaultsKey` stops using `"offloadPermission.\(command)"`.
+2. **Done: close the claim/launch race.** The launcher and the probe race for an atomic
+   `mkdir "$R/started"`; spec §4.1 describes it.
+3. **Done: test the launch-recovery wiring.** `testStopWhileTheLaunchExecIsInFlightLeavesNothingRunning`
+   stops `RemoteExecutor.run` while the launch exec is in flight.
+4. **Done: fix the app test target.** `MinisTests` builds again. `RemoteToolBridgeTests`,
+   `RemoteOffloadBridgeTests` and `RemoteHostSetupTests` (36 tests) pass in the iOS 27 Simulator, using
+   the Simulator build support on `build/ios-simulator`; the run caught OSStatus codes shown with digit
+   grouping. Device-only behavior (Keychain, backgrounding) stays in the device checklist.
+5. **Done: history.** The series is 10 logical commits. It merges into `main`, which is the fork's
+   trunk (D7) and already carries the design docs, so no separate `fork` branch is needed.
 
 ## Device checklist
 

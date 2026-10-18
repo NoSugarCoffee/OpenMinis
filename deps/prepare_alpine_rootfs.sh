@@ -76,7 +76,8 @@ check_prerequisites() {
 
     # Check for libarchive
     LIBARCHIVE_FOUND=0
-    for dir in "/opt/homebrew/opt/libarchive" "/usr/local/opt/libarchive" "/usr"; do
+    # fork(remote-host): LIBARCHIVE_PREFIX may be preset on machines without Homebrew; meson finds it via PKG_CONFIG_PATH.
+    for dir in ${LIBARCHIVE_PREFIX:+"$LIBARCHIVE_PREFIX"} "/opt/homebrew/opt/libarchive" "/usr/local/opt/libarchive" "/usr"; do
         if [ -f "$dir/lib/libarchive.dylib" ] || [ -f "$dir/lib/libarchive.a" ] || [ -f "$dir/lib/libarchive.so" ]; then
             LIBARCHIVE_FOUND=1
             break
