@@ -1,4 +1,4 @@
-# B — Proactive push (`minis-hostd`): scope
+# B — Host events (`minis-hostd`): scope
 
 Status: scoped; the design is in [`spec.md`](spec.md), which supersedes this page where they differ. Depends on A1, because the event body is fetched over A1's SSH
 connection. Decisions referenced as D*/Q* are in [`../decisions.md`](../decisions.md).

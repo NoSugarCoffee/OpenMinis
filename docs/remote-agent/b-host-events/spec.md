@@ -1,4 +1,4 @@
-# B — Proactive push (`minis-hostd`)
+# B — Host events (`minis-hostd`)
 
 Date: 2026-10-18. Status: draft for review. Spikes (§13) run before the implementation plan.
 Scope: iOS only, fork only (D7). Builds on A1: the event body is fetched over A1's SSH connection.
@@ -7,6 +7,10 @@ Part of [`../README.md`](../README.md); decisions are in [`../decisions.md`](../
 settle B's open questions). Scope: [`scope.md`](scope.md).
 
 ## 1. Goal
+
+A **host event** is something the host noticed for the user: a new mail or a GitHub notification,
+stored on the host with the rule decision about it. B is the whole path from noticing to
+understanding: the host watches, filters and notifies; Minis fetches the event and explains it.
 
 New mail from people who matter, and GitHub activity that needs the user, reach the iPhone as
 notifications within a minute. Tapping one opens the event in Minis as untrusted content in a

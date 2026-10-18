@@ -19,7 +19,7 @@ restating them. A changed decision is edited in place, with the date and what it
 
 | # | Decision | Since |
 |---|---|---|
-| D8 | **A1 comes first, then B (push), then A2 → A3.** Each ships with its own spec and plan. A1 already covers coding and long tasks, B needs only A1, and push is the other half of the goal. *Replaced: "all of A (A1 → A2 → A3) before B".* | 2026-10-18 |
+| D8 | **A1 comes first, then B (host events), then A2 → A3.** Each ships with its own spec and plan. A1 already covers coding and long tasks, B needs only A1, and host events are the other half of the goal. *Replaced: "all of A (A1 → A2 → A3) before B".* | 2026-10-18 |
 | D9 | **A2 uses the user's everyday Chrome profile** on the host, through Chrome's user-consented remote debugging. The risk is accepted until the trust core adds per-action gating. | 2026-10-16 |
 | D10 | **A3 is an in-app screen viewer with take-over**, tunnelled over SSH. The agent pauses its screen actions while the user has control. | 2026-10-16 |
 
@@ -33,7 +33,7 @@ environment > administering the host.
 | D11 | **SSH library: Citadel 0.9.2** (MIT), with its SSH chain pinned exactly in `MinisRemote/Package.swift` (`Joannis/swift-nio-ssh` 0.3.5, BigInt 5.7.0, ColorizeSwift 1.7.0), because it depends on a third-party NIO SSH fork and SwiftPM ignores a dependency's own `Package.resolved`. swift-nio is shared with upstream's packages and gets only a floor. Citadel caps the whole app at swift-crypto <2.1.0, so an upstream package needing a newer swift-crypto will not resolve until Citadel lifts the cap. | 2026-10-16 |
 | D12 | **Cancel walks the process tree, not a process group.** `set -m` fails under busybox `sh` without a tty (verified). | 2026-10-16 |
 
-## B (push)
+## B (host events)
 
 Settled 2026-10-18 from the open questions Q1–Q6 that were here.
 
