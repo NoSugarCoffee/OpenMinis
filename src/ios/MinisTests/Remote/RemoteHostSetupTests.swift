@@ -92,6 +92,12 @@ final class RemoteHostSetupTests: XCTestCase {
             "The Keychain refused to save the key (OSStatus -25308). Unlock the device and try again.")
     }
 
+    func testInvalidPortIsShownWithoutGrouping() {
+        XCTAssertEqual(
+            RemoteHostSetup.message(for: RemoteHostStoreError.invalidPort(70000)),
+            "Port 70000 is not valid. Use a number from 1 to 65535.")
+    }
+
     func testCheckFindingsAreWordedForSettings() {
         XCTAssertEqual(RemoteHostSetup.checkLabel(.loginShell), "Login shell")
         XCTAssertEqual(

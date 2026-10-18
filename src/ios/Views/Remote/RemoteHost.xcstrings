@@ -5538,115 +5538,115 @@
         }
       }
     },
-    "Port %lld is not valid. Use a number from 1 to 65535." : {
+    "Port %@ is not valid. Use a number from 1 to 65535." : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Port %lld ist ungültig. Verwende eine Zahl von 1 bis 65535."
+            "value" : "Port %@ ist ungültig. Verwende eine Zahl von 1 bis 65535."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Port %lld is not valid. Use a number from 1 to 65535."
+            "value" : "Port %@ is not valid. Use a number from 1 to 65535."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El puerto %lld no es válido. Usa un número del 1 al 65535."
+            "value" : "El puerto %@ no es válido. Usa un número del 1 al 65535."
           }
         },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hindi valid ang port %lld. Gumamit ng numero mula 1 hanggang 65535."
+            "value" : "Hindi valid ang port %@. Gumamit ng numero mula 1 hanggang 65535."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le port %lld n’est pas valide. Utilisez un nombre de 1 à 65535."
+            "value" : "Le port %@ n’est pas valide. Utilisez un nombre de 1 à 65535."
           }
         },
         "hr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Priključak %lld nije valjan. Upotrijebite broj od 1 do 65535."
+            "value" : "Priključak %@ nije valjan. Upotrijebite broj od 1 do 65535."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Port %lld tidak valid. Gunakan angka dari 1 sampai 65535."
+            "value" : "Port %@ tidak valid. Gunakan angka dari 1 sampai 65535."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ポート %lld は無効です。1〜65535 の数値を使ってください。"
+            "value" : "ポート %@ は無効です。1〜65535 の数値を使ってください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "포트 %lld은(는) 올바르지 않습니다. 1부터 65535 사이의 숫자를 사용하세요."
+            "value" : "포트 %@은(는) 올바르지 않습니다. 1부터 65535 사이의 숫자를 사용하세요."
           }
         },
         "ms" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Port %lld tidak sah. Gunakan nombor dari 1 hingga 65535."
+            "value" : "Port %@ tidak sah. Gunakan nombor dari 1 hingga 65535."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Port %lld jest nieprawidłowy. Użyj liczby od 1 do 65535."
+            "value" : "Port %@ jest nieprawidłowy. Użyj liczby od 1 do 65535."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A porta %lld não é válida. Use um número de 1 a 65535."
+            "value" : "A porta %@ não é válida. Use um número de 1 a 65535."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Portul %lld nu este valid. Folosiți un număr de la 1 la 65535."
+            "value" : "Portul %@ nu este valid. Folosiți un număr de la 1 la 65535."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Порт %lld недопустим. Укажите число от 1 до 65535."
+            "value" : "Порт %@ недопустим. Укажите число от 1 до 65535."
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "พอร์ต %lld ไม่ถูกต้อง ใช้ตัวเลขตั้งแต่ 1 ถึง 65535"
+            "value" : "พอร์ต %@ ไม่ถูกต้อง ใช้ตัวเลขตั้งแต่ 1 ถึง 65535"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld bağlantı noktası geçerli değil. 1 ile 65535 arasında bir sayı kullanın."
+            "value" : "%@ bağlantı noktası geçerli değil. 1 ile 65535 arasında bir sayı kullanın."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "端口 %lld 无效。请使用 1 到 65535 之间的数字。"
+            "value" : "端口 %@ 无效。请使用 1 到 65535 之间的数字。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "埠號 %lld 無效。請使用 1 到 65535 之間的數字。"
+            "value" : "埠號 %@ 無效。請使用 1 到 65535 之間的數字。"
           }
         }
       }
@@ -7572,341 +7572,341 @@
         }
       }
     },
-    "The Keychain refused to delete the key (OSStatus %lld). Unlock the device and try again." : {
+    "The Keychain refused to delete the key (OSStatus %@). Unlock the device and try again." : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Schlüsselbund hat das Löschen des Schlüssels abgelehnt (OSStatus %lld). Entsperre das Gerät und versuche es erneut."
+            "value" : "Der Schlüsselbund hat das Löschen des Schlüssels abgelehnt (OSStatus %@). Entsperre das Gerät und versuche es erneut."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The Keychain refused to delete the key (OSStatus %lld). Unlock the device and try again."
+            "value" : "The Keychain refused to delete the key (OSStatus %@). Unlock the device and try again."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El llavero no permitió eliminar la clave (OSStatus %lld). Desbloquea el dispositivo y vuelve a intentarlo."
+            "value" : "El llavero no permitió eliminar la clave (OSStatus %@). Desbloquea el dispositivo y vuelve a intentarlo."
           }
         },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tumanggi ang Keychain na burahin ang key (OSStatus %lld). I-unlock ang device at subukan ulit."
+            "value" : "Tumanggi ang Keychain na burahin ang key (OSStatus %@). I-unlock ang device at subukan ulit."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le trousseau a refusé de supprimer la clé (OSStatus %lld). Déverrouillez l’appareil et réessayez."
+            "value" : "Le trousseau a refusé de supprimer la clé (OSStatus %@). Déverrouillez l’appareil et réessayez."
           }
         },
         "hr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Privjesak ključeva odbio je izbrisati ključ (OSStatus %lld). Otključajte uređaj i pokušajte ponovno."
+            "value" : "Privjesak ključeva odbio je izbrisati ključ (OSStatus %@). Otključajte uređaj i pokušajte ponovno."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rantai Kunci menolak menghapus kunci (OSStatus %lld). Buka kunci perangkat dan coba lagi."
+            "value" : "Rantai Kunci menolak menghapus kunci (OSStatus %@). Buka kunci perangkat dan coba lagi."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "キーチェーンが鍵の削除を拒否しました（OSStatus %lld）。デバイスのロックを解除して、もう一度お試しください。"
+            "value" : "キーチェーンが鍵の削除を拒否しました（OSStatus %@）。デバイスのロックを解除して、もう一度お試しください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "키체인이 키 삭제를 거부했습니다(OSStatus %lld). 기기 잠금을 해제하고 다시 시도하세요."
+            "value" : "키체인이 키 삭제를 거부했습니다(OSStatus %@). 기기 잠금을 해제하고 다시 시도하세요."
           }
         },
         "ms" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rantai Kunci enggan memadam kunci (OSStatus %lld). Buka kunci peranti dan cuba lagi."
+            "value" : "Rantai Kunci enggan memadam kunci (OSStatus %@). Buka kunci peranti dan cuba lagi."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pęk kluczy odmówił usunięcia klucza (OSStatus %lld). Odblokuj urządzenie i spróbuj ponownie."
+            "value" : "Pęk kluczy odmówił usunięcia klucza (OSStatus %@). Odblokuj urządzenie i spróbuj ponownie."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Keychain recusou apagar a chave (OSStatus %lld). Desbloqueie o dispositivo e tente de novo."
+            "value" : "O Keychain recusou apagar a chave (OSStatus %@). Desbloqueie o dispositivo e tente de novo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Portchei a refuzat ștergerea cheii (OSStatus %lld). Deblocați dispozitivul și încercați din nou."
+            "value" : "Portchei a refuzat ștergerea cheii (OSStatus %@). Deblocați dispozitivul și încercați din nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Связка ключей не позволила удалить ключ (OSStatus %lld). Разблокируйте устройство и повторите попытку."
+            "value" : "Связка ключей не позволила удалить ключ (OSStatus %@). Разблокируйте устройство и повторите попытку."
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "พวงกุญแจปฏิเสธการลบคีย์ (OSStatus %lld) ปลดล็อกอุปกรณ์แล้วลองอีกครั้ง"
+            "value" : "พวงกุญแจปฏิเสธการลบคีย์ (OSStatus %@) ปลดล็อกอุปกรณ์แล้วลองอีกครั้ง"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anahtar Zinciri anahtarı silmeyi reddetti (OSStatus %lld). Aygıtın kilidini açıp yeniden deneyin."
+            "value" : "Anahtar Zinciri anahtarı silmeyi reddetti (OSStatus %@). Aygıtın kilidini açıp yeniden deneyin."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "钥匙串拒绝删除密钥（OSStatus %lld）。请解锁设备后重试。"
+            "value" : "钥匙串拒绝删除密钥（OSStatus %@）。请解锁设备后重试。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "鑰匙圈拒絕刪除金鑰（OSStatus %lld）。請解鎖裝置後再試一次。"
+            "value" : "鑰匙圈拒絕刪除金鑰（OSStatus %@）。請解鎖裝置後再試一次。"
           }
         }
       }
     },
-    "The Keychain refused to read the key (OSStatus %lld). Unlock the device and try again." : {
+    "The Keychain refused to read the key (OSStatus %@). Unlock the device and try again." : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Schlüsselbund hat das Lesen des Schlüssels abgelehnt (OSStatus %lld). Entsperre das Gerät und versuche es erneut."
+            "value" : "Der Schlüsselbund hat das Lesen des Schlüssels abgelehnt (OSStatus %@). Entsperre das Gerät und versuche es erneut."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The Keychain refused to read the key (OSStatus %lld). Unlock the device and try again."
+            "value" : "The Keychain refused to read the key (OSStatus %@). Unlock the device and try again."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El llavero no permitió leer la clave (OSStatus %lld). Desbloquea el dispositivo y vuelve a intentarlo."
+            "value" : "El llavero no permitió leer la clave (OSStatus %@). Desbloquea el dispositivo y vuelve a intentarlo."
           }
         },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tumanggi ang Keychain na basahin ang key (OSStatus %lld). I-unlock ang device at subukan ulit."
+            "value" : "Tumanggi ang Keychain na basahin ang key (OSStatus %@). I-unlock ang device at subukan ulit."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le trousseau a refusé de lire la clé (OSStatus %lld). Déverrouillez l’appareil et réessayez."
+            "value" : "Le trousseau a refusé de lire la clé (OSStatus %@). Déverrouillez l’appareil et réessayez."
           }
         },
         "hr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Privjesak ključeva odbio je pročitati ključ (OSStatus %lld). Otključajte uređaj i pokušajte ponovno."
+            "value" : "Privjesak ključeva odbio je pročitati ključ (OSStatus %@). Otključajte uređaj i pokušajte ponovno."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rantai Kunci menolak membaca kunci (OSStatus %lld). Buka kunci perangkat dan coba lagi."
+            "value" : "Rantai Kunci menolak membaca kunci (OSStatus %@). Buka kunci perangkat dan coba lagi."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "キーチェーンが鍵の読み取りを拒否しました（OSStatus %lld）。デバイスのロックを解除して、もう一度お試しください。"
+            "value" : "キーチェーンが鍵の読み取りを拒否しました（OSStatus %@）。デバイスのロックを解除して、もう一度お試しください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "키체인이 키 읽기를 거부했습니다(OSStatus %lld). 기기 잠금을 해제하고 다시 시도하세요."
+            "value" : "키체인이 키 읽기를 거부했습니다(OSStatus %@). 기기 잠금을 해제하고 다시 시도하세요."
           }
         },
         "ms" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rantai Kunci enggan membaca kunci (OSStatus %lld). Buka kunci peranti dan cuba lagi."
+            "value" : "Rantai Kunci enggan membaca kunci (OSStatus %@). Buka kunci peranti dan cuba lagi."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pęk kluczy odmówił odczytania klucza (OSStatus %lld). Odblokuj urządzenie i spróbuj ponownie."
+            "value" : "Pęk kluczy odmówił odczytania klucza (OSStatus %@). Odblokuj urządzenie i spróbuj ponownie."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Keychain recusou ler a chave (OSStatus %lld). Desbloqueie o dispositivo e tente de novo."
+            "value" : "O Keychain recusou ler a chave (OSStatus %@). Desbloqueie o dispositivo e tente de novo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Portchei a refuzat citirea cheii (OSStatus %lld). Deblocați dispozitivul și încercați din nou."
+            "value" : "Portchei a refuzat citirea cheii (OSStatus %@). Deblocați dispozitivul și încercați din nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Связка ключей не позволила прочитать ключ (OSStatus %lld). Разблокируйте устройство и повторите попытку."
+            "value" : "Связка ключей не позволила прочитать ключ (OSStatus %@). Разблокируйте устройство и повторите попытку."
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "พวงกุญแจปฏิเสธการอ่านคีย์ (OSStatus %lld) ปลดล็อกอุปกรณ์แล้วลองอีกครั้ง"
+            "value" : "พวงกุญแจปฏิเสธการอ่านคีย์ (OSStatus %@) ปลดล็อกอุปกรณ์แล้วลองอีกครั้ง"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anahtar Zinciri anahtarı okumayı reddetti (OSStatus %lld). Aygıtın kilidini açıp yeniden deneyin."
+            "value" : "Anahtar Zinciri anahtarı okumayı reddetti (OSStatus %@). Aygıtın kilidini açıp yeniden deneyin."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "钥匙串拒绝读取密钥（OSStatus %lld）。请解锁设备后重试。"
+            "value" : "钥匙串拒绝读取密钥（OSStatus %@）。请解锁设备后重试。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "鑰匙圈拒絕讀取金鑰（OSStatus %lld）。請解鎖裝置後再試一次。"
+            "value" : "鑰匙圈拒絕讀取金鑰（OSStatus %@）。請解鎖裝置後再試一次。"
           }
         }
       }
     },
-    "The Keychain refused to save the key (OSStatus %lld). Unlock the device and try again." : {
+    "The Keychain refused to save the key (OSStatus %@). Unlock the device and try again." : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Schlüsselbund hat das Speichern des Schlüssels abgelehnt (OSStatus %lld). Entsperre das Gerät und versuche es erneut."
+            "value" : "Der Schlüsselbund hat das Speichern des Schlüssels abgelehnt (OSStatus %@). Entsperre das Gerät und versuche es erneut."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The Keychain refused to save the key (OSStatus %lld). Unlock the device and try again."
+            "value" : "The Keychain refused to save the key (OSStatus %@). Unlock the device and try again."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El llavero no permitió guardar la clave (OSStatus %lld). Desbloquea el dispositivo y vuelve a intentarlo."
+            "value" : "El llavero no permitió guardar la clave (OSStatus %@). Desbloquea el dispositivo y vuelve a intentarlo."
           }
         },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tumanggi ang Keychain na i-save ang key (OSStatus %lld). I-unlock ang device at subukan ulit."
+            "value" : "Tumanggi ang Keychain na i-save ang key (OSStatus %@). I-unlock ang device at subukan ulit."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le trousseau a refusé d’enregistrer la clé (OSStatus %lld). Déverrouillez l’appareil et réessayez."
+            "value" : "Le trousseau a refusé d’enregistrer la clé (OSStatus %@). Déverrouillez l’appareil et réessayez."
           }
         },
         "hr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Privjesak ključeva odbio je spremiti ključ (OSStatus %lld). Otključajte uređaj i pokušajte ponovno."
+            "value" : "Privjesak ključeva odbio je spremiti ključ (OSStatus %@). Otključajte uređaj i pokušajte ponovno."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rantai Kunci menolak menyimpan kunci (OSStatus %lld). Buka kunci perangkat dan coba lagi."
+            "value" : "Rantai Kunci menolak menyimpan kunci (OSStatus %@). Buka kunci perangkat dan coba lagi."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "キーチェーンが鍵の保存を拒否しました（OSStatus %lld）。デバイスのロックを解除して、もう一度お試しください。"
+            "value" : "キーチェーンが鍵の保存を拒否しました（OSStatus %@）。デバイスのロックを解除して、もう一度お試しください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "키체인이 키 저장을 거부했습니다(OSStatus %lld). 기기 잠금을 해제하고 다시 시도하세요."
+            "value" : "키체인이 키 저장을 거부했습니다(OSStatus %@). 기기 잠금을 해제하고 다시 시도하세요."
           }
         },
         "ms" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rantai Kunci enggan menyimpan kunci (OSStatus %lld). Buka kunci peranti dan cuba lagi."
+            "value" : "Rantai Kunci enggan menyimpan kunci (OSStatus %@). Buka kunci peranti dan cuba lagi."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pęk kluczy odmówił zapisania klucza (OSStatus %lld). Odblokuj urządzenie i spróbuj ponownie."
+            "value" : "Pęk kluczy odmówił zapisania klucza (OSStatus %@). Odblokuj urządzenie i spróbuj ponownie."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Keychain recusou salvar a chave (OSStatus %lld). Desbloqueie o dispositivo e tente de novo."
+            "value" : "O Keychain recusou salvar a chave (OSStatus %@). Desbloqueie o dispositivo e tente de novo."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Portchei a refuzat salvarea cheii (OSStatus %lld). Deblocați dispozitivul și încercați din nou."
+            "value" : "Portchei a refuzat salvarea cheii (OSStatus %@). Deblocați dispozitivul și încercați din nou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Связка ключей не позволила сохранить ключ (OSStatus %lld). Разблокируйте устройство и повторите попытку."
+            "value" : "Связка ключей не позволила сохранить ключ (OSStatus %@). Разблокируйте устройство и повторите попытку."
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "พวงกุญแจปฏิเสธการบันทึกคีย์ (OSStatus %lld) ปลดล็อกอุปกรณ์แล้วลองอีกครั้ง"
+            "value" : "พวงกุญแจปฏิเสธการบันทึกคีย์ (OSStatus %@) ปลดล็อกอุปกรณ์แล้วลองอีกครั้ง"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anahtar Zinciri anahtarı kaydetmeyi reddetti (OSStatus %lld). Aygıtın kilidini açıp yeniden deneyin."
+            "value" : "Anahtar Zinciri anahtarı kaydetmeyi reddetti (OSStatus %@). Aygıtın kilidini açıp yeniden deneyin."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "钥匙串拒绝保存密钥（OSStatus %lld）。请解锁设备后重试。"
+            "value" : "钥匙串拒绝保存密钥（OSStatus %@）。请解锁设备后重试。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "鑰匙圈拒絕儲存金鑰（OSStatus %lld）。請解鎖裝置後再試一次。"
+            "value" : "鑰匙圈拒絕儲存金鑰（OSStatus %@）。請解鎖裝置後再試一次。"
           }
         }
       }

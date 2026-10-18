@@ -163,7 +163,7 @@ enum RemoteHostSetup {
         case RemoteHostStoreError.unknownHost(let name):
             return RemoteHostL10n.string("The host “\(name)” no longer exists. Go back and pick another host.")
         case RemoteHostStoreError.invalidPort(let port):
-            return RemoteHostL10n.string("Port \(port) is not valid. Use a number from 1 to 65535.")
+            return RemoteHostL10n.string("Port \(String(port)) is not valid. Use a number from 1 to 65535.")
         case RemoteHostStoreError.missingField("address"):
             return RemoteHostL10n.string("Enter the host's address.")
         case RemoteHostStoreError.missingField("user"):
@@ -194,14 +194,15 @@ enum RemoteHostSetup {
     }
 
     /// One whole sentence per Keychain operation (`KeychainSecretStore`), so no verb is spliced into a sentence.
+    /// The status goes in as a String: an Int would be localized with grouping ("-25,308"), but it is a code.
     private static func keychainMessage(operation: String, status: Int) -> String? {
         switch operation {
         case "add", "update":
-            return RemoteHostL10n.string("The Keychain refused to save the key (OSStatus \(status)). Unlock the device and try again.")
+            return RemoteHostL10n.string("The Keychain refused to save the key (OSStatus \(String(status))). Unlock the device and try again.")
         case "get":
-            return RemoteHostL10n.string("The Keychain refused to read the key (OSStatus \(status)). Unlock the device and try again.")
+            return RemoteHostL10n.string("The Keychain refused to read the key (OSStatus \(String(status))). Unlock the device and try again.")
         case "delete":
-            return RemoteHostL10n.string("The Keychain refused to delete the key (OSStatus \(status)). Unlock the device and try again.")
+            return RemoteHostL10n.string("The Keychain refused to delete the key (OSStatus \(String(status))). Unlock the device and try again.")
         default:
             return nil
         }
