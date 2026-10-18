@@ -1,0 +1,6 @@
+{
+  "ciphertext": "cRmqfdiwgpTltiQO6L4BbCV+3+BoKt3cCBZVaotDABxHqGvr9+WPyMyW7NjBmPTe/Nvp9r18gKtyjU29ZIZjZC+67MxTr+u2lOqq4wV3YQJM0UNWi0VA+n15TPD69eK86qmE8dKscwLNnbKtUdGvh0IVsLuhYUIbZtXgwH1090NUy1LesxR/zW8KweqSpfjc47z1T4kJlr61iW7lZTI=",
+  "iv": "Q7f3Kp9Zx2Lm",
+  "key": "k7m2pq9wxa4hnc3rts8vbe5fgjy6dz2u",
+  "plaintext": "{\"title\":\"Alice Chen\",\"body\":\"合同 “第三版” attached\",\"url\":\"minis://host-event/mac-mini/01JABCDEF0123456789XYZABCD\",\"group\":\"minis\"}"
+}
