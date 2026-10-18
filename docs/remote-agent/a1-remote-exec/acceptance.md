@@ -16,8 +16,8 @@ a device yet.**
    `RemoteOffloadBridgeTests` and `RemoteHostSetupTests` (36 tests) pass in the iOS 27 Simulator, using
    the Simulator build support on `build/ios-simulator`; the run caught OSStatus codes shown with digit
    grouping. Device-only behavior (Keychain, backgrounding) stays in the device checklist.
-5. **History.** Squash the series into logical commits and retarget the PR to the `fork` branch. Some
-   early commits carry a "Claude Sonnet 5.5" trailer.
+5. **Done: history.** The series is 10 logical commits. It merges into `main`, which is the fork's
+   trunk (D7) and already carries the design docs, so no separate `fork` branch is needed.
 
 ## Device checklist
 

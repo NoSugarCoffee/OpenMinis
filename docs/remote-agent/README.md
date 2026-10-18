@@ -13,7 +13,7 @@ Fork only, iOS only. All decisions are in [`decisions.md`](decisions.md).
 
 | Piece | What it delivers | Status | Docs |
 |---|---|---|---|
-| **A1** | Sessions bound to a host; shell and file tools run there; long commands survive app suspension | **Implemented and reviewed; device acceptance pending** | [spec](a1-remote-exec/spec.md) · [plan](a1-remote-exec/plan.md) · [acceptance](a1-remote-exec/acceptance.md) |
+| **A1** | Sessions bound to a host; shell and file tools run there; long commands survive app suspension | **Merged; device acceptance pending** | [spec](a1-remote-exec/spec.md) · [plan](a1-remote-exec/plan.md) · [acceptance](a1-remote-exec/acceptance.md) |
 | A2 | Browser with the user's login state; screenshots and screen control by the agent | Not designed | — |
 | A3 | In-app screen viewer with take-over | Not designed | — |
 | B | `minis-hostd`: email and GitHub events → rule gate → push → read-only session in Minis | Scoped | [scope](b-push/scope.md) |
