@@ -330,6 +330,8 @@ extension AIChatViewModel {
             }
         }
 
+        if let refused = await hostEventRefusal(tu: tu, msgIdx: msgIdx, blockIdx: blockIdx) { return refused } // fork(remote-host): read-only event sessions
+
         // Preflight: reject empty / missing-required-field tool calls.
         if let preflightError = Self.preflightValidateToolCall(name: tu.name, args: toolArgs, tools: tools) {
             let chunkRing = tu.inputChunkRing

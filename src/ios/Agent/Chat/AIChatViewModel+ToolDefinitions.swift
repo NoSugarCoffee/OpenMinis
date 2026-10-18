@@ -247,6 +247,7 @@ extension AIChatViewModel {
             ))
         }
 
+        tools = SessionToolPolicy.shared.filter(tools, sessionId: remoteBindingSessionId) // fork(remote-host): read-only event sessions
         return tools
     }
 

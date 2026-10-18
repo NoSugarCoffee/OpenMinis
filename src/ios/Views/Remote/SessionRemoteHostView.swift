@@ -9,25 +9,33 @@ struct SessionRemoteHostView: View {
     @ObservedObject private var wiring = RemoteAppWiring.shared
     @Environment(\.dismiss) private var dismiss
 
-    /// The chat menu row: the bound host's name, or a generic title when the chat runs tools locally.
+    /// The chat menu row: the bound host's name, or a generic title when the chat runs tools locally. A chat
+    /// opened from a host event shows its read-only state here, the one chat-level entry the fork owns.
     @MainActor
     static func menuTitle(sessionId: String?) -> String {
-        RemoteAppWiring.shared.binding(sessionId: sessionId)?.hostName ?? RemoteHostL10n.string("Remote Host")
+        if SessionToolPolicy.shared.isReadOnly(sessionId: sessionId) {
+            return RemoteHostL10n.string("Read-only Event")
+        }
+        return RemoteAppWiring.shared.binding(sessionId: sessionId)?.hostName ?? RemoteHostL10n.string("Remote Host")
     }
 
     var body: some View {
         NavigationStack {
             Group {
-                switch wiring.services {
-                case .success(let services):
-                    SessionHostList(
-                        services: services, store: services.store, sessionId: sessionId,
-                        ensureSessionId: ensureSessionId, onDone: { dismiss() })
-                case .failure:
-                    List {
-                        Text(RemoteHostL10n.string("The remote host list could not be read, so shell and file tools are blocked. Open Settings → Remote Hosts to reset it."))
-                            .foregroundStyle(.red)
-                            .textSelection(.enabled)
+                if let sessionId, SessionToolPolicy.shared.isReadOnly(sessionId: sessionId) {
+                    ReadOnlyEventSection(sessionId: sessionId, onDone: { dismiss() })
+                } else {
+                    switch wiring.services {
+                    case .success(let services):
+                        SessionHostList(
+                            services: services, store: services.store, sessionId: sessionId,
+                            ensureSessionId: ensureSessionId, onDone: { dismiss() })
+                    case .failure:
+                        List {
+                            Text(RemoteHostL10n.string("The remote host list could not be read, so shell and file tools are blocked. Open Settings → Remote Hosts to reset it."))
+                                .foregroundStyle(.red)
+                                .textSelection(.enabled)
+                        }
                     }
                 }
             }
@@ -261,5 +269,30 @@ private struct RemoteDirectoryPicker: View {
         guard let slash = directory.dropLast(directory.hasSuffix("/") ? 1 : 0).lastIndex(of: "/") else { return "/" }
         let parent = String(directory[..<slash])
         return parent.isEmpty ? "/" : parent
+    }
+}
+
+/// Turning tools on is the user's call: the event's text may then steer shell and file tools (B spec §9.2).
+private struct ReadOnlyEventSection: View {
+    let sessionId: String
+    let onDone: () -> Void
+    @State private var confirming = false
+
+    var body: some View {
+        List {
+            Section {
+                Text(RemoteHostL10n.string("This chat was opened from a mail or GitHub notification on your host. Its content is untrusted, so shell, file writes, the browser and memory writes are off."))
+                Button(RemoteHostL10n.string("Turn Tools On")) { confirming = true }
+            }
+        }
+        .confirmationDialog(
+            RemoteHostL10n.string("Content from this email or notification can then steer tools."),
+            isPresented: $confirming, titleVisibility: .visible
+        ) {
+            Button(RemoteHostL10n.string("Turn Tools On"), role: .destructive) {
+                SessionToolPolicy.shared.turnToolsOn(sessionId: sessionId)
+                onDone()
+            }
+        }
     }
 }

@@ -65,6 +65,9 @@ enum DeepLinkRouter {
                 coord.showAlarmList = true
             }
 
+        case "host-event": // fork(remote-host):
+            HostEventOpener.open(url) // fork(remote-host):
+
         case "open_terminal":
             let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
             coord.terminalInitCommand = components?.queryItems?.first(where: { $0.name == "init_command" })?.value
