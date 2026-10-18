@@ -1,0 +1,1 @@
+{"schemaVersion":1,"error":{"code":"bad_request","message":"usage: minis-hostd events list --limit N [--before <id>] --json"}}
