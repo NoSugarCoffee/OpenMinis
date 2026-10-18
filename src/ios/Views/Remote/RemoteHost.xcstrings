@@ -340,6 +340,17 @@
         }
       }
     },
+    "%@ events from %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ events from %@"
+          }
+        }
+      }
+    },
     "%@ is not a POSIX shell; commands run with %@ -l instead." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1288,6 +1299,17 @@
         }
       }
     },
+    "Blocked: this event session is read-only" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked: this event session is read-only"
+          }
+        }
+      }
+    },
     "Changing the address or port clears the trusted host key, so the next connection asks you to trust it again." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1966,6 +1988,17 @@
         }
       }
     },
+    "Content from this email or notification can then steer tools." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content from this email or notification can then steer tools."
+          }
+        }
+      }
+    },
     "Copy Install Command" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2188,6 +2221,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "拷貝公開金鑰"
+          }
+        }
+      }
+    },
+    "Could not open the event" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not open the event"
           }
         }
       }
@@ -4372,6 +4416,17 @@
         }
       }
     },
+    "Matched the rules" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matched the rules"
+          }
+        }
+      }
+    },
     "Matched your rules" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6053,17 +6108,6 @@
         }
       }
     },
-    "Pushed" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pushed"
-          }
-        }
-      }
-    },
     "Read file" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -6173,6 +6217,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "讀取檔案"
+          }
+        }
+      }
+    },
+    "Read-only" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read-only"
+          }
+        }
+      }
+    },
+    "Read-only Event" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read-only Event"
+          }
+        }
+      }
+    },
+    "Read-only · could not load event from %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read-only · could not load event from %@"
+          }
+        }
+      }
+    },
+    "Read-only · event from %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read-only · event from %@"
           }
         }
       }
@@ -8197,6 +8285,17 @@
         }
       }
     },
+    "The batch on %@ holds no events." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The batch on %@ holds no events."
+          }
+        }
+      }
+    },
     "The host could not open %@: %@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -9101,6 +9200,17 @@
         }
       }
     },
+    "This chat was opened from a mail or GitHub notification on your host. Its content is untrusted, so shell, file writes, the browser and memory writes are off." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This chat was opened from a mail or GitHub notification on your host. Its content is untrusted, so shell, file writes, the browser and memory writes are off."
+          }
+        }
+      }
+    },
     "This host key came from %@:%@, but “%@” now points to %@:%@. Test the connection again to see the current host's key." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -9888,6 +9998,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "信任新金鑰"
+          }
+        }
+      }
+    },
+    "Turn Tools On" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn Tools On"
           }
         }
       }

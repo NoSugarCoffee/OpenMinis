@@ -106,7 +106,7 @@ final class HostNotificationsModelTests: XCTestCase {
     }
 
     func testDecisionLabels() {
-        XCTAssertEqual(HostNotificationsModel.decisionLabel("push"), "Pushed")
+        XCTAssertEqual(HostNotificationsModel.decisionLabel("push"), "Matched the rules")
         XCTAssertEqual(HostNotificationsModel.decisionLabel("store_only"), "Stored without a push")
         XCTAssertEqual(HostNotificationsModel.decisionLabel("drop"), "Dropped")
         XCTAssertEqual(HostNotificationsModel.decisionLabel("held"), "held")

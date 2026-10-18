@@ -65,7 +65,7 @@ enum HostNotificationsModel {
     /// `decision` is the gate's action (`push`, `store_only`, `drop` in host/minis-hostd/internal/gate).
     static func decisionLabel(_ decision: String) -> String {
         switch decision {
-        case "push": return RemoteHostL10n.string("Pushed")
+        case "push": return RemoteHostL10n.string("Matched the rules")
         case "store_only": return RemoteHostL10n.string("Stored without a push")
         case "drop": return RemoteHostL10n.string("Dropped")
         default: return decision

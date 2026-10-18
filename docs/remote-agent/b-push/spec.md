@@ -313,12 +313,17 @@ view, while the title and menu row reuse places the fork already owns.
 ### 9.3 Settings → Remote Hosts → host → Notifications
 
 - **Install command:** a one-line command to run on the host, like A1's `authorized_keys` command. It
-  downloads the release for the host's OS and architecture into `~/.minis/bin/`, verifies its
-  SHA-256, writes a config template with this host's name, and runs `minis-hostd install-service`.
-- **Status:** from `status --json` when the screen opens: running, or "Not running since <time>",
-  plus each source's state and last error.
-- **Test push:** runs `doctor --push-test`.
-- **Recent events:** `events list --limit 50`; tapping one opens it as in §9.1.
+  downloads the release for the host's OS and architecture into `~/.minis/bin/`, verifies it against
+  the release's `SHA256SUMS`, and writes a config template with this host's name and a generated
+  Bark key. It does not start the service: the screen lists the next steps (edit the config,
+  `minis-hostd doctor --push-test`, then `minis-hostd install-service`, which refuses until the
+  config loads).
+- **Status:** from `status --json` when the screen opens: running (heartbeat within 3 minutes), or
+  "Not running since …", plus each source's state and last error. Like A1's Test Connection, it
+  runs no permission prompt: A1's prompt only shows inside a chat.
+- **Test push:** run on the host (`doctor --push-test`); the app has no button for it yet.
+- **Recent events:** `events list --limit 50`, each with why it did or did not push; tapping one
+  closes Settings and opens it as in §9.1.
 
 Accounts, allowlists and quiet hours are edited in `config.toml` on the host in B. Editing them
 from the app is later work.
