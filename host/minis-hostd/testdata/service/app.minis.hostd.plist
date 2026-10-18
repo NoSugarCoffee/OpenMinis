@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Managed by minis-hostd. Written by `minis-hostd install-service`, removed by `minis-hostd uninstall-service`. -->
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>app.minis.hostd</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/me &amp; you/.minis/bin/minis-hostd</string>
+		<string>run</string>
+	</array>
+	<key>WorkingDirectory</key>
+	<string>/Users/me &amp; you/.minis/hostd</string>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>ProcessType</key>
+	<string>Background</string>
+	<key>StandardOutPath</key>
+	<string>/Users/me &amp; you/.minis/hostd/hostd.log</string>
+	<key>StandardErrorPath</key>
+	<string>/Users/me &amp; you/.minis/hostd/hostd.log</string>
+</dict>
+</plist>
