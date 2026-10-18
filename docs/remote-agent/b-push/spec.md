@@ -1,6 +1,6 @@
 # B — Proactive push (`minis-hostd`)
 
-Date: 2026-10-18. Status: draft for review. Spikes (§13) run before the implementation plan.
+Date: 2026-10-18. Status: approved; spikes S2–S4 done, S1 pending. Implementation plan: [`plan.md`](plan.md).
 Scope: iOS only, fork only (D7). Builds on A1: the event body is fetched over A1's SSH connection.
 
 Part of [`../README.md`](../README.md); decisions are in [`../decisions.md`](../decisions.md) (D13–D18
