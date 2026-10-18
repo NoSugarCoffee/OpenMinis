@@ -13,6 +13,7 @@ set -e
 # Output:
 #   deps/lame-build/lib/libmp3lame.a
 #   deps/lame-build/include/lame/lame.h
+#   deps/lame-build-sim/   - the same for the iOS Simulator
 # ============================================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -20,6 +21,7 @@ LAME_VERSION="3.100"
 LAME_TARBALL="lame-${LAME_VERSION}.tar.gz"
 LAME_SRC_DIR="$SCRIPT_DIR/lame-${LAME_VERSION}"
 LAME_BUILD_DIR="$SCRIPT_DIR/lame-build"
+LAME_SIM_BUILD_DIR="$SCRIPT_DIR/lame-build-sim"
 
 IOS_DEPLOYMENT_TARGET="14.0"
 
@@ -38,7 +40,7 @@ log_error()   { echo -e "${RED}❌ $1${NC}"; exit 1; }
 # ============================================================================
 if [ "$1" == "clean" ]; then
     log_info "Cleaning LAME build artifacts..."
-    rm -rf "$LAME_SRC_DIR" "$LAME_BUILD_DIR"
+    rm -rf "$LAME_SRC_DIR" "$LAME_BUILD_DIR" "$LAME_SIM_BUILD_DIR"
     log_success "Clean completed"
     exit 0
 fi
@@ -61,45 +63,56 @@ else
 fi
 
 # ============================================================================
-# Cross-compile for iOS arm64
+# Cross-compile for iOS arm64, device and simulator
 # ============================================================================
-log_info "Configuring LAME for iOS arm64..."
+# fork(remote-host): a simulator slice too, so the app can run in the iOS Simulator on Apple Silicon.
+build_lame_for() {
+    local sdk="$1" min_version_flag="$2" prefix="$3"
+    log_info "Configuring LAME for $sdk arm64..."
 
-IOS_SDK=$(xcrun --sdk iphoneos --show-sdk-path)
-CC="$(xcrun --sdk iphoneos -f clang)"
+    local sdk_path
+    sdk_path=$(xcrun --sdk "$sdk" --show-sdk-path)
+    CC="$(xcrun --sdk "$sdk" -f clang)"
+    export CC
+    export CFLAGS="-arch arm64 $min_version_flag=$IOS_DEPLOYMENT_TARGET -isysroot $sdk_path -fembed-bitcode -Oz -fPIC -Wno-implicit-function-declaration"
+    export LDFLAGS="-arch arm64 $min_version_flag=$IOS_DEPLOYMENT_TARGET -isysroot $sdk_path"
 
-export CC
-export CFLAGS="-arch arm64 -miphoneos-version-min=$IOS_DEPLOYMENT_TARGET -isysroot $IOS_SDK -fembed-bitcode -Oz -fPIC -Wno-implicit-function-declaration"
-export LDFLAGS="-arch arm64 -miphoneos-version-min=$IOS_DEPLOYMENT_TARGET -isysroot $IOS_SDK"
+    # The in-tree objects are tracked in git, so each platform builds in its own copy of the source.
+    local work_dir="$SCRIPT_DIR/.cache/lame-$sdk"
+    rm -rf "$work_dir"
+    mkdir -p "$SCRIPT_DIR/.cache"
+    cp -R "$LAME_SRC_DIR" "$work_dir"
+    cd "$work_dir"
+    [ -f Makefile ] && make distclean >/dev/null
+    ./configure \
+        --prefix="$prefix" \
+        --host=aarch64-apple-darwin \
+        --disable-shared \
+        --enable-static \
+        --disable-frontend \
+        --disable-decoder \
+        --disable-gtktest \
+        --with-pic
 
-cd "$LAME_SRC_DIR"
+    log_info "Building LAME for $sdk..."
+    make -j$(sysctl -n hw.ncpu)
+    make install
+    cd "$SCRIPT_DIR"
+}
 
-./configure \
-    --prefix="$LAME_BUILD_DIR" \
-    --host=aarch64-apple-darwin \
-    --disable-shared \
-    --enable-static \
-    --disable-frontend \
-    --disable-decoder \
-    --disable-gtktest \
-    --with-pic
-
-log_info "Building LAME..."
-make -j$(sysctl -n hw.ncpu)
-make install
-
-cd "$SCRIPT_DIR"
+build_lame_for iphoneos -miphoneos-version-min "$LAME_BUILD_DIR"
+build_lame_for iphonesimulator -mios-simulator-version-min "$LAME_SIM_BUILD_DIR"
 
 # ============================================================================
 # Verify
 # ============================================================================
-if [ -f "$LAME_BUILD_DIR/lib/libmp3lame.a" ]; then
+if [ -f "$LAME_BUILD_DIR/lib/libmp3lame.a" ] && [ -f "$LAME_SIM_BUILD_DIR/lib/libmp3lame.a" ]; then
     log_success "LAME ${LAME_VERSION} built successfully"
     echo ""
     echo "  Static library: $LAME_BUILD_DIR/lib/libmp3lame.a"
     echo "  Headers:        $LAME_BUILD_DIR/include/lame/lame.h"
     echo ""
-    file "$LAME_BUILD_DIR/lib/libmp3lame.a"
+    file "$LAME_BUILD_DIR/lib/libmp3lame.a" "$LAME_SIM_BUILD_DIR/lib/libmp3lame.a"
 else
     log_error "Build failed — libmp3lame.a not found"
 fi

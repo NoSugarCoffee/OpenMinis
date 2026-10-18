@@ -21,18 +21,30 @@ set -e
 # Usage:
 #   ./build_ffmpeg.sh [clean]
 #
-# Output:
-#   deps/frameworks/FFmpeg.framework/
-#   deps/frameworks/lib{avcodec,avformat,avutil,avfilter,swresample,swscale}.framework/
+# Output (each with an ios-arm64 and an ios-arm64-simulator slice):
+#   deps/frameworks/FFmpeg.xcframework/
+#   deps/frameworks/lib{avcodec,avformat,avutil,avfilter,swresample,swscale}.xcframework/
 # ============================================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FFMPEG_DIR="$SCRIPT_DIR/ffmpeg-6.1.2"
-BUILD_DIR="$FFMPEG_DIR/build-ios"
-FRAMEWORK_DIR="$SCRIPT_DIR/frameworks/FFmpeg.framework"
-FRAMEWORKS_BASE="$SCRIPT_DIR/frameworks"
+XCFRAMEWORKS_DIR="$SCRIPT_DIR/frameworks"
+FRAMEWORK_NAMES=(FFmpeg libavcodec libavformat libavutil libavfilter libswresample libswscale)
 
 IOS_DEPLOYMENT_TARGET="14.0"
+
+# fork(remote-host): every step runs once per platform, so the app can also run in the iOS Simulator on Apple
+# Silicon; create_xcframeworks then joins the two builds.
+select_platform() {
+    PLATFORM_NAME="$1"
+    SDK_NAME="$2"
+    MIN_VERSION_FLAG="$3"
+    SUPPORTED_PLATFORM="$4"
+    LAME_DIR="$5"
+    BUILD_DIR="$FFMPEG_DIR/build-$PLATFORM_NAME"
+    FRAMEWORKS_BASE="$SCRIPT_DIR/.cache/ffmpeg-$PLATFORM_NAME"
+    FRAMEWORK_DIR="$FRAMEWORKS_BASE/FFmpeg.framework"
+}
 
 # Colors for output
 RED='\033[0;31m'
@@ -64,9 +76,11 @@ log_error() {
 clean_build() {
     log_info "Cleaning build artifacts..."
 
-    rm -rf "$BUILD_DIR"
-    rm -rf "$FRAMEWORK_DIR"
-    rm -rf "$FRAMEWORKS_BASE"/lib*.framework
+    rm -rf "$FFMPEG_DIR"/build-ios "$FFMPEG_DIR"/build-ios-simulator
+    rm -rf "$SCRIPT_DIR"/.cache/ffmpeg-ios "$SCRIPT_DIR"/.cache/ffmpeg-ios-simulator
+    for name in "${FRAMEWORK_NAMES[@]}"; do
+        rm -rf "$XCFRAMEWORKS_DIR/$name.xcframework" "$XCFRAMEWORKS_DIR/$name.framework"
+    done
 
     # Revert main rename patch if applied
     if [ -f "$FFMPEG_DIR/fftools/ffmpeg.c" ]; then
@@ -192,22 +206,26 @@ apply_source_patches() {
 # Configure FFmpeg
 # ============================================================================
 configure_ffmpeg() {
-    log_info "Configuring FFmpeg for iOS arm64..."
+    log_info "Configuring FFmpeg for $SDK_NAME arm64..."
 
-    IOS_SDK=$(xcrun --sdk iphoneos --show-sdk-path)
-    CC="$(xcrun --sdk iphoneos -f clang)"
+    IOS_SDK=$(xcrun --sdk "$SDK_NAME" --show-sdk-path)
+    CC="$(xcrun --sdk "$SDK_NAME" -f clang)"
 
     mkdir -p "$BUILD_DIR"
 
     cd "$FFMPEG_DIR"
+    # One source tree serves both platforms.
+    if [ -f ffbuild/config.mak ]; then
+        make distclean >/dev/null
+    fi
 
     # Check for libmp3lame (built by build_lame.sh)
     LAME_FLAGS=""
-    if [ -f "$SCRIPT_DIR/lame-build/lib/libmp3lame.a" ]; then
+    if [ -f "$LAME_DIR/lib/libmp3lame.a" ]; then
         log_info "Found libmp3lame — enabling MP3 encoding"
         LAME_FLAGS="--enable-libmp3lame"
-        LAME_CFLAGS="-I$SCRIPT_DIR/lame-build/include"
-        LAME_LDFLAGS="-L$SCRIPT_DIR/lame-build/lib"
+        LAME_CFLAGS="-I$LAME_DIR/include"
+        LAME_LDFLAGS="-L$LAME_DIR/lib"
     else
         log_warning "libmp3lame not found — MP3 encoding will be unavailable"
         log_warning "Run ./build_lame.sh first to enable MP3 encoding"
@@ -222,8 +240,8 @@ configure_ffmpeg() {
         --target-os=darwin \
         --cc="$CC" \
         --sysroot="$IOS_SDK" \
-        --extra-cflags="-arch arm64 -miphoneos-version-min=$IOS_DEPLOYMENT_TARGET -fembed-bitcode -DCONFIG_FFMPEG_MAIN=1 $LAME_CFLAGS" \
-        --extra-ldflags="-arch arm64 -miphoneos-version-min=$IOS_DEPLOYMENT_TARGET -isysroot $IOS_SDK $LAME_LDFLAGS" \
+        --extra-cflags="-arch arm64 $MIN_VERSION_FLAG=$IOS_DEPLOYMENT_TARGET -fembed-bitcode -DCONFIG_FFMPEG_MAIN=1 $LAME_CFLAGS" \
+        --extra-ldflags="-arch arm64 $MIN_VERSION_FLAG=$IOS_DEPLOYMENT_TARGET -isysroot $IOS_SDK $LAME_LDFLAGS" \
         --enable-pic \
         --enable-videotoolbox \
         --enable-hwaccel=h264_videotoolbox \
@@ -277,8 +295,8 @@ build_ffmpeg() {
 build_fftools() {
     log_info "Building fftools (ffmpeg_main)..."
 
-    IOS_SDK=$(xcrun --sdk iphoneos --show-sdk-path)
-    CC="$(xcrun --sdk iphoneos -f clang)"
+    IOS_SDK=$(xcrun --sdk "$SDK_NAME" --show-sdk-path)
+    CC="$(xcrun --sdk "$SDK_NAME" -f clang)"
     INSTALL_DIR="$BUILD_DIR/install"
 
     FFTOOLS_OBJ_DIR="$BUILD_DIR/fftools-objs"
@@ -308,7 +326,7 @@ build_fftools() {
     )
 
     # Common CFLAGS: use the source tree for headers (has config.h, libav* headers, and libavdevice)
-    FFTOOLS_CFLAGS="-arch arm64 -miphoneos-version-min=$IOS_DEPLOYMENT_TARGET -isysroot $IOS_SDK"
+    FFTOOLS_CFLAGS="-arch arm64 $MIN_VERSION_FLAG=$IOS_DEPLOYMENT_TARGET -isysroot $IOS_SDK"
     FFTOOLS_CFLAGS="$FFTOOLS_CFLAGS -I$FFMPEG_DIR -I$INSTALL_DIR/include"
     FFTOOLS_CFLAGS="$FFTOOLS_CFLAGS -DCONFIG_FFMPEG_MAIN=1 -Oz -fPIC"
     # Force-include the stdio redirect header so all fprintf/printf/fputs/vfprintf
@@ -328,7 +346,7 @@ build_fftools() {
     # Compile the stdio redirect implementation WITHOUT the -include flag
     # to avoid recursive macro expansion.
     log_info "  Compiling fftools/fftools_stdio_redirect.c..."
-    REDIRECT_CFLAGS="-arch arm64 -miphoneos-version-min=$IOS_DEPLOYMENT_TARGET -isysroot $IOS_SDK"
+    REDIRECT_CFLAGS="-arch arm64 $MIN_VERSION_FLAG=$IOS_DEPLOYMENT_TARGET -isysroot $IOS_SDK"
     REDIRECT_CFLAGS="$REDIRECT_CFLAGS -I$FFMPEG_DIR -I$INSTALL_DIR/include -Oz -fPIC"
     $CC $REDIRECT_CFLAGS -c fftools/fftools_stdio_redirect.c -o "$FFTOOLS_OBJ_DIR/fftools_stdio_redirect.o"
     FFTOOLS_OBJS+=("$FFTOOLS_OBJ_DIR/fftools_stdio_redirect.o")
@@ -347,8 +365,8 @@ package_framework() {
     log_info "Packaging individual .framework bundles + FFmpeg.framework..."
 
     INSTALL_DIR="$BUILD_DIR/install"
-    IOS_SDK=$(xcrun --sdk iphoneos --show-sdk-path)
-    CC="$(xcrun --sdk iphoneos -f clang)"
+    IOS_SDK=$(xcrun --sdk "$SDK_NAME" --show-sdk-path)
+    CC="$(xcrun --sdk "$SDK_NAME" -f clang)"
 
     # Clean previous output
     rm -rf "$FRAMEWORK_DIR"
@@ -425,7 +443,7 @@ package_framework() {
     <string>14.0</string>
     <key>CFBundleSupportedPlatforms</key>
     <array>
-        <string>iPhoneOS</string>
+        <string>${SUPPORTED_PLATFORM}</string>
     </array>
 </dict>
 </plist>
@@ -448,7 +466,7 @@ PLISTEOF
     # Link fftools static archive into the umbrella dylib
     # -force_load ensures all symbols (including ffmpeg_main) are included
     $CC -arch arm64 \
-        -miphoneos-version-min=$IOS_DEPLOYMENT_TARGET \
+        $MIN_VERSION_FLAG=$IOS_DEPLOYMENT_TARGET \
         -isysroot "$IOS_SDK" \
         -dynamiclib \
         -install_name @rpath/FFmpeg.framework/FFmpeg \
@@ -521,7 +539,7 @@ void ffmpeg_reset_statics(void);
 EOF
 
     # Create Info.plist
-    cat > "$FRAMEWORK_DIR/Info.plist" << 'EOF'
+    cat > "$FRAMEWORK_DIR/Info.plist" << EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -546,7 +564,7 @@ EOF
     <string>14.0</string>
     <key>CFBundleSupportedPlatforms</key>
     <array>
-        <string>iPhoneOS</string>
+        <string>${SUPPORTED_PLATFORM}</string>
     </array>
 </dict>
 </plist>
@@ -560,6 +578,22 @@ EOF
 }
 
 # ============================================================================
+# Join the device and simulator frameworks
+# ============================================================================
+create_xcframeworks() {
+    log_info "Creating .xcframework bundles..."
+    mkdir -p "$XCFRAMEWORKS_DIR"
+    for name in "${FRAMEWORK_NAMES[@]}"; do
+        rm -rf "$XCFRAMEWORKS_DIR/$name.xcframework" "$XCFRAMEWORKS_DIR/$name.framework"
+        xcodebuild -create-xcframework \
+            -framework "$SCRIPT_DIR/.cache/ffmpeg-ios/$name.framework" \
+            -framework "$SCRIPT_DIR/.cache/ffmpeg-ios-simulator/$name.framework" \
+            -output "$XCFRAMEWORKS_DIR/$name.xcframework" >/dev/null
+        log_success "$name.xcframework created"
+    done
+}
+
+# ============================================================================
 # Print Summary
 # ============================================================================
 print_summary() {
@@ -568,6 +602,7 @@ print_summary() {
     echo -e "${GREEN}🎉 FFmpeg 6.1.2 iOS Framework Build Complete!${NC}"
     echo "============================================================"
     echo ""
+    echo "Platform: $SDK_NAME"
     echo "Umbrella: $FRAMEWORK_DIR"
     ls -lh "$FRAMEWORK_DIR/FFmpeg" 2>/dev/null
     echo ""
@@ -596,6 +631,15 @@ print_summary() {
     echo "============================================================"
 }
 
+build_platform() {
+    select_platform "$@"
+    configure_ffmpeg
+    build_ffmpeg
+    build_fftools
+    package_framework
+    print_summary
+}
+
 # ============================================================================
 # Main
 # ============================================================================
@@ -616,11 +660,9 @@ main() {
     check_prerequisites
     patch_main_symbol
     apply_source_patches
-    configure_ffmpeg
-    build_ffmpeg
-    build_fftools
-    package_framework
-    print_summary
+    build_platform ios iphoneos -miphoneos-version-min iPhoneOS "$SCRIPT_DIR/lame-build"
+    build_platform ios-simulator iphonesimulator -mios-simulator-version-min iPhoneSimulator "$SCRIPT_DIR/lame-build-sim"
+    create_xcframeworks
 }
 
 main "$@"

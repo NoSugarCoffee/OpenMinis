@@ -140,11 +140,13 @@ xcodebuild -project src/ios/Minis.xcodeproj -scheme Minis \
            CODE_SIGNING_ALLOWED=NO build
 ```
 
-> **Simulator builds need simulator-architecture dependencies.** The scripts
-> above build for **device arm64**. Linking a simulator build against them
-> fails with `building for 'iOS-simulator', but linking in object file built
-> for 'iOS'` (or a missing-symbol error for x86_64 on Intel Macs). Build for a
-> device destination, or rebuild the native deps for the simulator SDK.
+> **Simulator builds run on Apple Silicon only.** Each script above builds the
+> dependencies for both device and simulator arm64: FFmpeg as `.xcframework`
+> bundles, iSH into `deps/libs-sim/`, LAME into `deps/lame-build-sim/`. Intel
+> simulators are excluded (`EXCLUDED_ARCHS[sdk=iphonesimulator*] = x86_64`).
+> The app needs its App Group entitlement even in the simulator, so keep code
+> signing on (Xcode's "Sign to Run Locally" is enough); building with
+> `CODE_SIGNING_ALLOWED=NO` launches an app that crashes at start.
 
 ### Targets
 
