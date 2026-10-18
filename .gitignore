@@ -84,9 +84,11 @@ deps/alpine/
 
 # iSH build outputs
 deps/libs/
+deps/libs-sim/
 deps/include/
 deps/resources/
 deps/ish/build-ios/
+deps/ish/build-ios-sim/
 deps/ish/build-native/
 deps/.cache/
 
@@ -129,6 +131,7 @@ src/android/app/src/main/jniLibs/arm64-v8a/*.so
 !src/android/app/src/main/jniLibs/arm64-v8a/libproot-loader.so
 !src/android/app/src/main/jniLibs/arm64-v8a/libproot-loader32.so
 deps/lame-build/
+deps/lame-build-sim/
 deps/lame-3.100/**/.libs/
 
 # LAME autotools output (./configure writes absolute build paths into these)

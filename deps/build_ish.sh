@@ -22,6 +22,7 @@ set -e
 #
 # Output:
 #   deps/libs/      - Static libraries (.a files)
+#   deps/libs-sim/  - The same libraries for the iOS Simulator
 #   deps/include/   - Header files
 #   deps/resources/ - VDSO and other resources
 # ============================================================================
@@ -29,6 +30,10 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ISH_DIR="$SCRIPT_DIR/ish"
 OUTPUT_LIBS="$SCRIPT_DIR/libs"
+# fork(remote-host): a simulator build too, so the app can run in the iOS Simulator on Apple Silicon.
+OUTPUT_LIBS_SIM="$SCRIPT_DIR/libs-sim"
+DEVICE_BUILD_DIR="$ISH_DIR/build-ios"
+SIM_BUILD_DIR="$ISH_DIR/build-ios-sim"
 OUTPUT_INCLUDE="$SCRIPT_DIR/include"
 OUTPUT_RESOURCES="$SCRIPT_DIR/resources"
 
@@ -131,8 +136,8 @@ init_submodules() {
 clean_build() {
     log_info "Cleaning build artifacts..."
 
-    rm -rf "$ISH_DIR/build-ios"
-    rm -rf "$OUTPUT_LIBS"
+    rm -rf "$DEVICE_BUILD_DIR" "$SIM_BUILD_DIR"
+    rm -rf "$OUTPUT_LIBS" "$OUTPUT_LIBS_SIM"
     rm -rf "$OUTPUT_INCLUDE"
     rm -rf "$OUTPUT_RESOURCES"
 
@@ -143,20 +148,20 @@ clean_build() {
 # Setup Cross Compilation
 # ============================================================================
 setup_cross_compile() {
-    log_info "Setting up iOS cross-compilation..."
+    local sdk="$2" min_version_flag="$3"
+    log_info "Setting up $sdk cross-compilation..."
 
-    BUILD_DIR="$ISH_DIR/build-ios"
+    BUILD_DIR="$1"
     mkdir -p "$BUILD_DIR"
 
-    # Get iOS SDK path
-    IOS_SDK=$(xcrun --sdk iphoneos --show-sdk-path)
+    IOS_SDK=$(xcrun --sdk "$sdk" --show-sdk-path)
 
     # Create cross-compilation file for meson
     CROSS_FILE="$BUILD_DIR/ios-cross.txt"
 
     cat > "$CROSS_FILE" << EOF
 [binaries]
-c = ['clang', '-arch', 'arm64', '-isysroot', '$IOS_SDK', '-miphoneos-version-min=$IOS_DEPLOYMENT_TARGET']
+c = ['clang', '-arch', 'arm64', '-isysroot', '$IOS_SDK', '$min_version_flag=$IOS_DEPLOYMENT_TARGET']
 ar = 'ar'
 strip = 'strip'
 pkg-config = 'false'
@@ -185,9 +190,9 @@ EOF
 # Build iSH Libraries
 # ============================================================================
 build_ish() {
-    log_info "Building iSH libraries for iOS ($BUILD_TYPE)..."
+    BUILD_DIR="$1"
+    log_info "Building iSH libraries in $BUILD_DIR ($BUILD_TYPE)..."
 
-    BUILD_DIR="$ISH_DIR/build-ios"
     CROSS_FILE="$BUILD_DIR/ios-cross.txt"
 
     cd "$ISH_DIR"
@@ -247,7 +252,7 @@ build_ish() {
 copy_outputs() {
     log_info "Copying output files..."
 
-    BUILD_DIR="$ISH_DIR/build-ios"
+    BUILD_DIR="$DEVICE_BUILD_DIR"
 
     # Create output directories
     mkdir -p "$OUTPUT_LIBS"
@@ -266,6 +271,8 @@ copy_outputs() {
     cp "$BUILD_DIR/libish.a" "$OUTPUT_LIBS/"
     cp "$BUILD_DIR/libish_emu.a" "$OUTPUT_LIBS/"
     cp "$BUILD_DIR/libfakefs.a" "$OUTPUT_LIBS/"
+    mkdir -p "$OUTPUT_LIBS_SIM"
+    cp "$SIM_BUILD_DIR/libish.a" "$SIM_BUILD_DIR/libish_emu.a" "$SIM_BUILD_DIR/libfakefs.a" "$OUTPUT_LIBS_SIM/"
 
     # Copy VDSO if built (arm64 guest VDSO path)
     if [ -f "$BUILD_DIR/vdso/arm64/libvdso.so.elf" ]; then
@@ -403,7 +410,7 @@ print_summary() {
     echo "============================================================"
     echo ""
     echo "Libraries:"
-    ls -lh "$OUTPUT_LIBS"/*.a 2>/dev/null || echo "  (none)"
+    ls -lh "$OUTPUT_LIBS"/*.a "$OUTPUT_LIBS_SIM"/*.a 2>/dev/null || echo "  (none)"
     echo ""
     echo "Headers:   $OUTPUT_INCLUDE/ish/"
     echo "Resources: $OUTPUT_RESOURCES/"
@@ -440,8 +447,10 @@ main() {
 
     check_prerequisites
     init_submodules
-    setup_cross_compile
-    build_ish
+    setup_cross_compile "$DEVICE_BUILD_DIR" iphoneos -miphoneos-version-min
+    build_ish "$DEVICE_BUILD_DIR"
+    setup_cross_compile "$SIM_BUILD_DIR" iphonesimulator -mios-simulator-version-min
+    build_ish "$SIM_BUILD_DIR"
     copy_outputs
     create_umbrella_header
     print_summary
