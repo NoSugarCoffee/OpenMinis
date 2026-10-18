@@ -1,0 +1,22 @@
+Delivered-To: me@gmail.com
+Received: by 2002:a05:7300:1234:b0:12a:3456:7890 with SMTP id abc;
+        Mon, 19 Oct 2026 09:14:02 -0700 (PDT)
+ARC-Authentication-Results: i=1; mx.google.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=example.com
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@example.com header.s=s1 header.b=Xk3pQ9aB;
+       spf=pass (google.com: domain of alice@example.com designates 203.0.113.7 as permitted sender; checked) smtp.mailfrom=alice@example.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=example.com
+Return-Path: <alice@example.com>
+Received: from mail.example.com (mail.example.com. [203.0.113.7])
+        by mx.google.com with ESMTPS id 5b1f17b1804b1;
+        Mon, 19 Oct 2026 09:14:02 -0700 (PDT)
+From: Alice Example <alice@example.com>
+To: me@gmail.com
+Subject: Draft review
+Date: Mon, 19 Oct 2026 18:14:00 +0200
+Message-ID: <dmarc_pass@mail.example.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+
+Can you look at the draft before Friday?
