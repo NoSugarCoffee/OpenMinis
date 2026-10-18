@@ -1,0 +1,1 @@
+{"schemaVersion":1,"error":{"code":"schema_mismatch","message":"minis-hostd cannot read its database: unsupported schema version: database has 2, this minis-hostd knows 1. Update minis-hostd."}}

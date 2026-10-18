@@ -1,0 +1,1 @@
+{"schemaVersion":1,"version":"1.2.3","heartbeatAt":"2026-10-19T09:59:00Z","sources":[{"name":"github","kind":"github","state":"error","lastOkAt":"2026-10-19T09:10:00Z","lastError":"GitHub returned 401: Bad credentials"},{"name":"mail:personal","kind":"imap","state":"ok","lastOkAt":"2026-10-19T09:55:00Z","lastError":""}]}

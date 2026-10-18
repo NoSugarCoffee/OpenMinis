@@ -1,0 +1,1 @@
+{"schemaVersion":1,"error":{"code":"store_unavailable","message":"minis-hostd has not run on this host yet (no /home/me/.minis/hostd/state.db)."}}
