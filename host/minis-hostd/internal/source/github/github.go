@@ -48,6 +48,9 @@ type APINotification struct {
 	Repository APIRepository `json:"repository"`
 }
 
+// DefaultBaseURL is api.github.com; a GitHub Enterprise host would pass its own API root.
+const DefaultBaseURL = "https://api.github.com"
+
 type Source struct {
 	Token   string
 	BaseURL string

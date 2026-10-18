@@ -87,7 +87,7 @@ func TestBurstOfGitHubCandidatesYieldsOneImmediateThenOneBatchNotice(t *testing.
 		t.Fatalf("%d events", len(events))
 	}
 	first := events[len(events)-1]
-	want := notify.Notice{Title: "owner/repo", Body: "mention: Fix 1", URL: "minis://host-event/mac-mini/" + first.ID}
+	want := notify.Notice{Title: "owner/repo", Body: "Mentioned: Fix 1", URL: "minis://host-event/mac-mini/" + first.ID}
 	if got[0] != want || first.URL != want.URL {
 		t.Errorf("immediate notice %+v, event URL %q; want %+v", got[0], first.URL, want)
 	}
