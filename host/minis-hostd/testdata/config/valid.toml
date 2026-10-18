@@ -1,0 +1,26 @@
+host_name = "mac-mini"
+timezone = "Europe/Berlin"
+
+[quiet_hours]
+start = "22:00"
+end = "07:30"
+
+[[mail]]
+name = "personal"
+address = "Me@Gmail.com"
+app_password = "abcd efgh ijkl mnop"
+
+[[mail.allow]]
+pattern = "alice@example.com"
+
+[[mail.allow]]
+pattern = "@Example.org"
+require_dmarc = false
+
+[github]
+token = "ghp_example"
+repos = ["NoSugarCoffee/*", "openclaw/openclaw"]
+
+[bark]
+device_key = "devicekey"
+encryption_key = "jkdxn8hv24xhrzw5nkjm7fwerx8kmr53"
