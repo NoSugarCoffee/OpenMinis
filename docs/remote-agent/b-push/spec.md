@@ -67,7 +67,7 @@ gate, quiet hours, automated-mail detection, poll scheduling, notice keys and th
 ```
 Minis (iOS)
  ├─ DeepLinkRouter        minis://host-event/<host>/<id>  → HostEventOpener
- ├─ HostEventClient       runs `~/.minis/bin/minis-hostd events get|list|ack|status --json` via SSHConnectionPool.exec
+ ├─ HostEventClient       runs `"$HOME/.minis/bin/minis-hostd" … --json` as an A1 control script (§9.4)
  ├─ HostEventOpener       fetch → new session with the read-only policy → wrapped event as first prompt → ack
  ├─ SessionToolPolicy     per-session allowlist of tools; makeAgentTools filters, dispatch enforces
  └─ Settings → host → Notifications   install command, status, test push, recent events
@@ -293,6 +293,27 @@ policy for that session only.
 Accounts, allowlists and quiet hours are edited in `config.toml` on the host in B. Editing them
 from the app is later work.
 
+### 9.4 Calling hostd (S4)
+
+`HostEventClient` sends each command the way `RemoteExecutor` sends its control scripts: base64,
+decoded and run by `/bin/sh` (`RemoteExecutor.swift:202`). The user's own shell and its startup
+files never parse the command, and the binary is named by absolute path
+(`"$HOME/.minis/bin/minis-hostd"`), so `PATH` does not matter.
+
+S4 ran a stub hostd this way over SSH on macOS 27 (login shell zsh, with home-manager startup
+files) and on Alpine 3.20 (login shell bash, `/bin/sh` busybox), both arm64:
+
+| Call | Result on both |
+|---|---|
+| `status --json` | exit 0; stdout is exactly the one JSON line; stderr empty |
+| `events get <id> --json` with newlines, quotes, `$HOME` and CJK in the body | exit 0; JSON parses and the text round-trips unchanged |
+| `events get <unknown> --json` | exit 2; error JSON on stdout, message on stderr |
+| binary absent | exit 127; `/bin/sh` reports it on stderr |
+
+So the app maps exit 0 to the decoded JSON, exit 2 to the error object, and exit 127 to
+"minis-hostd is not installed on <host>." (§11). A static `CGO_ENABLED=0` build ran unchanged on
+both systems.
+
 ## 10. Setup on the host
 
 1. Run the install command from the app.
@@ -344,7 +365,7 @@ in the Simulator opens a `minis://host-event` link and checks the banner and sum
 | S1 | Gmail: app-password login, how long `IDLE` lasts, `X-GM-RAW` category search, `BODY.PEEK` leaving mail unread, the `Authentication-Results` header Gmail writes | A Go script against the user's Gmail shows each |
 | S2 | GitHub: `/notifications` with a classic token scoped to `notifications` only; a fine-grained token is refused | Both responses recorded |
 | S3 | Bark: encrypted request format; tapping a notification opens `minis://host-event/…` in Minis | Push received and tap lands in Minis on the iPhone |
-| S4 | A1 exec of `~/.minis/bin/minis-hostd` under the host's login-shell rules, on macOS and Linux | `status --json` returned to the app from both |
+| S4 | A1 exec of `~/.minis/bin/minis-hostd` under the host's login-shell rules, on macOS and Linux | **Done 2026-10-18** (§9.4) |
 
 ## 14. Prior art
 
