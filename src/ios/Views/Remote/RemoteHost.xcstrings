@@ -453,6 +453,39 @@
         }
       }
     },
+    "1. Edit ~/.minis/hostd/config.toml: turn on a Gmail account or GitHub, and paste the Bark device key. In the Bark app, set Push Encryption to AES256 / GCM / noPadding with the encryption_key from the file." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1. Edit ~/.minis/hostd/config.toml: turn on a Gmail account or GitHub, and paste the Bark device key. In the Bark app, set Push Encryption to AES256 / GCM / noPadding with the encryption_key from the file."
+          }
+        }
+      }
+    },
+    "2. Check everything and send a test push: ~/.minis/bin/minis-hostd doctor --push-test" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2. Check everything and send a test push: ~/.minis/bin/minis-hostd doctor --push-test"
+          }
+        }
+      }
+    },
+    "3. Start it as a service: ~/.minis/bin/minis-hostd install-service" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3. Start it as a service: ~/.minis/bin/minis-hostd install-service"
+          }
+        }
+      }
+    },
     "A chat bound to a host runs its shell and file tools there over SSH, for example a Mac or a Linux machine on your Tailscale network. Nothing is installed on the host." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1240,6 +1273,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「每次詢問」會在聊天第一次使用該主機時詢問。「自動允許」直接執行不詢問。「不允許」會封鎖對該主機的所有呼叫。"
+          }
+        }
+      }
+    },
+    "Automated or bulk mail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automated or bulk mail"
           }
         }
       }
@@ -2600,6 +2644,17 @@
         }
       }
     },
+    "Dropped" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dropped"
+          }
+        }
+      }
+    },
     "Edit Host" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3161,6 +3216,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "產生新金鑰"
+          }
+        }
+      }
+    },
+    "GitHub reason not kept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub reason not kept"
           }
         }
       }
@@ -3843,6 +3909,17 @@
         }
       }
     },
+    "Install minis-hostd" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install minis-hostd"
+          }
+        }
+      }
+    },
     "Key" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4295,6 +4372,17 @@
         }
       }
     },
+    "Matched your rules" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matched your rules"
+          }
+        }
+      }
+    },
     "Missing from the check output; the check script did not finish on the host." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4521,6 +4609,17 @@
         }
       }
     },
+    "No events yet." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No events yet."
+          }
+        }
+      }
+    },
     "No remote hosts yet. Add one in Settings → Remote Hosts." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4634,6 +4733,17 @@
         }
       }
     },
+    "No single sender address" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No single sender address"
+          }
+        }
+      }
+    },
     "No subdirectories" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4743,6 +4853,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有子目錄"
+          }
+        }
+      }
+    },
+    "Not running since %@. Start it on the host with ~/.minis/bin/minis-hostd install-service." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not running since %@. Start it on the host with ~/.minis/bin/minis-hostd install-service."
+          }
+        }
+      }
+    },
+    "Not running: minis-hostd has never started. Start it on the host with ~/.minis/bin/minis-hostd install-service." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not running: minis-hostd has never started. Start it on the host with ~/.minis/bin/minis-hostd install-service."
           }
         }
       }
@@ -4973,6 +5105,28 @@
         }
       }
     },
+    "Notifications" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "Older than 48 hours" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Older than 48 hours"
+          }
+        }
+      }
+    },
     "Operating system" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5082,6 +5236,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "作業系統"
+          }
+        }
+      }
+    },
+    "Other reason (%@)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other reason (%@)"
           }
         }
       }
@@ -5877,6 +6042,28 @@
         }
       }
     },
+    "Push notifications for mail and GitHub, sent by minis-hostd running on the host." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Push notifications for mail and GitHub, sent by minis-hostd running on the host."
+          }
+        }
+      }
+    },
+    "Pushed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pushed"
+          }
+        }
+      }
+    },
     "Read file" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -5986,6 +6173,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "讀取檔案"
+          }
+        }
+      }
+    },
+    "Recent Events" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent Events"
           }
         }
       }
@@ -6668,6 +6866,17 @@
         }
       }
     },
+    "Repository not kept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repository not kept"
+          }
+        }
+      }
+    },
     "Reset Remote Hosts" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7346,6 +7555,28 @@
         }
       }
     },
+    "Run the command on %@. It installs minis-hostd %@ to ~/.minis/bin after checking its SHA-256, and writes ~/.minis/hostd/config.toml. Then, on the host:" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Run the command on %@. It installs minis-hostd %@ to ~/.minis/bin after checking its SHA-256, and writes ~/.minis/hostd/config.toml. Then, on the host:"
+          }
+        }
+      }
+    },
+    "Running" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running"
+          }
+        }
+      }
+    },
     "SSH Key" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7459,6 +7690,28 @@
         }
       }
     },
+    "Sender failed DMARC" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sender failed DMARC"
+          }
+        }
+      }
+    },
+    "Sender not on the allowlist" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sender not on the allowlist"
+          }
+        }
+      }
+    },
     "Something went wrong" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7568,6 +7821,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "發生問題"
+          }
+        }
+      }
+    },
+    "Status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
+          }
+        }
+      }
+    },
+    "Stored without a push" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stored without a push"
+          }
+        }
+      }
+    },
+    "Tap an event to open it in a read-only chat." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap an event to open it in a read-only chat."
           }
         }
       }
@@ -10280,6 +10566,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在登入 Shell（%@ -l）的 PATH 中找不到 git。請安裝 git，或在該 Shell 的登入設定檔中將其目錄加入 PATH。"
+          }
+        }
+      }
+    },
+    "minis-hostd is not installed on %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "minis-hostd is not installed on %@."
           }
         }
       }

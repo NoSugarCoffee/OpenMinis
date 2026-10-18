@@ -209,6 +209,13 @@ private struct RemoteHostDetailView: View {
                 hostKeySection(host)
                 checksSection(host)
                 Section {
+                    NavigationLink(RemoteHostL10n.string("Notifications")) {
+                        HostNotificationsView(services: services, hostName: hostName)
+                    }
+                } footer: {
+                    Text(RemoteHostL10n.string("Push notifications for mail and GitHub, sent by minis-hostd running on the host."))
+                }
+                Section {
                     Button(RemoteHostL10n.string("Remove Host"), role: .destructive) { confirmRemove = true }
                 }
             } else {
