@@ -19,7 +19,7 @@ restating them. A changed decision is edited in place, with the date and what it
 
 | # | Decision | Since |
 |---|---|---|
-| D8 | **Sub-project A (the remote computer) comes before B (push).** A ships as A1 → A2 → A3, each with its own spec and plan. | 2026-10-16 |
+| D8 | **A1 comes first, then B (proactive push), then A2 → A3.** Each ships with its own spec and plan. A1 already covers coding and long tasks, B needs only A1, and proactive push is the other half of the goal. *Replaced: "all of A (A1 → A2 → A3) before B".* | 2026-10-18 |
 | D9 | **A2 uses the user's everyday Chrome profile** on the host, through Chrome's user-consented remote debugging. The risk is accepted until the trust core adds per-action gating. | 2026-10-16 |
 | D10 | **A3 is an in-app screen viewer with take-over**, tunnelled over SSH. The agent pauses its screen actions while the user has control. | 2026-10-16 |
 
@@ -33,13 +33,15 @@ environment > administering the host.
 | D11 | **SSH library: Citadel 0.9.2** (MIT), with its SSH chain pinned exactly in `MinisRemote/Package.swift` (`Joannis/swift-nio-ssh` 0.3.5, BigInt 5.7.0, ColorizeSwift 1.7.0), because it depends on a third-party NIO SSH fork and SwiftPM ignores a dependency's own `Package.resolved`. swift-nio is shared with upstream's packages and gets only a floor. Citadel caps the whole app at swift-crypto <2.1.0, so an upstream package needing a newer swift-crypto will not resolve until Citadel lifts the cap. | 2026-10-16 |
 | D12 | **Cancel walks the process tree, not a process group.** `set -m` fails under busybox `sh` without a tty (verified). | 2026-10-16 |
 
-## Open (settle when B is designed)
+## B — Proactive push
 
-| # | Question | Leaning |
+Settled 2026-10-18 from the open questions Q1–Q6 that were here.
+
+| # | Decision | Since |
 |---|---|---|
-| Q1 | Default push channel | Bark |
-| Q2 | Model-written summaries before a push | Rules only in B |
-| Q3 | Language for `minis-hostd` | Go |
-| Q4 | Retention of event bodies on the host | 30 days |
-| Q5 | Read-only event session: new session type, or a normal session with a tool policy | A normal session with a tool policy |
-| Q6 | First mailbox to connect | The user's call |
+| D13 | **Push channel: Bark for now**, end-to-end encrypted, behind a notifier interface. Minis's own notifications need a paid developer account, distribution under the fork's bundle ID and a relay holding the APNs key (spec §15), none of which exist yet; the app side depends only on the `minis://host-event` link, so switching later changes the notifier alone. *Was Q1.* | 2026-10-18 |
+| D14 | **Rules only decide what pushes in B**; no model call before a push. *Was Q2.* | 2026-10-18 |
+| D15 | **`minis-hostd` is written in Go**: one static binary for macOS and Linux. *Was Q3.* | 2026-10-18 |
+| D16 | **Event bodies are kept on the host for 30 days.** *Was Q4.* | 2026-10-18 |
+| D17 | **The read-only event session is a normal session with a per-session tool allowlist**, not a new session type. *Was Q5.* | 2026-10-18 |
+| D18 | **The first mailbox is Gmail over IMAP with an app password.** Gmail API and OAuth stay out of B. *Was Q6.* | 2026-10-18 |

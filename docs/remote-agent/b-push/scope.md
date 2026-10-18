@@ -1,6 +1,6 @@
 # B — Proactive push (`minis-hostd`): scope
 
-Status: scoped, not designed. Depends on A1, because the event body is fetched over A1's SSH
+Status: scoped; the design is in [`spec.md`](spec.md), which supersedes this page where they differ. Depends on A1, because the event body is fetched over A1's SSH
 connection. Decisions referenced as D*/Q* are in [`../decisions.md`](../decisions.md).
 
 ## What it delivers
@@ -12,14 +12,14 @@ notifications. Tapping one opens the event in Minis as untrusted content in a re
 
 ```
 Host
- └─ minis-hostd          Go binary or Docker image (Q3); systemd / launchd / container
+ └─ minis-hostd          Go binary or Docker image (D15); systemd / launchd / container
       ├─ sources   IMAP (IDLE + reconcile) · GitHub notifications API
-      ├─ gate      allowlists · dedup · quiet hours · cooldown · drop automated mail   (no model call, Q2)
-      ├─ store     SQLite: cursors, events, notice keys, liveness                       (retention Q4)
-      ├─ notifier  pluggable: Bark (Q1) · ntfy · Telegram · webhook
+      ├─ gate      allowlists · dedup · quiet hours · coalescing · drop automated mail (no model call, D14)
+      ├─ store     SQLite: cursors, events, notice keys, liveness                       (retention D16)
+      ├─ notifier  pluggable: Bark (D13) · ntfy · Telegram · webhook
       └─ CLI       minis-hostd events list|get|ack --json   (versioned contract)
              │ push: title + one-line summary + minis://host-event/<host>/<id>   (body stays on the host, D5)
-Minis ◄──────┘ tap → events get over SSH → wrap as untrusted → read-only session (Q5)
+Minis ◄──────┘ tap → events get over SSH → wrap as untrusted → read-only session (D17)
 ```
 
 ## Scope
@@ -35,13 +35,13 @@ Minis ◄──────┘ tap → events get over SSH → wrap as untrusted
     in an event.
 - **GitHub.** Polls the notifications API, honouring `X-Poll-Interval` and `Last-Modified`.
   Mentions, review requests, assignments and CI failures become events. The token is a
-  fine-grained, read-only PAT.
+  classic PAT with only the `notifications` scope (the API refuses fine-grained tokens; spec §4.2).
 
 **Gate** (rules only)
 - **Allowlists:** a sender allowlist for mail; a repo and reason filter for GitHub.
 - **Automated mail is dropped:** `Auto-Submitted`, `Precedence: bulk`, `List-Unsubscribe`, noreply.
 - **Quiet hours:** the window may wrap past midnight.
-- **Cooldown and daily cap:** counted over notice keys.
+- **Coalescing and daily cap:** a burst becomes one batch push; the cap counts notices (spec §5.3).
 - **Notice keys:** `mail:<acct>:<uv>:<uid>`, `gh:<threadId>:<updatedAt>`. A key is inserted only
   if absent, so each notice is delivered at most once across retries and restarts.
 
@@ -54,14 +54,14 @@ Minis ◄──────┘ tap → events get over SSH → wrap as untrusted
   is stale.
 
 **Setup**
-- **Install:** one command, either binary plus service unit, or `docker run`.
+- **Install:** one command: binary plus service unit (Docker deferred; spec §10).
 - **`minis-hostd doctor`:** checks the IMAP login, the GitHub token, a test push, and the clock and
   timezone.
 
 ## Out of scope
 
 - An agent loop or model keys on the host (D4).
-- Model summaries before a push (Q2).
+- Model summaries before a push (D14).
 - GitHub webhooks and a public endpoint.
 - Gmail API, DMARC, calendar and heartbeat watchers (v2+).
 - macOS-only host plugins.
