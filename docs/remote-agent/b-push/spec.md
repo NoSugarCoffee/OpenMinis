@@ -73,7 +73,8 @@ Minis (iOS)
  └─ Settings → host → Notifications   install command, status, test push, recent events
 ```
 
-New code lives in `src/ios/Agent/HostEvents/` and `src/ios/Views/Remote/`. The event types and their
+New code lives in `src/ios/Agent/Remote/` and `src/ios/Views/Remote/`, the folders A1 already
+synchronises into the Xcode project. The event types and their
 decoding go in the `MinisRemote` package, so they are tested against the same golden files as the Go
 side (§12).
 
@@ -84,10 +85,13 @@ Each edit is marked `// fork(remote-host):`.
 1. **`Shared/DeepLinkRouter.swift`**: a `case "host-event"` that hands the URL to `HostEventOpener`.
 2. **`Agent/Chat/AIChatViewModel+ToolDefinitions.swift`, `makeAgentTools()`**: one filter through the
    session's `SessionToolPolicy`, next to the existing `includeMemoryTools` gate.
-3. **`Agent/Chat/AIChatViewModel+ConcurrentTools.swift`**: one guard beside A1's routing call that
-   rejects a tool the policy excludes, in case a model calls a tool it was not offered.
-4. **`Agent/Chat/AIChatViewModel+ProgrammaticPrompt.swift`**: a `ProgrammaticPromptOrigin` case for a
-   host event, if no existing origin fits (settled in the plan).
+3. **`Agent/Chat/AIChatViewModel+ConcurrentTools.swift`**: one guard before the preflight check that
+   rejects a tool the policy excludes. Preflight passes unknown names through and dispatch runs by
+   name, so hiding a tool alone would not stop a model that names it anyway.
+4. **`Agent/Chat/AIChatViewModel+ProgrammaticPrompt.swift`**: a `.hostEvent` origin; none of `.cli`,
+   `.shortcut` or `.job` fits.
+5. **`Agent/Chat/AIChatViewModel.swift`**: the read-only line appended to the system prompt, next to
+   A1's host line.
 
 ## 4. Sources
 
@@ -288,8 +292,10 @@ The CLI opens the database read-only, except `ack`, so it never blocks the daemo
 
 ### 9.2 Read-only policy (D17)
 
-A normal chat session with a per-session tool allowlist, stored in a fork-owned store keyed by
-session id (like A1's host binding):
+A normal chat session with a per-session tool allowlist, stored in a fork-owned file of read-only
+session ids (`host-event-sessions.json`). If that file cannot be read, every session is treated as
+read-only until it is rebuilt from the sessions whose source is `host-event`, so a lost file never
+hands tools to untrusted text:
 
 | Allowed | Excluded |
 |---|---|
@@ -298,9 +304,11 @@ session id (like A1's host binding):
 Excluding `shell_execute` also removes every device command and skill. Excluding `memory_write`
 stops injected text from persisting. The system prompt says the session is read-only.
 
-A banner reads "Read-only: event from <host>. Tools are off." Its "Turn tools on" button asks for
-confirmation ("Content from this email or notification can then steer tools.") and clears the
-policy for that session only.
+The session title starts with "Read-only ·", and the chat menu row A1 owns reads "Read-only Event".
+That row opens an explanation with a "Turn Tools On" button, which asks for confirmation ("Content
+from this email or notification can then steer tools.") and clears the policy for that session
+only. This replaces the banner first planned: a banner needs one more edit inside the upstream chat
+view, while the title and menu row reuse places the fork already owns.
 
 ### 9.3 Settings → Remote Hosts → host → Notifications
 
