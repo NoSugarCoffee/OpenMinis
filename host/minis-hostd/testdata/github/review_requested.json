@@ -1,0 +1,24 @@
+{
+  "id": "11738201877",
+  "unread": true,
+  "reason": "review_requested",
+  "updated_at": "2026-10-18T10:02:45Z",
+  "last_read_at": null,
+  "subject": {
+    "title": "hostd: add candidate types shared by sources and the gate",
+    "url": "https://api.github.com/repos/NoSugarCoffee/OpenMinis/pulls/9",
+    "latest_comment_url": "https://api.github.com/repos/NoSugarCoffee/OpenMinis/pulls/9",
+    "type": "PullRequest"
+  },
+  "repository": {
+    "id": 812345678,
+    "name": "OpenMinis",
+    "full_name": "NoSugarCoffee/OpenMinis",
+    "private": false,
+    "owner": {"login": "NoSugarCoffee", "id": 41234567, "type": "User"},
+    "html_url": "https://github.com/NoSugarCoffee/OpenMinis",
+    "url": "https://api.github.com/repos/NoSugarCoffee/OpenMinis"
+  },
+  "url": "https://api.github.com/notifications/threads/11738201877",
+  "subscription_url": "https://api.github.com/notifications/threads/11738201877/subscription"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "11738210450",
+  "unread": true,
+  "reason": "assign",
+  "updated_at": "2026-10-18T11:30:00Z",
+  "last_read_at": null,
+  "subject": {
+    "title": "IMAP reconnect loops when the app password is revoked",
+    "url": "https://api.github.com/repos/acme/infra/issues/317",
+    "latest_comment_url": "https://api.github.com/repos/acme/infra/issues/317",
+    "type": "Issue"
+  },
+  "repository": {
+    "id": 70112233,
+    "name": "infra",
+    "full_name": "acme/infra",
+    "private": true,
+    "owner": {"login": "acme", "id": 9988776, "type": "Organization"},
+    "html_url": "https://github.com/acme/infra",
+    "url": "https://api.github.com/repos/acme/infra"
+  },
+  "url": "https://api.github.com/notifications/threads/11738210450",
+  "subscription_url": "https://api.github.com/notifications/threads/11738210450/subscription"
+}
