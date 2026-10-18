@@ -17,7 +17,7 @@ Fork only, iOS only. All decisions are in [`decisions.md`](decisions.md).
 | **A1** | Sessions bound to a host; shell and file tools run there; long commands survive app suspension | **Merged; device acceptance pending** | [spec](a1-remote-exec/spec.md) · [plan](a1-remote-exec/plan.md) · [acceptance](a1-remote-exec/acceptance.md) |
 | A2 | Browser with the user's login state; screenshots and screen control by the agent | Not designed | — |
 | A3 | In-app screen viewer with take-over | Not designed | — |
-| B | **Proactive push**: `minis-hostd` watches email and GitHub → rule gate → notification → Minis explains the event in a read-only session | **Next: spec in review** | [scope](b-push/scope.md) · [spec](b-push/spec.md) |
+| B | **Proactive push**: `minis-hostd` watches email and GitHub → rule gate → notification → Minis explains the event in a read-only session | **Next: planned; S1 (Gmail) pending** | [scope](b-push/scope.md) · [spec](b-push/spec.md) · [plan](b-push/plan.md) |
 | Later | Built-in push once the app is distributed (B spec §15) · heartbeat with the proactivity dial (v2) · trust core (v3) · webhooks, Gmail API, Android (v4) | — | — |
 
 ## Shape
@@ -37,7 +37,7 @@ Minis on iPhone ◄─┘   the agent loop and model keys live here; fetches ove
 - **To approve or change direction:** this page, then [`decisions.md`](decisions.md).
 - **To implement A1:** [`a1-remote-exec/spec.md`](a1-remote-exec/spec.md), then
   [`a1-remote-exec/plan.md`](a1-remote-exec/plan.md).
-- **To implement B:** [`b-push/spec.md`](b-push/spec.md); its spikes (§13) come before the plan.
+- **To implement B:** [`b-push/spec.md`](b-push/spec.md), then [`b-push/plan.md`](b-push/plan.md).
 
 How Hermes and OpenClaw handle the same layer is summarised in
 [`b-push/spec.md` §14](b-push/spec.md#14-prior-art).
