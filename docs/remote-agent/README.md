@@ -17,7 +17,7 @@ Fork only, iOS only. All decisions are in [`decisions.md`](decisions.md).
 | A2 | Browser with the user's login state; screenshots and screen control by the agent | Not designed | — |
 | A3 | In-app screen viewer with take-over | Not designed | — |
 | B | `minis-hostd`: email and GitHub events → rule gate → push → read-only session in Minis | **Next: spec in review** | [scope](b-push/scope.md) · [spec](b-push/spec.md) |
-| Later | Heartbeat with the proactivity dial (v2) · trust core (v3) · webhooks, Gmail API, Android (v4) | — | — |
+| Later | Built-in push once the app is distributed (B spec §15) · heartbeat with the proactivity dial (v2) · trust core (v3) · webhooks, Gmail API, Android (v4) | — | — |
 
 ## Shape
 
@@ -38,5 +38,5 @@ Minis on iPhone ◄─┘   the agent loop and model keys live here; fetches ove
   [`a1-remote-exec/plan.md`](a1-remote-exec/plan.md).
 - **To implement B:** [`b-push/spec.md`](b-push/spec.md); its spikes (§13) come before the plan.
 
-Background research (comparisons with OpenClaw, Hermes, nanoMuse, Huginn, n8n, OpenMuse and closed
-products) is kept locally in `research/`, outside git.
+How Hermes and OpenClaw handle the same layer is summarised in
+[`b-push/spec.md` §14](b-push/spec.md#14-prior-art).

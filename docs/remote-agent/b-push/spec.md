@@ -106,6 +106,9 @@ Each edit is marked `// fork(remote-host):`.
   `X-GM-RAW "category:primary"` (checked in S1). Off by default; the allowlist already decides.
 - **Event key:** `mail:<account>:<uidValidity>:<uid>`. A ring of the last 1,000 `Message-ID`s drops a
   message seen twice, for example after a move back into INBOX.
+- **Unreadable messages:** a message the parser cannot read is stored as `parse_failed` and skipped
+  at once, since the same bytes will fail again. A transient failure (a dropped fetch) is retried up
+  to 3 times, then skipped with its reason. Skipped mail stays in the mailbox untouched.
 
 ### 4.2 GitHub notifications
 
@@ -130,10 +133,19 @@ or did not push.
 
 ### 5.1 Mail
 
-1. **Drop automated mail:** any of `Auto-Submitted` other than `no`; `Precedence: bulk|list|junk`;
+1. **Malformed sender:** a message with no `From` or more than one `From` address is stored only.
+   The display name and `Reply-To` never count.
+2. **Too old:** a message whose IMAP internal date is more than 48 hours old is stored only, so a
+   long outage or a reconcile never pushes stale mail.
+3. **Drop automated mail:** any of `Auto-Submitted` other than `no`; `Precedence: bulk|list|junk`;
    `List-Unsubscribe` or `List-Id`; a sender local part matching `no-?reply|notifications?|mailer-daemon`.
-2. **Allowlist:** push only if the `From` address matches an entry. An entry is an exact address
+4. **Allowlist:** push only if the `From` address matches an entry. An entry is an exact address
    (`alice@example.com`) or a domain (`@example.com`). Anything else is stored only.
+5. **Sender authentication:** an allowlisted `From` is forged easily, so a push also needs
+   `dmarc=pass` in the topmost `Authentication-Results` header whose authserv-id is `mx.google.com`.
+   Gmail writes that header on receipt, so hostd trusts it for this mailbox only and does no DKIM
+   checking of its own. A per-entry `require_dmarc = false` admits a sender that cannot pass DMARC.
+   A failed check stores the event with reason `sender_unauthenticated`.
 
 ### 5.2 GitHub
 
@@ -187,8 +199,15 @@ decision, reason, acked_at), `outbox` (notice key, event id, state, attempts, la
   the Bark app, so Bark's server and APNs see only the device key and timing. The exact request
   format is checked in S3.
 - **Interface:** the notifier is a small Go interface (`Send(ctx, Notice) error` plus a
-  "may have been delivered" error kind). ntfy, Telegram and webhooks can be added later without
-  touching the gate.
+  "may have been delivered" error kind). The built-in push of §15, ntfy, Telegram or an iMessage
+  sender on macOS hosts can be added later without touching the gate.
+- **The app never depends on Bark.** Everything after the tap starts from the
+  `minis://host-event/<host>/<id>` link, so the app works the same whichever notifier showed the
+  notification.
+
+Bark is a stopgap with a cost: the user installs a second app, the notification shows as Bark,
+and the tap passes through Bark with an "Open in Minis?" prompt. It is chosen because this fork is
+not distributed (§15).
 
 ## 8. CLI contract
 
@@ -283,7 +302,8 @@ Docker packaging is deferred: one static binary already runs on both OSes.
 ## 12. Testing
 
 **Go, unit (pure functions):** the cursor and baseline rules, `UIDVALIDITY` reset, notice-key
-dedup, the Message-ID ring, quiet hours including windows that wrap past midnight and DST changes,
+dedup, the Message-ID ring, multiple-`From` and freshness rejection, `Authentication-Results`
+parsing (topmost trusted header only, a forged header lower down ignored), quiet hours including windows that wrap past midnight and DST changes,
 automated-mail detection, the allowlist, cooldown and daily cap, poll-interval scheduling, Bark
 request encoding and encryption, and the CLI encoding against the golden files.
 
@@ -299,22 +319,72 @@ in the Simulator opens a `minis://host-event` link and checks the banner and sum
 
 | # | Question | Done when |
 |---|---|---|
-| S1 | Gmail: app-password login, how long `IDLE` lasts, `X-GM-RAW` category search, `BODY.PEEK` leaving mail unread | A Go script against the user's Gmail shows each |
+| S1 | Gmail: app-password login, how long `IDLE` lasts, `X-GM-RAW` category search, `BODY.PEEK` leaving mail unread, the `Authentication-Results` header Gmail writes | A Go script against the user's Gmail shows each |
 | S2 | GitHub: `/notifications` with a classic token scoped to `notifications` only; a fine-grained token is refused | Both responses recorded |
 | S3 | Bark: encrypted request format; tapping a notification opens `minis://host-event/…` in Minis | Push received and tap lands in Minis on the iPhone |
 | S4 | A1 exec of `~/.minis/bin/minis-hostd` under the host's login-shell rules, on macOS and Linux | `status --json` returned to the app from both |
 
-## 14. Out of scope for B
+## 14. Prior art
+
+Both projects below run the agent and its model keys on the host (a "gateway"), so an event can
+start a model turn there. B keeps the agent on the phone (D4): the host filters and notifies, and
+the model runs only when the user taps. Read 2026-10-18 from their repositories.
+
+| | Hermes (NousResearch/hermes-agent) | OpenClaw (openclaw/openclaw) |
+|---|---|---|
+| Mail | Email adapter polls IMAP every 15 s; meant as a dedicated address people write to, not a watcher on the user's own inbox | Gmail through Pub/Sub to a public HTTPS hook (Tailscale Funnel); other mailboxes through an IMAP plugin (IDLE plus reconcile) |
+| GitHub | Inbound webhooks on port 8644 with HMAC checks; a `deliver_only` mode forwards without a model | Generic inbound webhooks |
+| Untrusted content | Per-route tool sets | Per-message isolated `mail_reader` agent in a sandbox with almost no tools |
+| Scheduled | Cron jobs, including script-only jobs with no model call | Heartbeat: a model turn every 30 min |
+| Delivery | Chat platforms (Telegram, Slack, …) | Chat platforms |
+
+Taken from OpenClaw's IMAP plugin, which matches §4.1 closely (no flag changes, no backfill,
+`UIDVALIDITY` rebaseline, body cap): rejecting multiple `From` addresses, the 48-hour freshness
+check, DMARC before an allowlist match counts, and skipping unparseable mail instead of retrying it.
+
+Rejected for B: webhooks (they need a public endpoint, which §2 rules out) and running a model per
+event on the host (D4). Lighter builds were weighed on 2026-10-18 (iOS Mail VIP notifications plus
+sharing to Minis; a polling script with no app changes) and set aside in favour of this design,
+because neither opens the event in Minis behind the read-only policy.
+
+## 15. Later: built-in push
+
+Minis showing its own notifications needs three things this fork does not have yet:
+
+1. **A paid Apple Developer account.** The free Personal Team has no push capability, and a free
+   signed build expires after 7 days.
+2. **Distribution** (TestFlight or the App Store) under the fork's own bundle ID. APNs only accepts
+   pushes signed with the key of the team that signed the app, so every user must run a build
+   signed by that one team.
+3. **A relay.** That APNs key can push to every app of the team, so it never leaves the publisher:
+   hosts send to a small relay service the publisher runs (a Cloudflare Worker is enough), which
+   forwards to APNs. This is what Bark's own server does for Bark.
+
+The design when those exist:
+
+- **Registration:** Minis registers for remote notifications and writes its device token, a relay
+  credential and a fresh AES key into the host's hostd config over A1's SSH connection.
+- **Sending:** a `relay` notifier encrypts the notice with that key and posts it to the relay,
+  authenticated by the credential. The relay sees only the token, ciphertext and timing, so D5
+  holds.
+- **Display:** a Notification Service Extension decrypts the notice before it is shown. A tap opens
+  the same `minis://host-event` route as today.
+- **Testing:** the Simulator accepts pushes through `xcrun simctl push`, so the app side can be
+  built before the relay exists.
+
+Bark stays as the notifier for self-built installs.
+
+## 16. Out of scope for B
 
 - Model summaries before a push (D14), and any model key on the host (D4).
 - GitHub webhooks and any public endpoint.
 - Gmail API, OAuth (and so Outlook personal accounts), other mailboxes than INBOX.
 - Editing hostd's config from the app.
 - Docker packaging.
-- Notifications delivered by Minis itself through APNs (needs a push server).
+- Notifications delivered by Minis itself (§15).
 - Android.
 
-## 15. Known limitations
+## 17. Known limitations
 
 - A dead hostd is noticed only when the user opens the Notifications screen or an event; nothing can
   push "I stopped".
