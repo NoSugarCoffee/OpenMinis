@@ -4,6 +4,7 @@ go 1.26.0
 
 require (
 	github.com/BurntSushi/toml v1.6.0
+	github.com/oklog/ulid/v2 v2.1.2
 	modernc.org/sqlite v1.60.1
 )
 

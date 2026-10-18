@@ -1,0 +1,28 @@
+{
+  "from": {
+    "name": "Alice Chen",
+    "address": "alice@example.com"
+  },
+  "to": [
+    {
+      "name": "",
+      "address": "me@gmail.com"
+    },
+    {
+      "name": "Bob Li",
+      "address": "bob@example.org"
+    }
+  ],
+  "subject": "Re: 合同 “第三版”",
+  "date": "2026-10-19T08:59:12Z",
+  "messageId": "<CAF=abc123@mail.gmail.com>",
+  "text": "Hi,\n\nThe \"third\" draft is attached.\n\n— Alice <&>",
+  "truncated": true,
+  "attachments": [
+    {
+      "name": "contract-v3.pdf",
+      "type": "application/pdf",
+      "size": 182344
+    }
+  ]
+}
