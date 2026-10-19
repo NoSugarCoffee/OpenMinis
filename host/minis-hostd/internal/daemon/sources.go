@@ -74,8 +74,8 @@ func (d *daemon) recordGitHubPoll(result github.PollResult) error {
 			summary: eventbody.GitHubSummary(n),
 			body:    eventbody.FromGitHub(n).JSON(),
 			cursor:  advance,
-			decide: func(time.Time) (gate.Decision, error) {
-				return gate.GitHub(n, *d.cfg.GitHub), nil
+			decide: func(now time.Time) (gate.Decision, error) {
+				return gate.GitHub(n, *d.cfg.GitHub, now), nil
 			},
 		})
 		if err != nil {
