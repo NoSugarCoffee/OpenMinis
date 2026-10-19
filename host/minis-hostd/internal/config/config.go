@@ -19,6 +19,9 @@ const BarkKeyLength = 32
 
 const DefaultBarkServer = "https://api.day.app"
 
+// AnySender as an allow pattern admits every sender that passes the other mail rules.
+const AnySender = "*"
+
 // DefaultGitHubReasons are the notification reasons that push unless the config names others.
 var DefaultGitHubReasons = []string{"mention", "team_mention", "review_requested", "assign", "ci_activity"}
 
@@ -39,7 +42,8 @@ type MailAccount struct {
 	Allow            []SenderRule
 }
 
-// SenderRule matches an exact address ("alice@example.com") or a whole domain ("@example.com").
+// SenderRule matches an exact address ("alice@example.com"), a whole domain ("@example.com"), or any
+// sender ("*"). Automated mail is dropped before the allowlist, so "*" still never pushes newsletters.
 type SenderRule struct {
 	Pattern      string
 	RequireDMARC bool
@@ -215,9 +219,9 @@ func validate(path string, raw fileConfig) (Config, error) {
 		rules := make([]SenderRule, 0, len(account.Allow))
 		for j, sender := range account.Allow {
 			pattern := strings.ToLower(strings.TrimSpace(sender.Pattern))
-			if !isAddress(pattern) && !isDomainRule(pattern) {
+			if pattern != AnySender && !isAddress(pattern) && !isDomainRule(pattern) {
 				return fail(fmt.Sprintf("%s.allow[%d].pattern", field, j),
-					"%q must be an address (alice@example.com) or a domain (@example.com)", sender.Pattern)
+					"%q must be an address (alice@example.com), a domain (@example.com) or * for anyone", sender.Pattern)
 			}
 			requireDMARC := true
 			if sender.RequireDMARC != nil {
