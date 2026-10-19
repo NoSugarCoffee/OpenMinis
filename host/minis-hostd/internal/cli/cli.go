@@ -88,6 +88,8 @@ func Run(env Env, args []string) int {
 		return runBatches(env, args[1:])
 	case "status":
 		return runStatus(env, args[1:])
+	case "doctor":
+		return runDoctor(env, args[1:], productionDoctorDeps())
 	case "run":
 		return runDaemon(env, args[1:])
 	case "new-config":

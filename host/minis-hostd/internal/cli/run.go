@@ -44,7 +44,7 @@ func runDaemon(env Env, args []string) int {
 	}
 	defer st.Close()
 
-	client := &http.Client{Timeout: httpTimeout}
+	client := newHTTPClient()
 	deps := daemon.Deps{
 		Config:        cfg,
 		Store:         st,
@@ -64,6 +64,10 @@ func runDaemon(env Env, args []string) int {
 		return plainFail(env, fmt.Sprintf("stopped: %v", err))
 	}
 	return ExitOK
+}
+
+func newHTTPClient() *http.Client {
+	return &http.Client{Timeout: httpTimeout}
 }
 
 func mailSources(accounts []config.MailAccount) ([]daemon.MailSource, error) {
