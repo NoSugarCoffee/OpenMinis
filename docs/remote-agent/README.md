@@ -17,7 +17,7 @@ Fork only, iOS only. All decisions are in [`decisions.md`](decisions.md).
 | **A1** | Sessions bound to a host; shell and file tools run there; long commands survive app suspension | **Merged; device acceptance pending** | [spec](a1-remote-exec/spec.md) · [plan](a1-remote-exec/plan.md) · [acceptance](a1-remote-exec/acceptance.md) |
 | A2 | Browser with the user's login state; screenshots and screen control by the agent | Not designed | — |
 | A3 | In-app screen viewer with take-over | Not designed | — |
-| B | **Proactive push**: `minis-hostd` watches email and GitHub → rule gate → notification → Minis explains the event in a read-only session | **Next: planned; S1 (Gmail) pending** | [scope](b-push/scope.md) · [spec](b-push/spec.md) · [plan](b-push/plan.md) |
+| B | **Proactive push**: `minis-hostd` watches email and GitHub → rule gate → notification → Minis explains the event in a read-only session | **Running on the Mac mini; iPhone acceptance pending** | [scope](b-push/scope.md) · [spec](b-push/spec.md) · [plan](b-push/plan.md) · [acceptance](b-push/acceptance.md) |
 | Later | Built-in push once the app is distributed (B spec §15) · heartbeat with the proactivity dial (v2) · trust core (v3) · webhooks, Gmail API, Android (v4) | — | — |
 
 ## Shape
