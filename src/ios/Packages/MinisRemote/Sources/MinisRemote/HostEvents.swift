@@ -149,8 +149,8 @@ public struct HostEventClient: Sendable {
             throw HostEventError.schemaMismatch(host: host, found: envelope.schemaVersion)
         }
         do {
-            if result.exitStatus == 2 {
-                let reply = try decoder.decode(ErrorReply.self, from: data)
+            // Exit 2 carries the error object, except from `doctor`, which prints its checklist.
+            if result.exitStatus == 2, let reply = try? decoder.decode(ErrorReply.self, from: data) {
                 throw HostEventError.server(code: reply.error.code, message: reply.error.message)
             }
             return try decoder.decode(Reply.self, from: data)

@@ -115,6 +115,20 @@ public struct HostdStatus: Decodable, Equatable, Sendable {
     public let sources: [HostdSourceStatus]
 }
 
+/// `doctor --json`. minis-hostd exits 2 with this same shape when a check fails, so the caller
+/// reads `allOK` rather than treating exit 2 as an error.
+public struct HostdDoctor: Decodable, Equatable, Sendable {
+    public struct Check: Decodable, Equatable, Sendable {
+        public let name: String
+        public let ok: Bool
+        public let detail: String
+    }
+
+    public let checks: [Check]
+
+    public var allOK: Bool { checks.allSatisfy(\.ok) }
+}
+
 struct HostEventListReply: Decodable { let events: [HostEventSummary] }
 struct HostEventReply: Decodable { let event: HostEvent }
 struct HostEventBatchReply: Decodable { let batch: HostEventBatch }
@@ -139,5 +153,9 @@ extension HostEventClient {
 
     public func status(host: String) async throws -> HostdStatus {
         try await call(host: host, arguments: ["status"])
+    }
+
+    public func doctor(host: String, pushTest: Bool) async throws -> HostdDoctor {
+        try await call(host: host, arguments: ["doctor"] + (pushTest ? ["--push-test"] : []))
     }
 }

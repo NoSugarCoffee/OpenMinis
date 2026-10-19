@@ -156,13 +156,8 @@ func (s *Source) watch(ctx context.Context, sink daemon.MailSink, connected func
 	// Closing the client is the only way to interrupt a blocked command when ctx ends.
 	defer context.AfterFunc(ctx, func() { client.Close() })()
 
-	if err := client.Login(s.account.Address, s.account.AppPassword).Wait(); err != nil {
-		// RFC 5530 UNAVAILABLE is a server-side hiccup, not a verdict on the password.
-		if imapErr := (*goimap.Error)(nil); errors.As(err, &imapErr) && imapErr.Type == goimap.StatusResponseTypeNo &&
-			imapErr.Code != goimap.ResponseCodeUnavailable {
-			return fatal(fmt.Errorf("%w for %s: %s", ErrLoginRejected, s.account.Address, imapErr.Text))
-		}
-		return fmt.Errorf("login: %w", err)
+	if err := login(client, s.account); err != nil {
+		return err
 	}
 	selected, err := client.Select(mailbox, &goimap.SelectOptions{ReadOnly: true}).Wait()
 	if err != nil {
@@ -199,6 +194,18 @@ func (s *Source) watch(ctx context.Context, sink daemon.MailSink, connected func
 		}
 		lastReconcile = time.Now()
 	}
+}
+
+func login(client *imapclient.Client, account config.MailAccount) error {
+	if err := client.Login(account.Address, account.AppPassword).Wait(); err != nil {
+		// RFC 5530 UNAVAILABLE is a server-side hiccup, not a verdict on the password.
+		if imapErr := (*goimap.Error)(nil); errors.As(err, &imapErr) && imapErr.Type == goimap.StatusResponseTypeNo &&
+			imapErr.Code != goimap.ResponseCodeUnavailable {
+			return fatal(fmt.Errorf("%w for %s: %s", ErrLoginRejected, account.Address, imapErr.Text))
+		}
+		return fmt.Errorf("login: %w", err)
+	}
+	return nil
 }
 
 // start applies Plan to a fresh connection. catchUp reports that the stored cursor still holds

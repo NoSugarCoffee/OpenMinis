@@ -26,7 +26,7 @@ final class HostEventContractTests: XCTestCase {
     func testEveryGoldenFileIsCovered() throws {
         let names = try FileManager.default.contentsOfDirectory(atPath: Self.contractDirectory.path).sorted()
         XCTAssertEqual(names, [
-            "batches_get.json", "error_bad_request.json", "error_not_found.json", "error_schema_mismatch.json",
+            "batches_get.json", "doctor.json", "error_bad_request.json", "error_not_found.json", "error_schema_mismatch.json",
             "error_store_unavailable.json", "events_ack.json", "events_get_github.json", "events_get_mail.json",
             "events_list.json", "status.json",
         ], "a new golden file needs a decoding test here")
@@ -61,6 +61,21 @@ final class HostEventContractTests: XCTestCase {
         XCTAssertEqual(status.sources.map(\.state), [.error, .ok])
         XCTAssertNotNil(status.heartbeatAt)
         XCTAssertTrue(try decode("events_ack.json", as: HostEventAck.self).ok)
+    }
+
+    func testDoctor() throws {
+        let doctor = try decode("doctor.json", as: HostdDoctor.self)
+        XCTAssertEqual(doctor.checks.map(\.name), ["config", "timezone", "clock", "mail:personal", "github", "push"])
+        XCTAssertTrue(doctor.allOK)
+        XCTAssertTrue(doctor.checks.allSatisfy { !$0.detail.isEmpty })
+    }
+
+    func testFailingDoctorDecodesFromExitTwo() throws {
+        let stdout = #"{"schemaVersion":1,"checks":[{"name":"config","ok":false,"detail":"config.toml does not exist"}]}"# + "\n"
+        let result = ExecResult(stdout: Array(stdout.utf8), stderr: [], exitStatus: 2)
+        let doctor: HostdDoctor = try HostEventClient.decode(result, host: "mac-mini")
+        XCTAssertFalse(doctor.allOK)
+        XCTAssertEqual(doctor.checks.first?.detail, "config.toml does not exist")
     }
 
     func testErrorGoldensMapToServerErrors() throws {
