@@ -155,7 +155,9 @@ or did not push.
 3. **Drop automated mail:** any of `Auto-Submitted` other than `no`; `Precedence: bulk|list|junk`;
    `List-Unsubscribe` or `List-Id`; a sender local part matching `no-?reply|notifications?|mailer-daemon`.
 4. **Allowlist:** push only if the `From` address matches an entry. An entry is an exact address
-   (`alice@example.com`) or a domain (`@example.com`). Anything else is stored only.
+   (`alice@example.com`), a domain (`@example.com`), or `*` for any sender. Anything else is stored
+   only. With `*`, rules 1–3 and 5 still apply, so newsletters, automated mail and forged senders
+   still never push.
 5. **Sender authentication:** an allowlisted `From` is forged easily, so a push also needs
    `dmarc=pass` in the topmost `Authentication-Results` header whose authserv-id is `mx.google.com`.
    Gmail writes that header on receipt, so hostd trusts it for this mailbox only and does no DKIM

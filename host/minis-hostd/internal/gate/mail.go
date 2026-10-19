@@ -66,7 +66,7 @@ func matchingRules(address string, rules []config.SenderRule) []config.SenderRul
 	_, domain := splitAddress(address)
 	var matching []config.SenderRule
 	for _, rule := range rules {
-		if rule.Pattern == address || (domain != "" && rule.Pattern == "@"+domain) {
+		if rule.Pattern == config.AnySender || rule.Pattern == address || (domain != "" && rule.Pattern == "@"+domain) {
 			matching = append(matching, rule)
 		}
 	}

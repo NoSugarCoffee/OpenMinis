@@ -109,6 +109,17 @@ func TestInvalidSettingsNameTheField(t *testing.T) {
 	}
 }
 
+func TestAnySenderPatternIsAccepted(t *testing.T) {
+	text := strings.Replace(validText(t), `pattern = "alice@example.com"`, `pattern = "*"`, 1)
+	cfg, err := Parse("config.toml", []byte(text))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := cfg.Mail[0].Allow[0]; got != (SenderRule{Pattern: AnySender, RequireDMARC: true}) {
+		t.Errorf("rule %+v", got)
+	}
+}
+
 func TestNothingToWatchIsRefused(t *testing.T) {
 	text := `host_name = "mac-mini"
 [bark]

@@ -333,3 +333,26 @@ func TestGitHub(t *testing.T) {
 		})
 	}
 }
+
+func TestAnySenderRuleStillDropsAutomatedAndUnauthenticatedMail(t *testing.T) {
+	rules := []config.SenderRule{{Pattern: config.AnySender, RequireDMARC: true}}
+	now := time.Date(2026, 10, 19, 9, 0, 0, 0, time.UTC)
+	person := candidate.Mail{
+		From:         []candidate.Address{{Name: "Bob", Address: "bob@unknown.example"}},
+		InternalDate: now,
+		AuthResults:  []string{"mx.google.com; dmarc=pass (p=NONE) header.from=unknown.example"},
+	}
+	if d := Mail(person, rules, now); d.Action != ActionPush {
+		t.Errorf("person: %+v", d)
+	}
+	newsletter := person
+	newsletter.HasListUnsubscribe = true
+	if d := Mail(newsletter, rules, now); d.Action != ActionDrop || d.Reason != ReasonAutomated {
+		t.Errorf("newsletter: %+v", d)
+	}
+	forged := person
+	forged.AuthResults = []string{"mx.google.com; dmarc=fail header.from=unknown.example"}
+	if d := Mail(forged, rules, now); d.Reason != ReasonSenderUnauthenticated {
+		t.Errorf("forged: %+v", d)
+	}
+}
