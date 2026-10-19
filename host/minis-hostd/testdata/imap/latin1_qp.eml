@@ -1,0 +1,12 @@
+From: =?ISO-8859-1?Q?Ren=E9_Fran=E7ois?= <Rene@Example.fr>
+Reply-To: Desk <reply@example.fr>
+To: Me <ME@gmail.com>, other@example.org
+Subject: =?ISO-8859-1?Q?R=E9sum=E9_du_caf=E9?=
+Date: Mon, 19 Oct 2026 18:14:00 +0200
+Message-ID: <latin1@example.fr>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Le caf=E9 est pr=EAt. Une ligne tr=E8s longue qui est coup=E9e par le codage =
+quoted-printable.
