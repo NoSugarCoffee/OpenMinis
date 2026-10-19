@@ -100,8 +100,12 @@ Each edit is marked `// fork(remote-host):`.
 - **Login:** `imap.gmail.com:993`, TLS, the Gmail address and an app password. App passwords need
   2-Step Verification on the Google account. Gmail API and OAuth are out of scope.
 - **Mailbox:** `INBOX` only.
-- **Change detection:** `IDLE`, re-issued every 9 minutes (Gmail's IDLE limit is checked in S1). On
-  every (re)connect and every 15 minutes, a reconcile runs `UID SEARCH UID <lastSeenUid+1>:*`.
+- **Change detection:** `IDLE`, re-issued every 9 minutes, well inside RFC 2177's 29 minutes (go-imap
+  v2 also restarts it on its own every 28 minutes, so S1 could not measure Gmail's own limit). On
+  every (re)connect and every 15 minutes, a reconcile fetches `UID <lastSeenUid+1>:*`, dropping the
+  UID ≤ lastSeenUid that Gmail returns when nothing is new.
+- **Read-only session:** INBOX is opened with `EXAMINE`, so the session cannot change a flag even by
+  mistake.
 - **Cursor:** `{uidValidity, lastSeenUid}` per account.
   - **First run:** records the current `UIDNEXT - 1` as `lastSeenUid` and emits nothing, so old mail
     never pushes.
@@ -111,8 +115,9 @@ Each edit is marked `// fork(remote-host):`.
   messages keep their headers, the first 1 MiB of text and a `truncated: true` flag.
 - **Body for the event:** `text/plain` if present, otherwise the HTML part converted to text. Capped
   at 64 KiB. Attachments are listed by name, type and size only, never stored.
-- **Optional Gmail category filter:** `gmail_primary_only = true` keeps only UIDs matching
-  `X-GM-RAW "category:primary"` (checked in S1). Off by default; the allowlist already decides.
+- **Optional Gmail category filter:** `gmail_primary_only = true` would keep only UIDs matching
+  `X-GM-RAW "category:primary"`. Gmail answers that search (S1), but go-imap v2 cannot send it, so
+  the option is refused at startup for now rather than ignored. The allowlist already decides.
 - **Event key:** `mail:<account>:<uidValidity>:<uid>`. A ring of the last 1,000 `Message-ID`s drops a
   message seen twice, for example after a move back into INBOX.
 - **Unreadable messages:** a message the parser cannot read is stored as `parse_failed` and skipped
@@ -121,9 +126,10 @@ Each edit is marked `// fork(remote-host):`.
 
 ### 4.2 GitHub notifications
 
-- **Token:** a classic personal access token with only the `notifications` scope. The notifications
-  API does not accept fine-grained tokens (checked in S2; `scope.md` assumed it did). The
-  `notifications` scope reads notifications and grants no repository access.
+- **Token:** a classic personal access token with only the `notifications` scope; the API answers
+  `X-Accepted-Oauth-Scopes: notifications, repo` (S2). GitHub's docs say fine-grained tokens are
+  refused (`scope.md` assumed otherwise). The `notifications` scope reads notifications and grants no
+  repository access.
 - **Polling:** `GET /notifications` with `If-Modified-Since: <last Last-Modified>`. The interval is
   `max(X-Poll-Interval, 60 s)`. A `304` costs nothing against the rate limit.
 - **Kept reasons:** `mention`, `team_mention`, `review_requested`, `assign`, `ci_activity` (GitHub
@@ -398,10 +404,31 @@ in the Simulator opens a `minis://host-event` link and checks the banner and sum
 
 | # | Question | Done when |
 |---|---|---|
-| S1 | Gmail: app-password login, how long `IDLE` lasts, `X-GM-RAW` category search, `BODY.PEEK` leaving mail unread, the `Authentication-Results` header Gmail writes | A Go script against the user's Gmail shows each |
-| S2 | GitHub: `/notifications` with a classic token scoped to `notifications` only; a fine-grained token is refused | Both responses recorded |
+| S1 | Gmail: app-password login, how long `IDLE` lasts, `X-GM-RAW` category search, `BODY.PEEK` leaving mail unread, the `Authentication-Results` header Gmail writes | **Done 2026-10-19** (§13.1) |
+| S2 | GitHub: `/notifications` with a classic token scoped to `notifications` only; a fine-grained token is refused | **Done 2026-10-18** (§13.2); the fine-grained refusal is taken from GitHub's docs, not tested |
 | S3 | Bark: encrypted request format; tapping a notification opens `minis://host-event/…` in Minis | **Done 2026-10-18** (§7.1); the `host-event` route itself is tested once it exists |
 | S4 | A1 exec of `~/.minis/bin/minis-hostd` under the host's login-shell rules, on macOS and Linux | **Done 2026-10-18** (§9.4) |
+
+### 13.1 S1: Gmail (2026-10-19)
+
+Run read-only against the user's Gmail with go-imap v2 v2.0.0-beta.8:
+
+- App-password `LOGIN` on `imap.gmail.com:993` succeeds in about 1.5 s. Capabilities include `IDLE`,
+  `X-GM-EXT-1` and `UIDPLUS`.
+- Fetching a whole unseen message with `BODY.PEEK[]` left it unseen.
+- On every message checked, the topmost `Authentication-Results` header came from `mx.google.com`
+  with a `dmarc=` result; some messages also carry a relay's header below it, which is why only the
+  topmost one counts.
+- `UID SEARCH X-GM-RAW "category:primary"` works over a raw connection (18 of 20 recent messages).
+- New mail reached an idling connection in 1 to 19 s across three samples.
+- End to end, a test mail sent to the account produced an encrypted Bark push on the iPhone about
+  21 s after sending, through the real gate and notifier.
+
+### 13.2 S2: GitHub (2026-10-18)
+
+- `GET /notifications` returns `X-Poll-Interval: 60`, `Last-Modified` and
+  `X-Accepted-Oauth-Scopes: notifications, repo`.
+- Repeating it with `If-Modified-Since` returns `304 Not Modified` without using rate limit.
 
 ## 14. Prior art
 
