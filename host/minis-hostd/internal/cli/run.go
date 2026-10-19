@@ -15,6 +15,7 @@ import (
 	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/notify"
 	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/service"
 	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/source/github"
+	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/source/imap"
 	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/store"
 )
 
@@ -33,8 +34,9 @@ func runDaemon(env Env, args []string) int {
 	if err != nil {
 		return plainFail(env, err.Error())
 	}
-	if len(cfg.Mail) > 0 {
-		return plainFail(env, "watching mail is not built yet; remove the [[mail]] sections to run with GitHub only")
+	mail, err := mailSources(cfg.Mail)
+	if err != nil {
+		return plainFail(env, err.Error())
 	}
 	st, err := store.Open(filepath.Join(env.StateDir, databaseName), false)
 	if err != nil {
@@ -48,6 +50,7 @@ func runDaemon(env Env, args []string) int {
 		Store:         st,
 		Notifier:      notify.NewBark(cfg.Bark, client),
 		Clock:         daemon.SystemClock(),
+		Mail:          mail,
 		NewID:         daemon.ULIDs(time.Now),
 		Logger:        slog.New(slog.NewTextHandler(env.Stderr, nil)),
 		ShutdownGrace: shutdownGrace,
@@ -61,4 +64,16 @@ func runDaemon(env Env, args []string) int {
 		return plainFail(env, fmt.Sprintf("stopped: %v", err))
 	}
 	return ExitOK
+}
+
+func mailSources(accounts []config.MailAccount) ([]daemon.MailSource, error) {
+	sources := make([]daemon.MailSource, 0, len(accounts))
+	for _, account := range accounts {
+		src, err := imap.New(account, imap.DialGmail, imap.ProductionTiming(), imap.SleepContext)
+		if err != nil {
+			return nil, err
+		}
+		sources = append(sources, src)
+	}
+	return sources, nil
 }

@@ -1,0 +1,18 @@
+Delivered-To: me@gmail.com
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@example.com header.s=s1;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=example.com
+Received: from relay.example.net (relay.example.net [198.51.100.9])
+        by mx.google.com with ESMTPS id 5b1f17b1804b1;
+        Mon, 19 Oct 2026 09:14:02 -0700 (PDT)
+Authentication-Results: relay.example.net; spf=pass smtp.mailfrom=example.com
+Authentication-Results: mx.google.com; dmarc=fail header.from=example.com
+From: Alice Example <alice@example.com>
+To: me@gmail.com
+Subject: Relayed
+Date: Mon, 19 Oct 2026 18:14:00 +0200
+Message-ID: <relayed@mail.example.com>
+Auto-Submitted: no
+Content-Type: text/plain; charset="UTF-8"
+
+Sent through a relay.

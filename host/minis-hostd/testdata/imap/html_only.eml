@@ -1,0 +1,11 @@
+From: Alice Example <Alice@Example.com>
+To: me@gmail.com
+Subject: Dinner
+Date: Mon, 19 Oct 2026 18:14:00 +0200
+Message-ID: <html_only@mail.example.com>
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+
+<html><head><title>Ignored title</title><style>p { color: red; }</style></head>
+<body><script>alert("no")</script><p>Dinner&nbsp;at <b>7</b> &amp; drinks after?</p>
+<ul><li>Bring wine</li><li>Bring &lt;cheese&gt;</li></ul><br>See you<!-- hidden --></body></html>
