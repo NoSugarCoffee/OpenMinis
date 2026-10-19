@@ -3,12 +3,18 @@ package gate
 import (
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/candidate"
 	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
 )
 
-func GitHub(n candidate.GitHub, src config.GitHubSource) Decision {
+// GitHub applies the same freshness limit as mail: the first poll returns every unread notification,
+// months old included, and none of that backlog should push.
+func GitHub(n candidate.GitHub, src config.GitHubSource, now time.Time) Decision {
+	if now.Sub(n.UpdatedAt) > FreshnessLimit {
+		return Decision{Action: ActionStoreOnly, Reason: ReasonTooOld}
+	}
 	if !slices.Contains(src.Reasons, n.Reason) {
 		return Decision{Action: ActionStoreOnly, Reason: ReasonReasonNotKept}
 	}

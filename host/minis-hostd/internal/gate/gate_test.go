@@ -305,7 +305,7 @@ func TestAnyMatchingRuleWithoutDMARCAdmits(t *testing.T) {
 
 func TestGitHub(t *testing.T) {
 	notification := func(repo, reason string) candidate.GitHub {
-		return candidate.GitHub{Repo: repo, Reason: reason}
+		return candidate.GitHub{Repo: repo, Reason: reason, UpdatedAt: testNow.Add(-time.Hour)}
 	}
 	reasons := []string{"mention", "review_requested"}
 	allRepos := config.GitHubSource{Reasons: reasons}
@@ -326,10 +326,11 @@ func TestGitHub(t *testing.T) {
 		{"repo not kept", notification("acme/web", "mention"), filtered, ActionStoreOnly, ReasonRepoNotKept},
 		{"owner prefix is not the owner", notification("toolsmith/lint", "mention"), filtered, ActionStoreOnly, ReasonRepoNotKept},
 		{"wildcard needs a slash", notification("tools", "mention"), filtered, ActionStoreOnly, ReasonRepoNotKept},
+		{"stale backlog", candidate.GitHub{Repo: "acme/api", Reason: "mention", UpdatedAt: testNow.Add(-49 * time.Hour)}, allRepos, ActionStoreOnly, ReasonTooOld},
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			assertDecision(t, GitHub(c.n, c.src), c.action, c.reason)
+			assertDecision(t, GitHub(c.n, c.src, testNow), c.action, c.reason)
 		})
 	}
 }

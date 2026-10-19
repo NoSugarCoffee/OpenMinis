@@ -166,8 +166,10 @@ or did not push.
 
 ### 5.2 GitHub
 
-Push if the reason is in the kept list and the repo matches the repo filter (`owner/*` or
-`owner/name`; empty means all). Otherwise store only.
+Push if the notification was updated within the last 48 hours, its reason is in the kept list and
+the repo matches the repo filter (`owner/*` or `owner/name`; empty means all). Otherwise store only.
+The age check matters on the first poll, which returns every unread notification, months-old ones
+included; on 2026-10-19 the first run on the Mac mini recorded 78 such notifications.
 
 ### 5.3 Pacing
 
