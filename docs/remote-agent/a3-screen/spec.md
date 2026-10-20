@@ -78,7 +78,7 @@ mini. The ways to avoid typing one:
 | B. Screen Sharing, random VNC password set by Minis | Once, over SSH: `sudo kickstart -configure -clientopts -setvnclegacy -vnclegacy yes -setvncpw -vncpw <random>`, which asks for the sudo password one time | `kickstart` on macOS 27 unverified; the random password still lives in the Keychain |
 | C. Own VNC server on loopback, started over SSH per open with a one-time password | Nothing after a one-time Screen Recording and Accessibility grant | A server to ship and maintain: macVNC (GPL-2.0) has had no commit since 2024-12 and builds from source; writing one means a Swift helper beside `minis-hostd`. On Linux `x11vnc -localhost` / `wayvnc` already work this way. |
 
-Proposal: A for A3, since the prompt appears once per host. C is the zero-password path if the
+Chosen: A (D20), since the prompt appears once per host. C is the zero-password path if the
 one prompt is still unwanted, and it is the one Linux hosts get anyway.
 
 ## 4. App
@@ -173,6 +173,7 @@ with `handOffTaskSpace`, include the link, wait for the user.
 
 | Case | Message |
 |---|---|
+| The host's sshd has `AllowTcpForwarding no` (Alpine's default) | "Host `<host>` does not allow SSH tunnels. Set `AllowTcpForwarding yes` in /etc/ssh/sshd_config on the host and restart sshd." |
 | Nothing listens on the VNC port | "Screen Sharing is off on <host>. Turn it on in System Settings → General → Sharing." (Linux: "No VNC server on <host>:<port>.") |
 | Authentication fails | "<host> refused the password." with retry; a saved password is cleared |
 | SSH drops | The viewer shows "Reconnecting…" and retries with A1's pool |
@@ -203,7 +204,7 @@ with `handOffTaskSpace`, include the link, wait for the user.
 
 | # | Question | Proposal |
 |---|---|---|
-| Q1 | How does Minis log in to the VNC server without a password, since SSH already proves who the user is? | See §3.3: Screen Sharing cannot trust SSH. |
+| ~~Q1~~ | How does Minis log in to the VNC server without a password, since SSH already proves who the user is? | **Option A** (2026-10-20, D20): the password once, then the Keychain. |
 | ~~Q2~~ | Does the agent get the host's screen too? | **Yes** (2026-10-20, D19): §4.4. |
 | ~~Q3~~ | Should a handoff also push (Bark) when the app is closed? | **Yes, later** through `minis-hostd`; not part of A3 (2026-10-20). |
 
