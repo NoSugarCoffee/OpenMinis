@@ -16,7 +16,7 @@ Fork only, iOS only. All decisions are in [`decisions.md`](decisions.md).
 |---|---|---|---|
 | **A1** | Sessions bound to a host; shell and file tools run there; long commands survive app suspension | **Merged; device acceptance pending** | [spec](a1-remote-exec/spec.md) · [plan](a1-remote-exec/plan.md) · [acceptance](a1-remote-exec/acceptance.md) |
 | A2 | Browser with the user's login state; screenshots and screen control by the agent | **Step 1 merged** (ego-browser through A1); host check and device acceptance pending | [spec](a2-browser/spec.md) |
-| A3 | In-app screen viewer with take-over | Not designed | — |
+| A3 | In-app screen viewer with take-over | **Spec drafted**; open questions and spikes before the plan | [spec](a3-screen/spec.md) |
 | B | **Proactive push**: `minis-hostd` watches email and GitHub → rule gate → notification → Minis explains the event in a read-only session | **Running on the Mac mini; iPhone acceptance pending** | [scope](b-push/scope.md) · [spec](b-push/spec.md) · [plan](b-push/plan.md) · [acceptance](b-push/acceptance.md) |
 | Later | Built-in push once the app is distributed (B spec §15) · heartbeat with the proactivity dial (v2) · trust core (v3) · webhooks, Gmail API, Android (v4) | — | — |
 
@@ -26,7 +26,7 @@ Fork only, iOS only. All decisions are in [`decisions.md`](decisions.md).
 Host (any SSH-reachable Unix machine)
  ├─ sshd               A1  commands and files
  ├─ ego lite           A2  browser with the user's logins, driven by `ego-browser`
- ├─ desktop + VNC      A3  screen the agent operates and the user can take over
+ ├─ Screen Sharing/VNC A3  screen the user watches and takes over, tunnelled over SSH
  └─ minis-hostd        B   IMAP / GitHub → rule gate → push (body stays on the host)
           │ push: one-line summary + minis://host-event/<id>
 Minis on iPhone ◄─┘   the agent loop and model keys live here; fetches over SSH
@@ -39,6 +39,7 @@ Minis on iPhone ◄─┘   the agent loop and model keys live here; fetches ove
   [`a1-remote-exec/plan.md`](a1-remote-exec/plan.md).
 - **To implement B:** [`b-push/spec.md`](b-push/spec.md), then [`b-push/plan.md`](b-push/plan.md).
 - **To implement A2:** [`a2-browser/spec.md`](a2-browser/spec.md).
+- **To implement A3:** [`a3-screen/spec.md`](a3-screen/spec.md).
 
 How Hermes and OpenClaw handle the same layer is summarised in
 [`b-push/spec.md` §14](b-push/spec.md#14-prior-art).
