@@ -196,6 +196,7 @@ private struct RemoteHostDetailView: View {
     @State private var confirmRemove = false
     @State private var actionFailure: String?
     @State private var copiedNotice: String?
+    @State private var showScreen = false
 
     private var host: RemoteHostConfig? {
         store.hosts.first { $0.name == hostName }
@@ -216,6 +217,11 @@ private struct RemoteHostDetailView: View {
                     Text(RemoteHostL10n.string("Push notifications for mail and GitHub, sent by minis-hostd running on the host."))
                 }
                 Section {
+                    Button(RemoteHostL10n.string("Screen")) { showScreen = true }
+                } footer: {
+                    Text(RemoteHostL10n.string("See and control the host's screen over this SSH connection. On a Mac, turn on Screen Sharing; on Linux, run a VNC server on 127.0.0.1:5900."))
+                }
+                Section {
                     Button(RemoteHostL10n.string("Remove Host"), role: .destructive) { confirmRemove = true }
                 }
             } else {
@@ -225,6 +231,9 @@ private struct RemoteHostDetailView: View {
         }
         .navigationTitle(hostName)
         .navigationBarTitleDisplayMode(.inline)
+        .fullScreenCover(isPresented: $showScreen) {
+            HostScreenView(session: HostScreenSessions.shared.session(host: hostName), onDone: { showScreen = false })
+        }
         .task(id: host?.keyRef) { loadPublicKey() }
         .onChange(of: host.map { "\($0.address):\($0.port)" }) { _ in
             // Results and a pending host key belong to the endpoint they came from.

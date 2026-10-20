@@ -974,6 +974,7 @@ extension AIChatViewModel {
             }
 
         default:
+            if let screen = await hostScreenToolResult(toolName: tu.name, toolArgs: toolArgs, msgIdx: msgIdx, blockIdx: blockIdx) { toolOutput = screen.output; toolSuccess = screen.success; break } // fork(remote-host): A3 screen tools
             toolOutput = "Error: Unknown tool '\(tu.name)'"
             toolSuccess = false
         }

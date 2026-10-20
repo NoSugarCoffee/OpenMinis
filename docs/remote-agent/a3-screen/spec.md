@@ -61,8 +61,8 @@ MinisRemote already depends on.
 | macOS | Screen Sharing (System Settings → General → Sharing) | 5900 | Offers RFB 3.889 with security types 30, 33, 35, 36 and 2 on the Mac mini (macOS 27.0.1, checked 2026-10-20). It listens on all interfaces, not only loopback (§9). |
 | Linux | `wayvnc` or `x11vnc -localhost` | 5900 by default | Needs a desktop session; headless hosts can use a virtual display. |
 
-The port is a per-host setting (`RemoteHostConfig.screenPort`, default 5900) so a Linux host can
-use another one.
+The app uses port 5900 for now (`HostScreenSession.vncPort`); a per-host port for Linux hosts that
+use another one is a later setting.
 
 ### 3.3 Authentication (Q1)
 
@@ -88,15 +88,15 @@ one prompt is still unwanted, and it is the one Linux hosts get anyway.
 1. **Settings → Remote Hosts → host → Screen.**
 2. **The bound session's host row** (`SessionRemoteHostView`): a "Screen" button.
 3. **A handoff from the agent** (§5): the agent's message carries a `minis://host-screen/<host>`
-   link; tapping it opens the viewer in control mode.
+   link; tapping it opens the viewer in control mode. *Not built yet.*
 
 ### 4.2 Viewer
 
 - Full screen, landscape allowed, pinch to zoom, noVNC's `scaleViewport` on by default.
 - **View / Control** toggle. View sets noVNC's `viewOnly`. Control shows a coloured banner
   "You are controlling <host>" while it lasts.
-- Keyboard button for the iOS keyboard; a small bar for Esc, Tab, Ctrl, Option, Command and
-  arrow keys.
+- In Control, a bar to type text on the host (sent through the same input path as the agent's
+  `type` action) and keys for Return, Tab and Esc. Ctrl, Option, Command and arrows come later.
 - Quality: noVNC's `qualityLevel` and `compressionLevel` default to values for cellular
   (spike S3) and can be raised on Wi-Fi.
 - **Done** closes the viewer. If the agent handed off (§5), Done also tells the agent to continue.
@@ -116,7 +116,7 @@ Two tools, offered only in sessions bound to a host whose screen is set up:
 
 | Tool | Arguments | Result |
 |---|---|---|
-| `host_screen_capture` | none | A JPEG of the whole screen, scaled to at most 1568 px on the long side, with the scale factor, so the model gets an image it can read and coordinates it can map back |
+| `host_screen_capture` | none | A JPEG of the whole screen, scaled to at most 1568 px on the long side, saved under `/var/minis/offloads` on the phone; the result names the file, its size and scale, and the agent opens it with `read_image`, so the upstream image path is reused unchanged |
 | `host_screen_input` | `actions`: a list of `click {x, y, button, count}`, `move {x, y}`, `drag {from, to}`, `scroll {x, y, dy}`, `type {text}`, `key {combo}` like `cmd+shift+4` | What ran; a fresh capture when `capture_after` is true |
 
 - Coordinates are in the capture's pixels; the app maps them to the framebuffer.

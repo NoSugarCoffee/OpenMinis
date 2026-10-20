@@ -6,8 +6,9 @@ enum RemoteAgentToolSchema {
     @MainActor
     static func augment(_ tools: [AgentToolDefinition], sessionId: String?) -> [AgentToolDefinition] {
         let wiring = RemoteAppWiring.shared
-        return augment(
-            tools, hostsConfigured: wiring.hasConfiguredHosts, boundHost: wiring.boundHost(sessionId: sessionId))
+        let boundHost = wiring.boundHost(sessionId: sessionId)
+        return augment(tools, hostsConfigured: wiring.hasConfiguredHosts, boundHost: boundHost)
+            + HostScreenTools.definitions(boundHost: boundHost)
     }
 
     static func augment(

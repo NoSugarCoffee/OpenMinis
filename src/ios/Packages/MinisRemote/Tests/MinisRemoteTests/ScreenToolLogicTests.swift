@@ -76,6 +76,9 @@ final class ScreenToolDecodeTests: XCTestCase {
             decodeError(["actions": [["action": "scroll", "x": 1, "y": 1, "dy": 0]]]),
             .invalidField(index: 0, field: "dy", reason: "must not be 0"))
         XCTAssertEqual(
+            decodeError(["actions": [["action": "scroll", "x": 1, "y": 1, "dy": 51]]]),
+            .invalidField(index: 0, field: "dy", reason: "must be between -50 and 50 wheel notches"))
+        XCTAssertEqual(
             decodeError(["actions": [["action": "drag", "from": ["x": 1, "y": 2]]]]),
             .missingField(index: 0, action: "drag", field: "to"))
         XCTAssertEqual(

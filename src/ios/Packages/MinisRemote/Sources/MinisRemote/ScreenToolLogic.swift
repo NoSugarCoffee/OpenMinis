@@ -150,6 +150,7 @@ public enum ScreenToolLogic {
     public static let maxActions = 20
     public static let maxTypedCharacters = 2000
     public static let maxClickCount = 3
+    public static let maxScrollNotches = 50
 
     static let actionNames = ["click", "move", "drag", "scroll", "type", "key"]
 
@@ -161,7 +162,7 @@ public enum ScreenToolLogic {
 
     public static let actionsParameter = RemoteToolParameter(
         name: "actions", kind: .string,
-        description: "A JSON array of up to 20 actions, run in order. Each is an object with `action` and its fields: {\"action\": \"click\", \"x\": int, \"y\": int, \"button\": \"left\"|\"right\"|\"middle\" (default left), \"count\": 1-3 (default 1)}, {\"action\": \"move\", \"x\": int, \"y\": int}, {\"action\": \"drag\", \"from\": {\"x\": int, \"y\": int}, \"to\": {\"x\": int, \"y\": int}}, {\"action\": \"scroll\", \"x\": int, \"y\": int, \"dy\": int (positive scrolls down)}, {\"action\": \"type\", \"text\": str}, {\"action\": \"key\", \"combo\": str like \"cmd+shift+4\", \"return\" or \"ctrl+c\"}. Pass it as a JSON array (a JSON-encoded string of the array is also accepted).")
+        description: "A JSON array of up to 20 actions, run in order. Each is an object with `action` and its fields: {\"action\": \"click\", \"x\": int, \"y\": int, \"button\": \"left\"|\"right\"|\"middle\" (default left), \"count\": 1-3 (default 1)}, {\"action\": \"move\", \"x\": int, \"y\": int}, {\"action\": \"drag\", \"from\": {\"x\": int, \"y\": int}, \"to\": {\"x\": int, \"y\": int}}, {\"action\": \"scroll\", \"x\": int, \"y\": int, \"dy\": wheel notches, -50 to 50, positive scrolls down}, {\"action\": \"type\", \"text\": str}, {\"action\": \"key\", \"combo\": str like \"cmd+shift+4\", \"return\" or \"ctrl+c\"}. Pass it as a JSON array (a JSON-encoded string of the array is also accepted).")
 
     public static let captureAfterParameter = RemoteToolParameter(
         name: "capture_after", kind: .boolean,
@@ -254,6 +255,10 @@ public enum ScreenToolLogic {
             guard dy != 0 else {
                 throw ScreenToolArgumentError.invalidField(index: index, field: "dy", reason: "must not be 0")
             }
+            guard abs(dy) <= maxScrollNotches else {
+                throw ScreenToolArgumentError.invalidField(
+                    index: index, field: "dy", reason: "must be between -\(maxScrollNotches) and \(maxScrollNotches) wheel notches")
+            }
             return .scroll(at: try point(object, index: index, action: name), dy: dy)
         case "type":
             guard let text = object["text"] as? String else {
@@ -328,7 +333,7 @@ public enum ScreenToolLogic {
         public static let shift: UInt32 = 0xffe1
         public static let control: UInt32 = 0xffe3
         public static let option: UInt32 = 0xffe9
-        /// noVNC sends the Mac Command key as Super_L, and macOS Screen Sharing reads Super_L as Command.
+        /// noVNC sends the Mac Command key as Super_L; that Screen Sharing reads it as Command is spike S4.
         public static let command: UInt32 = 0xffeb
 
         public static let backspace: UInt32 = 0xff08
