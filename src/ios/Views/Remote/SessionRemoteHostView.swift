@@ -59,6 +59,7 @@ private struct SessionHostList: View {
 
     @State private var resolvedSessionId: String?
     @State private var failure: String?
+    @State private var screenHost: String?
 
     init(
         services: RemoteServices, store: RemoteHostStore, sessionId: String?,
@@ -107,12 +108,26 @@ private struct SessionHostList: View {
                     Text(RemoteHostL10n.string("When a host is picked, shell and file tools in this chat run on that host in the chosen directory. Device commands such as apple-calendar keep running on this iPhone."))
                 }
             }
+            if let hostName = binding?.hostName {
+                Section {
+                    Button(RemoteHostL10n.string("Show Screen of \(hostName)")) { screenHost = hostName }
+                }
+            }
             if let failure {
                 Section {
                     Text(failure).foregroundStyle(.red).textSelection(.enabled)
                 }
             }
         }
+        .fullScreenCover(item: Binding(
+            get: { screenHost.map(ScreenHostItem.init) }, set: { screenHost = $0?.id })
+        ) { item in
+            HostScreenView(session: HostScreenSessions.shared.session(host: item.id), onDone: { screenHost = nil })
+        }
+    }
+
+    private struct ScreenHostItem: Identifiable {
+        let id: String
     }
 
     private func selectableRow(title: String, subtitle: String?, selected: Bool) -> some View {
