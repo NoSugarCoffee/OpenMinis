@@ -8,6 +8,9 @@ Let the user see the host's screen from Minis and take control when the agent ne
 finishing ego lite onboarding, signing in, a captcha, 2FA, or a confirmation the agent should
 not click itself. Today each of these sends the user to the host's own screen (A2 spec §5).
 
+Let the agent see and operate the same screen for work outside the browser: native apps,
+system dialogs, anything ego lite cannot reach (D19).
+
 D10: an in-app viewer with take-over, tunnelled over SSH; the agent pauses its screen actions
 while the user has control.
 
@@ -19,8 +22,10 @@ while the user has control.
   on Linux (D2).
 - **Viewing and controlling are separate.** The viewer opens view-only; control is one explicit
   tap and stays visible while it is on.
-- **The agent never drives the viewer.** A3 is for the user. The agent's screen actions stay in
-  A2 (`ego-browser`); A3 only lets the user step in.
+- **One screen connection, two users.** The agent's screen tools (§4.4) and the user's viewer
+  share the app's VNC connection, so the app itself knows who has control and pauses the agent
+  while the user does (D10). Web pages still go through `ego-browser` (A2); the screen tools are
+  for the rest.
 
 ## 3. Architecture
 
@@ -61,10 +66,20 @@ use another one.
 
 ### 3.3 Authentication (Q1)
 
-Screen Sharing asks for either the Mac account's user name and password (type 30, Apple
-Diffie-Hellman) or a separate VNC password (type 2), if the user has turned that on. noVNC
-handles both. Minis asks the first time, offers to save it in the Keychain under the host
-(like the SSH key), and never sends it anywhere but through the tunnel.
+The user already proved who they are to the host with the SSH key, so ideally the viewer asks
+for nothing. macOS Screen Sharing cannot see that: it always runs its own login, either the Mac
+account's user name and password (type 30, Apple Diffie-Hellman) or a separate VNC password
+(type 2) when "VNC viewers may control screen with password" is on. Both are offered on the Mac
+mini. The ways to avoid typing one:
+
+| Option | What the user does | Cost |
+|---|---|---|
+| **A. Screen Sharing, password once** | Types the Mac password (or VNC password) the first time; Minis saves it in the Keychain under the host and never asks again | None; works today |
+| B. Screen Sharing, random VNC password set by Minis | Once, over SSH: `sudo kickstart -configure -clientopts -setvnclegacy -vnclegacy yes -setvncpw -vncpw <random>`, which asks for the sudo password one time | `kickstart` on macOS 27 unverified; the random password still lives in the Keychain |
+| C. Own VNC server on loopback, started over SSH per open with a one-time password | Nothing after a one-time Screen Recording and Accessibility grant | A server to ship and maintain: macVNC (GPL-2.0) has had no commit since 2024-12 and builds from source; writing one means a Swift helper beside `minis-hostd`. On Linux `x11vnc -localhost` / `wayvnc` already work this way. |
+
+Proposal: A for A3, since the prompt appears once per host. C is the zero-password path if the
+one prompt is still unwanted, and it is the one Linux hosts get anyway.
 
 ## 4. App
 
@@ -88,23 +103,49 @@ handles both. Minis asks the first time, offers to save it in the Keychain under
 
 ### 4.3 Lifecycle
 
-- The bridge and tunnel live only while the viewer is on screen. Backgrounding the app closes
-  them; returning reconnects.
-- One viewer per host at a time.
+- One `HostScreenSession` per host: the bridge, the tunnel and a noVNC instance in a WKWebView.
+  It opens when the viewer or an agent screen tool first needs it and closes after the viewer is
+  gone and no screen tool has run for 2 minutes.
+- When the viewer is not on screen, the WKWebView stays in the window hierarchy at 1×1 so its
+  JavaScript keeps running (spike S4).
+- Backgrounding the app closes it; the next use reconnects.
+
+### 4.4 Agent screen tools (D19)
+
+Two tools, offered only in sessions bound to a host whose screen is set up:
+
+| Tool | Arguments | Result |
+|---|---|---|
+| `host_screen_capture` | none | A JPEG of the whole screen, scaled to at most 1568 px on the long side, with the scale factor, so the model gets an image it can read and coordinates it can map back |
+| `host_screen_input` | `actions`: a list of `click {x, y, button, count}`, `move {x, y}`, `drag {from, to}`, `scroll {x, y, dy}`, `type {text}`, `key {combo}` like `cmd+shift+4` | What ran; a fresh capture when `capture_after` is true |
+
+- Coordinates are in the capture's pixels; the app maps them to the framebuffer.
+- Capture is noVNC's canvas read with `toDataURL('image/jpeg')`. Input is sent through noVNC:
+  keys with its `sendKey`, pointer actions as synthetic pointer events on its canvas (S4).
+- While the user holds Control (§4.2), both tools return at once: "The user is controlling
+  <host>'s screen. Wait until they tap Done." The agent's queued actions are dropped, not
+  delayed.
+- Every `host_screen_input` goes through the session's tool permission like `shell_execute`
+  (A1); "Allow for this chat" covers it for the rest of the session.
+- The read-only event sessions of B never get these tools (`SessionToolPolicy`).
 
 ## 5. Take-over with the agent
 
-The agent's screen actions are `ego-browser` scripts (A2). ego lite already has a lock: while the
-user controls a task space, every agent action fails with "user is controlling", and the agent
-must stop and ask (the ego-browser guide). A3 reuses it rather than adding a second lock.
+The agent acts on the host in two ways, and each has one lock:
 
-1. The agent hits something only the user can do. It calls `handOffTaskSpace(id)`, then replies
-   with what to do and the `minis://host-screen/<host>` link.
+- **Screen tools (§4.4):** the app's Control toggle. Control on pauses them.
+- **`ego-browser` (A2):** ego lite's own lock. While the user controls a task space, every agent
+  action fails with "user is controlling", and the agent must stop and ask. Taking Control in the
+  viewer does not reach ego lite, so a handoff that involves ego lite also uses its handoff.
+
+1. The agent hits something only the user can do. In ego lite it first calls
+   `handOffTaskSpace(id)`; either way it replies with what to do and the
+   `minis://host-screen/<host>` link.
 2. The user taps it, the viewer opens in Control on the host's screen, and the user finishes
    the step in the ego lite window.
 3. The user taps **Done**. Minis sends a programmatic prompt into the session: "The user finished
-   on the host's screen; continue." The agent starts its next script with
-   `takeOverTaskSpace(id)`.
+   on the host's screen; continue." Control turns off, and in ego lite the agent starts its next
+   script with `takeOverTaskSpace(id)`.
 
 The user can also take control without being asked: clicking in an ego lite task-space window
 hands it to the user, and the agent's next action fails with "user is controlling".
@@ -117,6 +158,9 @@ with `handOffTaskSpace`, include the link, wait for the user.
 | File | Change |
 |---|---|
 | `MinisRemote/ScreenBridge.swift` (new) | Loopback WebSocket ↔ `direct-tcpip` pipe |
+| `MinisRemote/ScreenToolLogic.swift` (new) | Tool schemas, action parsing, coordinate mapping, the "user is controlling" reply |
+| `Agent/Remote/HostScreenSession.swift` (new) | One noVNC session per host; capture and input for the tools; Control state |
+| `Agent/Remote/RemoteAgentToolSchema.swift`, `RemoteToolBridge.swift` | Offer and dispatch the two tools in bound sessions |
 | `MinisRemote/RemoteHostConfig.swift` | `screenPort` with default 5900; decoding older configs keeps working |
 | `MinisRemote/RemoteToolCall.swift` | Handoff rule in `hostBrowserSentence` |
 | `Views/Remote/HostScreenView.swift` (new) | WKWebView, toolbar, View/Control, Done |
@@ -141,6 +185,9 @@ with `handOffTaskSpace`, include the link, wait for the user.
   side closes the other.
 - `RemoteHostConfig` decodes configs without `screenPort`.
 - Deep link parsing tests like `HostEventLinks`.
+- `ScreenToolLogic` tests: every action shape parses or is refused with a clear error, capture
+  coordinates map to framebuffer coordinates at several scales, Control on returns the pause
+  reply without sending input.
 - Manual on the iPhone: §12.
 
 ## 9. Limitations
@@ -156,9 +203,9 @@ with `handOffTaskSpace`, include the link, wait for the user.
 
 | # | Question | Proposal |
 |---|---|---|
-| Q1 | How does Minis log in to Screen Sharing? | Mac account (type 30), asked the first time, saved in the Keychain only if the user agrees. |
-| Q2 | Does A3 also show the host's screen to the agent (desktop control beyond the browser)? | No. The agent's screen work stays in ego lite; desktop control is later, with the trust core. |
-| Q3 | Should a handoff also push (Bark) when the app is closed? | Yes, through `minis-hostd` later; not in A3. |
+| Q1 | How does Minis log in to the VNC server without a password, since SSH already proves who the user is? | See §3.3: Screen Sharing cannot trust SSH. |
+| ~~Q2~~ | Does the agent get the host's screen too? | **Yes** (2026-10-20, D19): §4.4. |
+| ~~Q3~~ | Should a handoff also push (Bark) when the app is closed? | **Yes, later** through `minis-hostd`; not part of A3 (2026-10-20). |
 
 ## 11. Spikes before the plan
 
@@ -167,6 +214,7 @@ with `handOffTaskSpace`, include the link, wait for the user.
 | S1 | noVNC in a WKWebView on the iPhone through the bridge to the Mac mini | The Mac's screen shows and a tap clicks |
 | S2 | Type 30 login on macOS 27 with noVNC 1.7.0; headless resolution on the Mac mini | Login works; the screen is readable |
 | S3 | Frame rate and data use on cellular with Tight at a low quality | Usable at a few frames a second; data use recorded |
+| S4 | A 1×1 WKWebView keeps noVNC running; canvas capture and synthetic pointer events reach the Mac | Capture matches the screen; a synthetic click opens a Finder window |
 
 ## 12. Acceptance
 
@@ -177,3 +225,4 @@ with `handOffTaskSpace`, include the link, wait for the user.
 | 3 | An agent handoff in ego lite → link → finish the step → Done → the agent continues |
 | 4 | Nothing on the host listens anywhere new; the only traffic is the SSH connection |
 | 5 | A wrong password and Screen Sharing off show the messages in §7 |
+| 6 | The agent opens TextEdit with the screen tools and types a line; taking Control mid-task pauses it with the §4.4 reply |
