@@ -145,12 +145,13 @@ final class RemoteToolOutputTests: XCTestCase {
             "\n\nYou are working on host `linux` (Linux) in `/home/dev/code/demo`. "
                 + "shell_execute and the file tools (file_read, file_write, file_edit) run on host `linux` by default; leave `target` unset for host work. Set `target: \"local\"` only to touch this phone's own /var/minis files. "
                 + "Device commands (apple-*, minis-*, ffmpeg) always run on this phone, whatever `target` says; call them on their own, not combined with host commands. "
-                + "To move files between this phone and the host, run `minis-remote cp <src> <dst>` (write the host side as `<host>:<path>`, the phone side under /var/minis); the phone has no scp or rsync and none is needed.")
+                + "To move files between this phone and the host, run `minis-remote cp <src> <dst>` (write the host side as `<host>:<path>`, the phone side under /var/minis); the phone has no scp or rsync and none is needed. "
+                + "For web pages that need the user's logins, check `command -v ego-browser` on the host; if it is there, run `ego-browser skill` once for its guide, then drive the host's browser with `ego-browser nodejs <<'EOF' … EOF` through shell_execute. To look at a screenshot, save it to a host file, copy it here with `minis-remote cp`, then open it with read_image.")
         XCTAssertEqual(
             RemoteToolOutput.systemPromptFragment(binding: binding, os: nil),
             "\n\nYou are working on host `linux` (OS not yet known) in `/home/dev/code/demo`. "
                 + RemoteToolOutput.hostRoutingSentence(hostName: "linux") + " " + RemoteToolOutput.deviceCommandsSentence
-                + " " + RemoteToolOutput.fileTransferSentence)
+                + " " + RemoteToolOutput.fileTransferSentence + " " + RemoteToolOutput.hostBrowserSentence)
     }
 
     func testBoundShellNoteOverridesTheISHWording() {

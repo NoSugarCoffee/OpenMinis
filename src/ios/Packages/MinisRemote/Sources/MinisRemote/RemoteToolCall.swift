@@ -272,6 +272,11 @@ public enum RemoteToolOutput {
     public static let fileTransferSentence =
         "To move files between this phone and the host, run `minis-remote cp <src> <dst>` (write the host side as `<host>:<path>`, the phone side under /var/minis); the phone has no scp or rsync and none is needed."
 
+    /// A2 step 1 (A2 spec §3): the host's browser is driven through shell_execute, so the agent learns about it
+    /// here instead of through a new tool. The check stays with the agent because hosts without ego-browser are fine.
+    public static let hostBrowserSentence =
+        "For web pages that need the user's logins, check `command -v ego-browser` on the host; if it is there, run `ego-browser skill` once for its guide, then drive the host's browser with `ego-browser nodejs <<'EOF' … EOF` through shell_execute. To look at a screenshot, save it to a host file, copy it here with `minis-remote cp`, then open it with read_image."
+
     public static func systemPromptLine(binding: SessionHostBindingValue, os: String) -> String {
         "You are working on host `\(binding.hostName)` (\(os)) in `\(binding.workdir)`."
     }
@@ -285,7 +290,7 @@ public enum RemoteToolOutput {
     public static func systemPromptFragment(binding: SessionHostBindingValue, os: String?) -> String {
         "\n\n" + systemPromptLine(binding: binding, os: os ?? unknownOS) + " "
             + hostRoutingSentence(hostName: binding.hostName) + " " + deviceCommandsSentence
-            + " " + fileTransferSentence
+            + " " + fileTransferSentence + " " + hostBrowserSentence
     }
 
     /// The local file_write wording, so a host write reads the same as a phone write.
