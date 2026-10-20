@@ -45,8 +45,11 @@ derived="$work/DerivedData"
 echo "Copying src/ios to $work" >&2
 mkdir -p "$work/src"
 rsync -a --delete --exclude '.build/' --exclude 'DerivedData/' --exclude 'xcuserdata/' "$repo/src/ios/" "$work/src/ios/"
-# The project finds native deps at $(SRCROOT)/../../deps.
+# The project reaches outside src/ios for native deps (../../deps), build-phase scripts (../../scripts)
+# and shared resources (../shared).
 ln -sfn "$repo/deps" "$work/deps"
+ln -sfn "$repo/scripts" "$work/scripts"
+ln -sfn "$repo/src/shared" "$work/src/shared"
 
 echo "Rewriting identifiers to $prefix" >&2
 # Order matters: the longer group. and iCloud. ids first, then the plain bundle id prefix.
