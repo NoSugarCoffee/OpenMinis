@@ -20,7 +20,7 @@ restating them. A changed decision is edited in place, with the date and what it
 | # | Decision | Since |
 |---|---|---|
 | D8 | **A1 comes first, then B (proactive push), then A2 → A3.** Each ships with its own spec and plan. A1 already covers coding and long tasks, B needs only A1, and proactive push is the other half of the goal. *Replaced: "all of A (A1 → A2 → A3) before B".* | 2026-10-18 |
-| D9 | **A2 uses the user's everyday Chrome profile** on the host, through Chrome's user-consented remote debugging. The risk is accepted until the trust core adds per-action gating. | 2026-10-16 |
+| D9 | **A2 step 1 drives ego lite on the host through `ego-browser`**, called with A1's `shell_execute`; the agent learns about it from one system-prompt sentence (A2 spec §3). ego lite keeps its own profile on the host, which can import the user's Chrome logins once. The risk of an agent acting with the user's logins is accepted until the trust core adds per-action gating. *Replaced: "the user's everyday Chrome profile through Chrome's remote debugging".* | 2026-10-20 |
 | D10 | **A3 is an in-app screen viewer with take-over**, tunnelled over SSH. The agent pauses its screen actions while the user has control. | 2026-10-16 |
 
 The user's priorities for the remote computer: coding > long tasks > using the host's network and
