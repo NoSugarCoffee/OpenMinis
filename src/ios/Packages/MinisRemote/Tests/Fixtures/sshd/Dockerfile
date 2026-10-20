@@ -8,4 +8,5 @@ RUN apk add --no-cache openssh bash \
 COPY authorized_keys /home/dev/.ssh/authorized_keys
 RUN chown -R dev:dev /home/dev/.ssh && chmod 600 /home/dev/.ssh/authorized_keys
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D", "-e"]
+# Alpine turns TCP forwarding off; the A3 screen tunnel tests need it.
+CMD ["/usr/sbin/sshd", "-D", "-e", "-o", "AllowTcpForwarding=yes"]

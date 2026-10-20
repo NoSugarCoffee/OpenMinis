@@ -23,6 +23,7 @@ restating them. A changed decision is edited in place, with the date and what it
 | D9 | **A2 step 1 drives ego lite on the host through `ego-browser`**, called with A1's `shell_execute`; the agent learns about it from one system-prompt sentence (A2 spec §3). ego lite keeps its own profile on the host, which can import the user's Chrome logins once. The risk of an agent acting with the user's logins is accepted until the trust core adds per-action gating. *Replaced: "the user's everyday Chrome profile through Chrome's remote debugging".* | 2026-10-20 |
 | D10 | **A3 is an in-app screen viewer with take-over**, tunnelled over SSH. The agent pauses its screen actions while the user has control. | 2026-10-16 |
 | D19 | **The agent gets the host's screen in A3**: capture and input tools over the same in-app VNC connection as the viewer, so the app pauses them while the user has control. Web pages still go through `ego-browser` (A2). *Was A3 Q2.* | 2026-10-20 |
+| D20 | **The viewer logs in to Screen Sharing with a password asked once and kept in the Keychain** under the host. Screen Sharing cannot trust the SSH key; a loopback VNC server started over SSH with a one-time password is the later zero-prompt path. *Was A3 Q1.* | 2026-10-20 |
 
 The user's priorities for the remote computer: coding > long tasks > using the host's network and
 environment > administering the host.

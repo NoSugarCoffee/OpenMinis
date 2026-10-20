@@ -27,6 +27,8 @@ let package = Package(
                 .product(name: "NIOCore", package: "swift-nio"),
                 .product(name: "NIOPosix", package: "swift-nio"),
                 .product(name: "NIOConcurrencyHelpers", package: "swift-nio"),
+                .product(name: "NIOHTTP1", package: "swift-nio"),
+                .product(name: "NIOWebSocket", package: "swift-nio"),
                 .product(name: "Crypto", package: "swift-crypto"),
             ]
         ),
@@ -37,6 +39,7 @@ let package = Package(
                 .product(name: "Citadel", package: "Citadel"),
                 .product(name: "NIOCore", package: "swift-nio"),
                 .product(name: "NIOPosix", package: "swift-nio"),
+                .product(name: "NIOHTTP1", package: "swift-nio"),
                 .product(name: "Crypto", package: "swift-crypto"),
             ],
             resources: [.copy("Golden")]

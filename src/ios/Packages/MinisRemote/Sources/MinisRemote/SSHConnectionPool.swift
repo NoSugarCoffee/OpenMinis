@@ -354,6 +354,24 @@ public actor SSHConnectionPool {
         }
     }
 
+    /// A3: a `direct-tcpip` channel to `127.0.0.1:<port>` on the host, so the host's VNC server is reached
+    /// without listening anywhere new.
+    public func openTunnel(
+        host: String, port: Int, initialize: @escaping @Sendable (Channel) -> EventLoopFuture<Void>
+    ) async throws -> Channel {
+        let client = try await client(for: host)
+        let target = SSHChannelType.DirectTCPIP(
+            targetHost: "127.0.0.1", targetPort: port,
+            originatorAddress: try SocketAddress(ipAddress: "127.0.0.1", port: 0))
+        do {
+            return try await client.createDirectTCPIPChannel(using: target, initialize: initialize)
+        } catch let rejected as NIOSSHError where rejected.type == .channelSetupRejected {
+            throw ScreenTunnelError.from(rejection: String(describing: rejected), host: host, port: port)
+        } catch {
+            throw await transportFailure(error, host: host, client: client)
+        }
+    }
+
     /// Not awaited: closing waits for the peer, which a half-open connection never answers.
     private static func closeInBackground(_ sftp: SFTPClient, host: String) {
         Task {
@@ -617,3 +635,5 @@ public actor SSHConnectionPool {
         }
     }
 }
+
+extension SSHConnectionPool: ScreenTunnelOpener {}
