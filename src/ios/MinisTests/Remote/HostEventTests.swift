@@ -175,7 +175,11 @@ final class HostEventOpenerTests: XCTestCase {
         }
         let link = HostEventLink.event(host: "mac-mini", id: "01A")
         let opening = Task { await HostEventOpener.open(link, using: first) }
-        while release == nil { await Task.yield() }
+        for _ in 0..<10_000 where release == nil { await Task.yield() }
+        guard release != nil else {
+            opening.cancel()
+            return XCTFail("the first open never reached fetch: \(r.steps)")
+        }
 
         await HostEventOpener.open(link, using: deps(r) { _ in [event] })
         release?.resume()
