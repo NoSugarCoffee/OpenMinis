@@ -25,6 +25,10 @@ enum HostEventOpener {
         var makeNonce: () -> String
     }
 
+    /// Links being opened right now. iOS hands one tap to both SwiftUI's `onOpenURL` and the scene
+    /// delegate's `openURLContexts`, and each copy would otherwise create its own session and turn.
+    private static var opening: Set<HostEventLink> = []
+
     static func open(_ url: URL) {
         guard let link = HostEventLinks.parse(url) else {
             logger.warning("[HostEvents] ignored malformed link \(url.absoluteString)")
@@ -34,6 +38,15 @@ enum HostEventOpener {
     }
 
     static func open(_ link: HostEventLink, using deps: Dependencies) async {
+        guard opening.insert(link).inserted else {
+            logger.info("[HostEvents] ignored a second delivery of a link already opening")
+            return
+        }
+        defer { opening.remove(link) }
+        await run(link, using: deps)
+    }
+
+    private static func run(_ link: HostEventLink, using deps: Dependencies) async {
         let host = link.host
         guard deps.isConfigured(host) else {
             deps.showError(RemoteHostL10n.string("“\(host)” is not configured. Add it in Settings → Remote Hosts."))
