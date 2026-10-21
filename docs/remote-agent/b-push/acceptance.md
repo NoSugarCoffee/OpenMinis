@@ -25,7 +25,7 @@ team, next to an upstream Minis 1.15; minis-hostd 0.2.1 on the Mac mini. The `pi
 links were first opened with iCTRL's `open_url`, the link a Bark push carries. On 2026-10-22 real Bark
 pushes were tapped: the events behind them were written into `state.db` by hand (key `mock:…`,
 reason `mock_for_acceptance`, sender `mock@example.invalid`) and sent by the running daemon through
-its outbox. Mail sent from shixu.devops@gmail.com to itself does not serve: Gmail adds no sender
+its outbox. Mail sent from the watched Gmail account to itself does not serve: Gmail adds no sender
 authentication result to it, so the gate stores it with `sender_unauthenticated` and pushes nothing,
 as designed.
 
