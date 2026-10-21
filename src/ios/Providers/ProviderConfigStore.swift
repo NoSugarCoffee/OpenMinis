@@ -363,20 +363,17 @@ final class ProviderConfigStore: ObservableObject {
 
     // fork(remote-host): adoptDB replaces the whole config with the DB dump, so a session binding set
     // before it finishes is lost and the session shows "No model configured". A session created by
-    // a link on a cold start waits for this first.
-    private var authoritativeConfigLoaded = false
-    private var authoritativeConfigWaiters: [CheckedContinuation<Void, Never>] = []
+    // a link on a cold start waits for this first. A degraded (pre-unlock) load does not open it:
+    // recoverFromDegradedLoad runs adoptDB again after unlock, and that run does.
+    private let authoritativeConfigGate = OneShotGate()
 
     func waitForAuthoritativeConfig() async {
-        guard !authoritativeConfigLoaded else { return }
-        await withCheckedContinuation { authoritativeConfigWaiters.append($0) }
+        await authoritativeConfigGate.wait()
     }
 
     private func markAuthoritativeConfigLoaded() {
-        authoritativeConfigLoaded = true
-        let waiters = authoritativeConfigWaiters
-        authoritativeConfigWaiters = []
-        waiters.forEach { $0.resume() }
+        guard loadDegradation == .none else { return }
+        authoritativeConfigGate.open()
     }
 
     /// [T-new-session-hang-credential-cache] L2 invalidation hook #3: iCloud
