@@ -30,7 +30,7 @@ Host (any SSH-reachable Unix machine)
  ├─ Screen Sharing/VNC A3  screen the user watches and takes over, tunnelled over SSH
  └─ minis-hostd        B   IMAP / GitHub → rule gate → push (body stays on the host)
           │ push: one-line summary + pico://host-event/<host>/<id>
-Pico on iPhone ◄─┘   the agent loop and model keys live here; fetches over SSH
+Pico on iPhone ◄──┘   the agent loop and model keys live here; fetches over SSH
 ```
 
 ## Reading guide

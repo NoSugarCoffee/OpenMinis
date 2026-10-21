@@ -10,7 +10,7 @@ the app is suspended. The agent stays on the phone (D4); the browser and its coo
 host.
 
 ```
-Pico on iPhone ── shell_execute over SSH (A1) ──► ego-browser nodejs <<'EOF' … EOF
+Pico on iPhone ─── shell_execute over SSH (A1) ──► ego-browser nodejs <<'EOF' … EOF
        ▲                                                   │
        └──── page text, or a screenshot via minis-remote cp ◄─ ego lite (host profile)
 ```

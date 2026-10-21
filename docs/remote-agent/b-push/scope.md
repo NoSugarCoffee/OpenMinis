@@ -19,7 +19,7 @@ Host
       ├─ notifier  pluggable: Bark (D13) · ntfy · Telegram · webhook
       └─ CLI       minis-hostd events list|get|ack --json   (versioned contract)
              │ push: title + one-line summary + pico://host-event/<host>/<id>   (body stays on the host, D5)
-Pico ◄──────┘ tap → events get over SSH → wrap as untrusted → read-only session (D17)
+Pico ◄───────┘ tap → events get over SSH → wrap as untrusted → read-only session (D17)
 ```
 
 ## Scope

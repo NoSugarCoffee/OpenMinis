@@ -31,7 +31,7 @@ while the user has control.
 ## 3. Architecture
 
 ```
-Pico on iPhone                                               Host
+Pico on iPhone                                                Host
 ┌─────────────────────────────────────────┐                ┌──────────────────────┐
 │ HostScreenView                          │                │                      │
 │  WKWebView ── noVNC (bundled, MPL 2.0)  │                │ Screen Sharing / VNC │
