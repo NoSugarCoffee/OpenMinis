@@ -2,7 +2,7 @@ import Foundation
 
 /// A `pico://host-event/…` link from a push notification (B spec §5.5); `minis://` from hostd 0.2.0 and
 /// earlier still parses.
-public enum HostEventLink: Equatable, Sendable {
+public enum HostEventLink: Hashable, Sendable {
     case event(host: String, id: String)
     case batch(host: String, id: String)
 

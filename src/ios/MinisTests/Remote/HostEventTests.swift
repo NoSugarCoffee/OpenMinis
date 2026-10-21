@@ -165,6 +165,26 @@ final class HostEventOpenerTests: XCTestCase {
         XCTAssertTrue(r.titles.last?.contains("could not load") == true, "\(r.titles)")
     }
 
+    func testASecondDeliveryWhileOpeningCreatesNoSecondSession() async throws {
+        let r = Recorder()
+        let event = try makeEvent("01A")
+        var release: CheckedContinuation<Void, Never>?
+        let first = deps(r) { _ in
+            await withCheckedContinuation { release = $0 }
+            return [event]
+        }
+        let link = HostEventLink.event(host: "mac-mini", id: "01A")
+        let opening = Task { await HostEventOpener.open(link, using: first) }
+        while release == nil { await Task.yield() }
+
+        await HostEventOpener.open(link, using: deps(r) { _ in [event] })
+        release?.resume()
+        await opening.value
+
+        XCTAssertEqual(r.steps.filter { $0 == "create" }.count, 1, "\(r.steps)")
+        XCTAssertEqual(r.steps.filter { $0 == "submit" }.count, 1, "\(r.steps)")
+    }
+
     func testDeniedPermissionStopsBeforeFetching() async {
         let r = Recorder()
         await HostEventOpener.open(.event(host: "mac-mini", id: "01A"), using: deps(r, permission: .denied("Not allowed")) { _ in [] })
