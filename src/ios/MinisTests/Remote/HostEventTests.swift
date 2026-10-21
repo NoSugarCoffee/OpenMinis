@@ -124,6 +124,7 @@ final class HostEventOpenerTests: XCTestCase {
     ) -> HostEventOpener.Dependencies {
         HostEventOpener.Dependencies(
             isConfigured: { _ in configured },
+            waitForModelConfig: { r.steps.append("models") },
             createSession: { title in r.steps.append("create"); r.titles.append(title); return "s1" },
             markReadOnly: { r.steps.append("readOnly:\($0)") },
             navigate: { r.steps.append("navigate:\($0)") },
@@ -140,7 +141,7 @@ final class HostEventOpenerTests: XCTestCase {
         let r = Recorder()
         let events = [try makeEvent("01A"), try makeEvent("01B")]
         await HostEventOpener.open(.batch(host: "mac-mini", id: "B1"), using: deps(r) { _ in events })
-        XCTAssertEqual(r.steps, ["create", "readOnly:s1", "navigate:s1", "permission", "fetch", "submit", "ack"])
+        XCTAssertEqual(r.steps, ["models", "create", "readOnly:s1", "navigate:s1", "permission", "fetch", "submit", "ack"])
         XCTAssertEqual(r.acked, ["01A", "01B"])
         XCTAssertTrue(r.prompt?.contains("2 events") == true)
         XCTAssertTrue(r.titles.last?.contains("2 events from mac-mini") == true, "\(r.titles)")

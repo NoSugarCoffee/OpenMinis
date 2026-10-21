@@ -13,6 +13,7 @@ enum HostEventOpener {
 
     struct Dependencies {
         var isConfigured: (String) -> Bool
+        var waitForModelConfig: () async -> Void
         var createSession: (_ title: String) async -> String
         var markReadOnly: (_ sessionId: String) -> Void
         var navigate: (_ sessionId: String) -> Void
@@ -52,6 +53,8 @@ enum HostEventOpener {
             deps.showError(RemoteHostL10n.string("“\(host)” is not configured. Add it in Settings → Remote Hosts."))
             return
         }
+        // On a cold start the provider config is still loading; a session made now would lose its model.
+        await deps.waitForModelConfig()
         let sessionId = await deps.createSession(RemoteHostL10n.string("Read-only · event from \(host)"))
         // Before anything reaches the model: the first turn must already run with the read-only tool set.
         deps.markReadOnly(sessionId)
@@ -108,6 +111,7 @@ extension HostEventOpener.Dependencies {
                 guard case .success(let services) = RemoteAppWiring.shared.services else { return false }
                 return services.store.hosts.contains { $0.name == host }
             },
+            waitForModelConfig: { await ProviderConfigStore.shared.waitForAuthoritativeConfig() },
             createSession: { title in
                 let vm = ViewModelCache.shared.createDraft()
                 vm.sessionSource = HostEventOpener.sessionSource
