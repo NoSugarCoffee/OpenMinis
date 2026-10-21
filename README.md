@@ -1,134 +1,88 @@
-# OpenMinis
+# Pico
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![Platforms](https://img.shields.io/badge/Platforms-iOS%20%7C%20Android-lightgrey.svg)](#beta-programme)
+[![Platform](https://img.shields.io/badge/Platform-iOS-lightgrey.svg)](#install-on-your-iphone)
 
-**Your private, on-device AI agent.**
+**An on-device AI agent that also works on your own computers.**
 
-OpenMinis brings leading models — Claude, GPT, Gemini and more — into a native
-mobile experience, and gives them a real computer to work with: a full Linux
-shell running on your device, browser automation, extensible skills, persistent
-memory, and deep system integration.
-
-It is free, and fully open source.
-
-**We believe that in the age of AI, technical design and code are no longer
-where a product's advantage lies. The best agent emerges from a tight feedback
-loop with the people who use it — their expectations and their reports are
-what converge on the product.**
-
-Official website: **[openminis.app](https://openminis.app)**
-
-<a href="https://apps.apple.com/app/id6759188481">
-  <img alt="Download on the App Store" height="48" src="assets/badge-appstore.svg" />
-</a>
-&nbsp;
-<a href="https://github.com/OpenMinis/OpenMinis/releases">
-  <img alt="Get the APK on GitHub" height="48" src="assets/badge-android.svg" />
-</a>
-
-![Minis on iOS — deep research, chat, agent runtime, integrations, iCloud sync and granular permissions](assets/screenshots.png)
+Pico is a modified version of [OpenMinis](https://github.com/OpenMinis/OpenMinis), changed since
+2026-10-17. It keeps everything OpenMinis does on the phone (leading models, a Linux shell on the
+device, browser automation, skills, memory and system integration) and adds a computer of your own
+for the agent to work on: a Mac or Linux machine you reach over SSH.
 
 ---
 
-## What it does
+## What Pico adds
+
+| | |
+|---|---|
+| **Remote computers** | Bind a chat to a host and its shell and file tools run there, over SSH. Long commands keep running while iOS suspends the app. |
+| **Pairing by scan** | Run `minis-hostd pair` on the computer and scan its code in Pico; no keys to copy or fingerprints to compare. |
+| **The host's browser** | The agent drives ego lite on the host, with your logins there, through `ego-browser`. |
+| **The host's screen** | View and control the computer's screen in the app, and let the agent see and click it; taking control pauses the agent. |
+| **Proactive push** | `minis-hostd` watches your mail and GitHub, pushes what needs you, and a tap opens a read-only session that explains it. |
+
+Design, decisions and acceptance results: **[docs/remote-agent](docs/remote-agent/README.md)**.
+The host daemon: **[host/minis-hostd](host/minis-hostd/README.md)**.
+
+## From OpenMinis
 
 | | |
 |---|---|
 | **Bring your own model** | Claude, GPT, Gemini and other providers, via your own API keys or account sign-in. |
-| **A real Linux shell** | A sandboxed Alpine Linux environment runs on-device — the agent can install packages, run scripts, and work with real files. |
+| **A real Linux shell** | A sandboxed Alpine Linux environment runs on-device. The agent can install packages, run scripts, and work with real files. |
 | **Device integration** | Health, Calendar, Reminders, Contacts, HomeKit, Bluetooth, Clipboard, Media, Alarms and more, exposed to the agent as tools. |
 | **Browser automation** | The agent can browse and interact with the web on your behalf. |
 | **Skills & memory** | Extensible skills plus persistent memory across sessions. |
 | **Workspaces** | Organise work into separate contexts, addressable via `minis://workspace/`. |
 | **Native offloads** | Heavy or platform-specific work is handed to native code instead of the sandbox. |
 
----
-
-## What you can do with Minis
-
-A few things people actually use it for:
-
-- **Photograph a meal, log the nutrition** — Minis identifies the dishes, estimates
-  calories and macros, and writes them to Apple Health.
-- **Wake up to your timeline** — Shortcuts triggers Minis to fetch your X timeline,
-  summarise it, synthesise speech, and play it as your alarm.
-- **Turn group chatter into tasks** — pull messages from a Telegram group, extract
-  bugs and action items, deduplicate them, and file them into Apple Reminders.
-- **Mount your Obsidian vault** — research, clean up and write Markdown notes back
-  into the vault as a normal workspace.
-- **Share anything into a calendar event** — send a page or message to Minis via the
-  iOS Share Sheet and it creates the event, time and place included.
-
-**→ [OpenMinis/AwesomeMinis](https://github.com/OpenMinis/AwesomeMinis)** — a curated,
-community-contributed collection of use cases and workflows across health,
-productivity, research, finance and developer tooling.
+Skills built for Claude, Codex, OpenClaw or Hermes Agent generally run as-is. OpenMinis keeps a
+collection adapted to its tools in **[OpenMinis/MinisSkills](https://github.com/OpenMinis/MinisSkills)**,
+and use cases in **[OpenMinis/AwesomeMinis](https://github.com/OpenMinis/AwesomeMinis)**; both work
+in Pico.
 
 ---
 
-## Skills
+## Install on your iPhone
 
-A **skill** is a folder with a `SKILL.md` file — instructions, and optionally scripts,
-references and assets — that the agent loads on demand when a request matches it.
-Metadata stays in context for triggering; the body and bundled resources load only
-when the skill is actually used.
+Pico is not in the App Store. Build it from source and install it on your own device:
 
-Minis has its own tool system, but it does not require skills written specifically
-for it: **skills built for Claude, Codex, OpenClaw or Hermes Agent generally run in
-Minis as-is.** Skills that have been adapted to Minis' tools simply run better —
-they can reach the Linux shell, device integrations and native offloads directly.
+```sh
+git clone --recurse-submodules https://github.com/NoSugarCoffee/Pico.git
+cd Pico
+# build the native dependencies once, as in BUILDING.md, then:
+scripts/ios-personal-device.sh --team <TEAM_ID> --prefix <com.you.pico> --device <device id>
+```
 
-**→ [OpenMinis/MinisSkills](https://github.com/OpenMinis/MinisSkills)** — skills
-adapted for Minis alongside ones built for it from scratch, covering TTS, search,
-media downloads, health analysis, cloud APIs and more.
+The script rewrites upstream's bundle id, App Group and iCloud container to your prefix and drops
+the entitlements your team cannot sign. It installs as **Pico**, so it sits beside an OpenMinis
+install without either taking the other's links.
 
----
+Then put the host daemon on your computer:
 
-## Press
+```sh
+curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/Pico/main/host/minis-hostd/scripts/install.sh \
+  | sh -s -- --pair --version <version>
+```
 
-> "the most impressive indie app I've seen in a while"
->
-> — Federico Viticci, [**Open Minis Is the iOS Agent I Wish Siri AI Could Be**](https://www.macstories.net/reviews/open-minis-is-the-ios-agent-i-wish-siri-ai-could-be/),
-> MacStories (July 2026)
-
-> "在很大程度上实现甚至局部超越了 Apple Intelligence"
->
-> — Ye Han, [**这可能是 iPhone 最强 Agent 软件，没有之一 丨Open Minis 入门指南**](https://zhuanlan.zhihu.com/p/2045570157783807562),
-> 知乎 / Zhihu (June 2026)
-
-> "可能是 iOS 端最强 AI Agent"
->
-> — [**Open Minis：可能是 iOS 端最强 AI Agent**](https://www.appinn.com/open-minis/),
-> 小众软件 / Appinn (March 2026)
-
----
-
-## Beta programme
-
-App Store releases can lag behind: every update waits on review, and we hold
-builds back when stability warrants it. The TestFlight build is where fixes
-and new features land first.
-
-**→ [Join the TestFlight beta](https://testflight.apple.com/join/3BdkA5c3)**
-
-On Android, the [releases page](https://github.com/OpenMinis/OpenMinis/releases)
-always carries the latest APK.
+and scan the code it prints in Pico: Settings → Remote Hosts → Add Host.
 
 ---
 
 ## Building from source
 
-Minis ships a Linux sandbox inside the app, so the native dependencies (iSH on
-iOS, PRoot on Android, FFmpeg, LAME, rclone) and the Alpine rootfs are **built
-from source** rather than committed as binaries.
+Pico ships OpenMinis's Linux sandbox inside the app, so the native dependencies (iSH on iOS, PRoot
+on Android, FFmpeg, LAME, rclone) and the Alpine rootfs are **built from source** rather than
+committed as binaries.
 
 **→ See [BUILDING.md](BUILDING.md) for the full first-build guide.**
 
 The short version:
 
 ```sh
-git clone --recurse-submodules https://github.com/OpenMinis/OpenMinis.git
-cd OpenMinis
+git clone --recurse-submodules https://github.com/NoSugarCoffee/Pico.git
+cd Pico
 
 # iOS  — needs Go 1.25+ and Xcode's Metal Toolchain
 #        (xcodebuild -downloadComponent MetalToolchain)
@@ -145,9 +99,8 @@ mkdir -p src/android/app/libs && cp deps/build/rclone/rclone.aar src/android/app
 cd src/android && ./gradlew :app:assembleDebug
 ```
 
-`BUILDING.md` covers the toolchain requirements per platform, the build-time
-customization templates, and a troubleshooting section for the failure modes
-you are most likely to hit.
+Internal names (`Minis.xcodeproj`, `com.openminis.app`, `minis-hostd`, `~/.minis`) are
+upstream's and stay that way, so OpenMinis changes keep merging into Pico.
 
 ---
 
@@ -157,25 +110,60 @@ you are most likely to hit.
 src/ios/          iOS app (Swift / SwiftUI) + share, widget and file-provider extensions
 src/android/      Android app (Kotlin / Compose) + JNI native code
 src/shared/       Assets shared by both platforms
+host/minis-hostd/ Pico's host daemon: pairing, notifications, the event store (Go)
 deps/             Native dependency build scripts and vendored sources
-docs/specs/       Architecture and interface specifications
+docs/specs/       Architecture and interface specifications, from OpenMinis
+docs/remote-agent Pico's remote-agent design, decisions and acceptance
 scripts/          Rootfs preparation and developer tooling
 ```
 
 ---
 
+## Built on OpenMinis
+
+Pico exists because OpenMinis is free and open source. The app, its sandbox, its tools and most of
+this repository are OpenMinis's work.
+
+- Website: **[openminis.app](https://openminis.app)**
+- The original app: [App Store](https://apps.apple.com/app/id6759188481) ·
+  [TestFlight beta](https://testflight.apple.com/join/3BdkA5c3) ·
+  [Android releases](https://github.com/OpenMinis/OpenMinis/releases)
+- Source: **[OpenMinis/OpenMinis](https://github.com/OpenMinis/OpenMinis)**
+- Community: the OpenMinis [Telegram group](https://t.me/+2NzhOJuzRyI1YmM1)
+
+What people have written about OpenMinis:
+
+> "the most impressive indie app I've seen in a while"
+>
+> — Federico Viticci, [**Open Minis Is the iOS Agent I Wish Siri AI Could Be**](https://www.macstories.net/reviews/open-minis-is-the-ios-agent-i-wish-siri-ai-could-be/),
+> MacStories (July 2026)
+
+> "在很大程度上实现甚至局部超越了 Apple Intelligence"
+>
+> — Ye Han, [**这可能是 iPhone 最强 Agent 软件，没有之一 丨Open Minis 入门指南**](https://zhuanlan.zhihu.com/p/2045570157783807562),
+> 知乎 / Zhihu (June 2026)
+
+> "可能是 iOS 端最强 AI Agent"
+>
+> — [**Open Minis：可能是 iOS 端最强 AI Agent**](https://www.appinn.com/open-minis/),
+> 小众软件 / Appinn (March 2026)
+
+Please report problems with Pico's own features here, not to OpenMinis.
+
+---
+
 ## Acknowledgements
 
-OpenMinis stands on a great deal of open-source work. Our thanks to the
-maintainers of these projects — the full inventory, with versions and license
+Pico, like OpenMinis, stands on a great deal of open-source work. Our thanks to the OpenMinis
+authors, and to the maintainers of these projects — the full inventory, with versions and license
 terms, is in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
 **The sandbox** — the heart of the product:
 
 - **[iSH](https://github.com/ish-app/ish)** (GPLv3) — Linux usermode emulation on
-  iOS. We run [an ARM64 fork](https://github.com/OpenMinis/ish-arm64).
+  iOS. OpenMinis runs [an ARM64 fork](https://github.com/OpenMinis/ish-arm64).
 - **[PRoot](https://github.com/termux/proot)** (GPLv2) — user-space chroot for the
-  Android sandbox, via [our fork](https://github.com/OpenMinis/proot);
+  Android sandbox, via [the OpenMinis fork](https://github.com/OpenMinis/proot);
   **[talloc](https://talloc.samba.org)** (LGPLv3+) underpins it.
 - **[Alpine Linux](https://alpinelinux.org)** — the minirootfs the sandbox boots.
 
@@ -200,7 +188,9 @@ Apple / Swift Server Workgroup packages (Apache-2.0).
 
 ## License
 
-OpenMinis is licensed under the **[GNU General Public License v3.0](LICENSE)**.
+Pico is licensed under the **[GNU General Public License v3.0](LICENSE)**, as OpenMinis is.
+It is a modified version of OpenMinis; the changes since 2026-10-17 are in this repository's
+history.
 
 The app links GPL-licensed components — [iSH](https://github.com/OpenMinis/ish-arm64)
 (GPLv3) and [PRoot](https://github.com/OpenMinis/proot) (GPLv2) — so the combined
@@ -209,14 +199,8 @@ work is distributed under GPLv3. Bundled third-party licenses are listed in
 
 ---
 
-## Community
+## Contributing
 
-- **Telegram**: [Join the group](https://t.me/+2NzhOJuzRyI1YmM1)
-- **Issues**: Bug reports, feature requests and discussion via
-  [GitHub Issues](https://github.com/OpenMinis/OpenMinis/issues)
-
-This repository is a mirror of a private development tree, so it **does not
-accept pull requests** — there is nowhere for them to land. Issues are the way
-to shape the product, and [AwesomeMinis](https://github.com/OpenMinis/AwesomeMinis)
-and [MinisSkills](https://github.com/OpenMinis/MinisSkills) both do take
-contributions. See [CONTRIBUTING.md](CONTRIBUTING.md).
+Issues and pull requests are welcome at
+[NoSugarCoffee/Pico](https://github.com/NoSugarCoffee/Pico/issues). See
+[CONTRIBUTING.md](CONTRIBUTING.md).

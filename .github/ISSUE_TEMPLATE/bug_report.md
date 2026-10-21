@@ -1,6 +1,6 @@
 ---
 name: 🐛 Bug Report
-about: Report a bug or unexpected behavior in Minis
+about: Report a bug or unexpected behavior in Pico
 title: "[Bug] "
 labels: ["bug", "triage"]
 ---
@@ -16,7 +16,7 @@ labels: ["bug", "triage"]
 |-------|-------|
 | Platform / 平台 | <!-- iOS / Android --> |
 | OS Version / 系统版本 | <!-- e.g. iOS 18.4.1 / Android 15 --> |
-| Minis Version / 应用版本 | <!-- e.g. 1.2.3 (build 456) --> |
+| Pico Version / 应用版本 | <!-- e.g. 1.2.3 (build 456) --> |
 | Device Model / 设备型号 | <!-- e.g. iPhone 16 Pro / Pixel 9 --> |
 
 ## 🔁 Steps to Reproduce / 重现步骤

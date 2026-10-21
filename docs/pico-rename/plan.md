@@ -1,6 +1,6 @@
 # Renaming the fork to Pico
 
-Status: in progress, 2026-10-22. Decision D23.
+Status: stages 1 and 2 done, icon pending, 2026-10-22. Decision D23.
 
 ## Goal
 
