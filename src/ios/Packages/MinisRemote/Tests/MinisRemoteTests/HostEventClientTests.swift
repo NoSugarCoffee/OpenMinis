@@ -16,6 +16,7 @@ final class HostEventLinkTests: XCTestCase {
 
     func testParsesLinksFromHostdBeforePicoScheme() {
         XCTAssertEqual(parse("minis://host-event/mac-mini/01A"), .event(host: "mac-mini", id: "01A"))
+        XCTAssertEqual(parse("minis://host-event/mac_mini/batch/01JSBATCH"), .batch(host: "mac_mini", id: "01JSBATCH"))
     }
 
     func testRejectsEverythingElse() {

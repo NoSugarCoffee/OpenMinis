@@ -227,7 +227,7 @@ key, event or batch id, state, attempts, last_error), `pacing` (last push time, 
 ## 7. Notifier: Bark (D13)
 
 - **Request:** `POST https://api.day.app/<device key>` (or a self-hosted `bark-server`), form
-  fields `ciphertext` and `iv`. The encrypted JSON holds `title`, `body`, `url` (the `minis://`
+  fields `ciphertext` and `iv`. The encrypted JSON holds `title`, `body`, `url` (the `pico://`
   link) and `group: "minis"`.
 - **Encryption** (checked in S3, §7.1): on by default and required by `doctor`. Bark's server and
   APNs see only the device key and timing.
@@ -288,9 +288,12 @@ The CLI opens the database read-only, except `ack`, so it never blocks the daemo
 ### 9.1 Opening an event or a batch
 
 1. **Deep link:** the router parses `pico://host-event/<host>/<id>` and
-   `pico://host-event/<host>/batch/<id>` (and the `minis://` form hostd 0.2.0 sent), and the opener runs from the app root, so the link works
+   `pico://host-event/<host>/batch/<id>`, and the opener runs from the app root, so the link works
    on a cold start and from any screen (S3). An unknown host shows "“<host>” is not configured. Add it
    in Settings → Remote Hosts."
+   Links from minis-hostd 0.2.0 used `minis://`. The parser still accepts them, but iOS may hand them
+   to an upstream Minis on the same phone (D22); 0.2.1 rewrites the ones in its database when it
+   starts, so only notifications already delivered keep the old form.
 2. **Fetch:** `events get <id>` or `batches get <id>` over the host's pooled connection. The same A1
    host key pin and the same `remote-host:<name>` permission apply.
 3. **Session:** one new session, not bound to a host, with the read-only policy (§9.2). It is titled
@@ -410,7 +413,7 @@ in the Simulator opens a `pico://host-event` link and checks the banner and summ
 |---|---|---|
 | S1 | Gmail: app-password login, how long `IDLE` lasts, `X-GM-RAW` category search, `BODY.PEEK` leaving mail unread, the `Authentication-Results` header Gmail writes | **Done 2026-10-19** (§13.1) |
 | S2 | GitHub: `/notifications` with a classic token scoped to `notifications` only; a fine-grained token is refused | **Done 2026-10-18** (§13.2); the fine-grained refusal is taken from GitHub's docs, not tested |
-| S3 | Bark: encrypted request format; tapping a notification opens `minis://host-event/…` in Minis | **Done 2026-10-18** (§7.1); the `host-event` route itself is tested once it exists |
+| S3 | Bark: encrypted request format; tapping a notification opens `minis://host-event/…` in Minis (`pico://` since D22; the reference vector keeps `minis://`) | **Done 2026-10-18** (§7.1); the `host-event` route itself is tested once it exists |
 | S4 | A1 exec of `~/.minis/bin/minis-hostd` under the host's login-shell rules, on macOS and Linux | **Done 2026-10-18** (§9.4) |
 
 ### 13.1 S1: Gmail (2026-10-19)
