@@ -63,6 +63,79 @@ final class RemoteHostSetupTests: XCTestCase {
         XCTAssertEqual(secrets.accounts.count, 1)
     }
 
+    private struct FakePairingTransport: PairingTransport {
+        let reply: String?
+        let sent = Sent()
+
+        final class Sent: @unchecked Sendable {
+            private let lock = NSLock()
+            private var lines: [Data] = []
+            func append(_ line: Data) { lock.withLock { lines.append(line) } }
+            var all: [Data] { lock.withLock { lines } }
+        }
+
+        func exchange(address: String, port: Int, line: Data, timeout: Duration) async throws -> Data {
+            sent.append(line)
+            guard let reply else { throw PairingTransportError.timedOut }
+            return Data(reply.utf8)
+        }
+    }
+
+    private let pairingPayload = try! PairingPayload.parse(
+        #"minis-pair:{"v":1,"name":"macmini","user":"light","port":22,"addresses":["100.81.208.83"],"pairPort":50123,"#
+            + #""hostKey":"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMMMA56wC/FG21eE8SNWeCtcfO7RxpLqmq6ibqB0+5sh","#
+            + #""secret":"AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8"}"#)
+
+    func testPairingAddsTheHostPinnedToTheCodesHostKeyWithTheKeyItSent() async throws {
+        let secrets = RecordingSecretStore()
+        let services = try makeServices(secrets: secrets)
+        let transport = FakePairingTransport(reply: #"{"ok":true}"#)
+
+        try await RemoteHostSetup.pair(
+            pairingPayload, name: "mac", client: PairingClient(transport: transport), services: services)
+
+        let host = try XCTUnwrap(services.store.hosts.first)
+        XCTAssertEqual(host.address, "100.81.208.83")
+        XCTAssertEqual(host.user, "light")
+        XCTAssertEqual(host.pinnedHostKey, pairingPayload.hostKey)
+        let sent = try XCTUnwrap(try JSONSerialization.jsonObject(with: try XCTUnwrap(transport.sent.all.first)) as? [String: Any])
+        XCTAssertEqual(sent["publicKey"] as? String, try RemoteHostSetup.publicKeyLine(host: host, services: services))
+    }
+
+    func testFailedPairingLeavesNoHostAndNoKey() async throws {
+        let secrets = RecordingSecretStore()
+        let services = try makeServices(secrets: secrets)
+
+        do {
+            try await RemoteHostSetup.pair(
+                pairingPayload, name: "mac", client: PairingClient(transport: FakePairingTransport(reply: nil)),
+                services: services)
+            XCTFail("expected the pairing to fail")
+        } catch {
+            XCTAssertTrue(RemoteHostSetup.message(for: error).contains("100.81.208.83"), RemoteHostSetup.message(for: error))
+        }
+        XCTAssertEqual(services.store.hosts, [])
+        XCTAssertEqual(secrets.accounts, [])
+    }
+
+    func testDuplicateNameIsRefusedBeforeTheHostIsContacted() async throws {
+        let secrets = RecordingSecretStore()
+        let services = try makeServices(secrets: secrets)
+        try RemoteHostSetup.addHost(
+            name: "mac", address: "192.0.2.1", port: 22, user: "dev", key: .generate, services: services)
+        let transport = FakePairingTransport(reply: #"{"ok":true}"#)
+
+        do {
+            try await RemoteHostSetup.pair(
+                pairingPayload, name: "mac", client: PairingClient(transport: transport), services: services)
+            XCTFail("expected a duplicate name")
+        } catch {
+            XCTAssertEqual(error as? RemoteHostStoreError, .duplicateName("mac"))
+        }
+        XCTAssertTrue(transport.sent.all.isEmpty)
+        XCTAssertEqual(secrets.accounts.count, 1)
+    }
+
     func testImportOfGarbageExplainsAndStoresNothing() throws {
         let secrets = RecordingSecretStore()
         let services = try makeServices(secrets: secrets)
