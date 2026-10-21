@@ -191,7 +191,8 @@ func TestPairNameFollowsTheConfig(t *testing.T) {
 		{name: "matching --name", config: "host_name = \"macmini\"\n", requested: "macmini", want: "macmini"},
 		{name: "conflicting --name", config: "host_name = \"macmini\"\n", requested: "mini",
 			wantErr: `names this host "macmini", so its pushes open only a host named "macmini" in Minis`},
-		{name: "bad host_name", config: "host_name = \"my mac\"\n", wantErr: "Fix host_name"},
+		{name: "bad host_name", config: "host_name = \"my mac\"\n", wantErr: "host_name: must be the host's name"},
+		{name: "broken TOML", config: "host_name = \"macmini\"\ndevice_key = abc\n", wantErr: "Fix the file, or move it aside"},
 	}
 	for _, c := range cases {
 		env, _, _, home := setupEnv(t, &recordingRunner{})

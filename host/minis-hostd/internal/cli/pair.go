@@ -229,7 +229,7 @@ func pairName(env Env, requested string, deps pairDeps) (string, error) {
 	configPath := service.DefaultPaths(env.Setup.Home).Config
 	configured, found, err := config.ReadHostName(configPath)
 	if err != nil {
-		return "", fmt.Errorf("%v\nFix host_name, or move the file aside, then run `minis-hostd pair` again.", err)
+		return "", fmt.Errorf("%v\nFix the file, or move it aside, then run `minis-hostd pair` again.", err)
 	}
 	switch {
 	case found && requested != "" && requested != configured:

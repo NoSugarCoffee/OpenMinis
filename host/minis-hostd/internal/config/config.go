@@ -147,8 +147,8 @@ func Load(path string) (Config, error) {
 	return Parse(path, data)
 }
 
-// ReadHostName reads only host_name, so pairing can match it while the rest of the file is still
-// being filled in. found is false when the file does not exist.
+// ReadHostName reads only host_name, so pairing can match it while the other settings are still
+// incomplete; the file must still be valid TOML. found is false when the file does not exist.
 func ReadHostName(path string) (name string, found bool, err error) {
 	data, err := os.ReadFile(path)
 	if errors.Is(err, fs.ErrNotExist) {
