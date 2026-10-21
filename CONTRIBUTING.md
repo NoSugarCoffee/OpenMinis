@@ -6,8 +6,8 @@ Thanks for your interest in Pico, a modified version of
 ## Where things go
 
 - **Pico's own features** (remote hosts, pairing, the host's browser and screen, proactive push,
-  `minis-hostd`): issues and pull requests here, at
-  [NoSugarCoffee/Pico](https://github.com/NoSugarCoffee/Pico/issues).
+  `minis-hostd`): [issues](https://github.com/NoSugarCoffee/Pico/issues) and
+  [pull requests](https://github.com/NoSugarCoffee/Pico/pulls) here, at NoSugarCoffee/Pico.
 - **Everything Pico inherits from OpenMinis**: the problem is usually upstream's too, so report it to
   [OpenMinis](https://github.com/OpenMinis/OpenMinis/issues) as well, following its
   [contribution rules](https://github.com/OpenMinis/OpenMinis/blob/main/CONTRIBUTING.md). Its

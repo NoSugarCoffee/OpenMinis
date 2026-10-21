@@ -56,17 +56,24 @@ scripts/ios-personal-device.sh --team <TEAM_ID> --prefix <com.you.pico> --device
 ```
 
 The script rewrites upstream's bundle id, App Group and iCloud container to your prefix and drops
-the entitlements your team cannot sign. It installs as **Pico**, so it sits beside an OpenMinis
-install without either taking the other's links.
+the entitlements your team cannot sign. The first run stops at the App Group: open
+`.build/personal-device/src/ios/Minis.xcodeproj` in Xcode, and for the targets Minis,
+AgentWidgetExtension, MinisFileProvider and MinisShare pick your team under Signing & Capabilities
+and tick `group.<prefix>` under App Groups. Then run the script again.
 
-Then put the host daemon on your computer:
+Pico installs under its own name and opens its own `pico://` links. It also still claims
+upstream's `minis://` links, so while OpenMinis is installed too, iOS may open those in either app.
+
+Then add your computer. To pair it only:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/Pico/main/host/minis-hostd/scripts/install.sh \
   | sh -s -- --pair --version <version>
 ```
 
-and scan the code it prints in Pico: Settings → Remote Hosts → Add Host.
+and scan the code it prints in Pico: Settings → Remote Hosts → Add Host. For notifications from
+mail and GitHub, install the daemon as a service with `--host-name` and fill in its configuration:
+see [host/minis-hostd](host/minis-hostd/README.md#install).
 
 ---
 
@@ -92,7 +99,8 @@ cd Pico
 ./deps/build_rclone_ios.sh
 open src/ios/Minis.xcodeproj
 
-# Android — needs NDK r28+, Go 1.25+ and gomobile
+# Android, inherited from OpenMinis; Pico's own features are iOS only
+#          needs NDK r28+, Go 1.25+ and gomobile
 ./deps/build_proot.sh && ./scripts/prepare_android_sandbox.sh
 ./deps/build_rclone_android.sh
 mkdir -p src/android/app/libs && cp deps/build/rclone/rclone.aar src/android/app/libs/
@@ -201,6 +209,6 @@ work is distributed under GPLv3. Bundled third-party licenses are listed in
 
 ## Contributing
 
-Issues and pull requests are welcome at
-[NoSugarCoffee/Pico](https://github.com/NoSugarCoffee/Pico/issues). See
+[Issues](https://github.com/NoSugarCoffee/Pico/issues) and
+[pull requests](https://github.com/NoSugarCoffee/Pico/pulls) are welcome at NoSugarCoffee/Pico. See
 [CONTRIBUTING.md](CONTRIBUTING.md).
