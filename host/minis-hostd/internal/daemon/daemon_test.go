@@ -87,7 +87,7 @@ func TestBurstOfGitHubCandidatesYieldsOneImmediateThenOneBatchNotice(t *testing.
 		t.Fatalf("%d events", len(events))
 	}
 	first := events[len(events)-1]
-	want := notify.Notice{Title: "owner/repo", Body: "Mentioned: Fix 1", URL: "minis://host-event/mac-mini/" + first.ID}
+	want := notify.Notice{Title: "owner/repo", Body: "Mentioned: Fix 1", URL: "pico://host-event/mac-mini/" + first.ID}
 	if got[0] != want || first.URL != want.URL {
 		t.Errorf("immediate notice %+v, event URL %q; want %+v", got[0], first.URL, want)
 	}
@@ -95,7 +95,7 @@ func TestBurstOfGitHubCandidatesYieldsOneImmediateThenOneBatchNotice(t *testing.
 	if batchID == "" {
 		t.Fatal("later events joined no batch")
 	}
-	wantBatch := notify.Notice{Title: "3 new: 3 GitHub", Body: "owner/repo", URL: "minis://host-event/mac-mini/batch/" + batchID}
+	wantBatch := notify.Notice{Title: "3 new: 3 GitHub", Body: "owner/repo", URL: "pico://host-event/mac-mini/batch/" + batchID}
 	if got[1] != wantBatch {
 		t.Errorf("batch notice %+v, want %+v", got[1], wantBatch)
 	}
@@ -373,7 +373,7 @@ func TestStoreOnlyAndDropEventsAreStoredWithReasonAndNoNotice(t *testing.T) {
 		if e.BatchID != "" {
 			t.Errorf("event %s joined batch %s", e.Key, e.BatchID)
 		}
-		if e.URL != "minis://host-event/mac-mini/"+e.ID {
+		if e.URL != "pico://host-event/mac-mini/"+e.ID {
 			t.Errorf("event %s URL %q", e.Key, e.URL)
 		}
 	}

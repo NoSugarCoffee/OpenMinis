@@ -35,7 +35,7 @@ final class HostEventContractTests: XCTestCase {
     func testMailEvent() throws {
         let event = try decode("events_get_mail.json", as: HostEventReply.self).event
         XCTAssertEqual(event.source, .mail)
-        XCTAssertEqual(event.url, "minis://host-event/mac-mini/\(event.id)")
+        XCTAssertEqual(event.url, "pico://host-event/mac-mini/\(event.id)")
         guard case .mail(let body) = event.body else { return XCTFail("\(event.body)") }
         XCTAssertEqual(body.from, MailAddress(name: "Alice Chen", address: "alice@example.com"))
         XCTAssertEqual(body.subject, event.summary)

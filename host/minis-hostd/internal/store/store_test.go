@@ -25,7 +25,7 @@ func openTemp(t *testing.T) (*Store, string) {
 func event(id, key string) Event {
 	return Event{
 		ID: id, Key: key, Source: SourceMail, CreatedAt: t0,
-		Title: "Alice Chen", Summary: "Re: 合同 “第三版”", URL: "minis://host-event/mac-mini/" + id,
+		Title: "Alice Chen", Summary: "Re: 合同 “第三版”", URL: "pico://host-event/mac-mini/" + id,
 		Body: json.RawMessage(`{"text":"hi"}`), Decision: "push", Reason: "allowed",
 	}
 }
@@ -355,5 +355,28 @@ func TestSourceStatusKeepsLastSuccess(t *testing.T) {
 	}
 	if at, ok, _ := s.Heartbeat(); !ok || !at.Equal(later) {
 		t.Errorf("heartbeat %v %v", at, ok)
+	}
+}
+
+func TestReopenRewritesLinksStoredBy020(t *testing.T) {
+	s, path := openTemp(t)
+	e := event("01A", "mail:personal:7:100")
+	e.URL = "minis://host-event/mac-mini/01A"
+	if _, err := s.RecordEvent(EventRecord{Event: e, Cursor: cursor("7:100"), Placement: singleNotice(e)}, t0); err != nil {
+		t.Fatal(err)
+	}
+	s.Close()
+
+	reopened, err := Open(path, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer reopened.Close()
+	const want = "pico://host-event/mac-mini/01A"
+	if got, err := reopened.GetEvent("01A"); err != nil || got.URL != want {
+		t.Errorf("event url %q err %v", got.URL, err)
+	}
+	if pending, err := reopened.PendingNotices(t0, 10); err != nil || len(pending) != 1 || pending[0].URL != want {
+		t.Errorf("pending %+v err %v", pending, err)
 	}
 }

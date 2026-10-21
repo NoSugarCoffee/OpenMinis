@@ -46,7 +46,7 @@ func BatchNotice(batchID string, events []EventSummary, host string) store.Notic
 		BatchID: batchID,
 		Title:   truncate(title),
 		Body:    truncate(body),
-		URL:     "minis://host-event/" + host + "/batch/" + batchID,
+		URL:     "pico://host-event/" + host + "/batch/" + batchID,
 	}
 }
 

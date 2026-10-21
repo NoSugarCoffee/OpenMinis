@@ -10,7 +10,7 @@ untrusted content in a read-only session.
 - **Host:** `minis-hostd`, one static Go binary. Sources (IMAP, GitHub) produce candidates, a pure
   gate and a pure pacing function decide, SQLite stores events and an outbox, and a Bark notifier
   drains the outbox. A JSON CLI is the only interface the app uses.
-- **App:** a `minis://host-event` route handled at the app root fetches events over A1's SSH
+- **App:** a `pico://host-event` route (`minis://` before D22) handled at the app root fetches events over A1's SSH
   connection and opens a session whose tools are limited by a per-session policy.
 
 **Tech Stack:** Go 1.26, `github.com/emersion/go-imap/v2` v2.0.0-beta.8, `github.com/emersion/go-message`
@@ -427,7 +427,7 @@ Start only after S1 has recorded Gmail's `IDLE` lifetime, the `Authentication-Re
   clears the policy for that session only.
 - [ ] **Step 2: Implement.**
 - [ ] **Step 3: UI test in the Simulator:** with a fake client injected, `xcrun simctl openurl` a
-  `minis://host-event/<host>/batch/<id>` link while the app sits on the welcome screen and again on
+  `pico://host-event/<host>/batch/<id>` link while the app sits on the welcome screen and again on
   a cold start; assert the banner and one session.
 - [ ] **Step 4: Run** `MinisTests` (Remote and HostEvents classes) and the UI test (PASS).
 - [ ] **Step 5: Commit** `feat(remote-host): open host events in a read-only session`.

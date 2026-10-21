@@ -1,6 +1,7 @@
 import Foundation
 
-/// A `minis://host-event/…` link from a push notification (B spec §5.5).
+/// A `pico://host-event/…` link from a push notification (B spec §5.5); `minis://` from hostd 0.2.0 and
+/// earlier still parses.
 public enum HostEventLink: Equatable, Sendable {
     case event(host: String, id: String)
     case batch(host: String, id: String)
@@ -18,7 +19,7 @@ public enum HostEventLinks {
     /// Anything but the two exact shapes is rejected, so a crafted link cannot smuggle a path or a
     /// shell word into the command run on the host.
     public static func parse(_ url: URL) -> HostEventLink? {
-        guard url.scheme == "minis", url.host == "host-event", url.query == nil, url.fragment == nil else { return nil }
+        guard url.scheme == "pico" || url.scheme == "minis", url.host == "host-event", url.query == nil, url.fragment == nil else { return nil }
         // `url.path` drops a trailing slash, which would read ".../batch/" as an event named "batch".
         let segments = url.path(percentEncoded: true)
             .split(separator: "/", omittingEmptySubsequences: false).dropFirst().map(String.init)

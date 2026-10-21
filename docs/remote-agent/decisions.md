@@ -35,6 +35,7 @@ environment > administering the host.
 | D11 | **SSH library: Citadel 0.9.2** (MIT), with its SSH chain pinned exactly in `MinisRemote/Package.swift` (`Joannis/swift-nio-ssh` 0.3.5, BigInt 5.7.0, ColorizeSwift 1.7.0), because it depends on a third-party NIO SSH fork and SwiftPM ignores a dependency's own `Package.resolved`. swift-nio is shared with upstream's packages and gets only a floor. Citadel caps the whole app at swift-crypto <2.1.0, so an upstream package needing a newer swift-crypto will not resolve until Citadel lifts the cap. | 2026-10-16 |
 | D12 | **Cancel walks the process tree, not a process group.** `set -m` fails under busybox `sh` without a tty (verified). | 2026-10-16 |
 | D21 | **Hosts are added by scanning a code from `minis-hostd pair`** ([pairing spec](pairing/spec.md)). The code carries the host key, so Minis pins it without a fingerprint prompt, and a one-time secret that authenticates the phone's public key on its way into `authorized_keys`. Manual entry stays for hosts without `minis-hostd`. | 2026-10-21 |
+| D22 | **The fork installs as "Pico" and owns the `pico://` scheme** for its own links (host events today), because an upstream Minis on the same phone also claims `minis://` and iOS hands such links to either app. The fork keeps `minis://` for upstream's routes, which stay ambiguous while both apps are installed. | 2026-10-21 |
 
 ## B — Proactive push
 
@@ -42,7 +43,7 @@ Settled 2026-10-18 from the open questions Q1–Q6 that were here.
 
 | # | Decision | Since |
 |---|---|---|
-| D13 | **Push channel: Bark for now**, end-to-end encrypted, behind a notifier interface. Minis's own notifications need a paid developer account, distribution under the fork's bundle ID and a relay holding the APNs key (spec §15), none of which exist yet; the app side depends only on the `minis://host-event` link, so switching later changes the notifier alone. *Was Q1.* | 2026-10-18 |
+| D13 | **Push channel: Bark for now**, end-to-end encrypted, behind a notifier interface. Minis's own notifications need a paid developer account, distribution under the fork's bundle ID and a relay holding the APNs key (spec §15), none of which exist yet; the app side depends only on the host-event link (`pico://host-event` since D22), so switching later changes the notifier alone. *Was Q1.* | 2026-10-18 |
 | D14 | **Rules only decide what pushes in B**; no model call before a push. *Was Q2.* | 2026-10-18 |
 | D15 | **`minis-hostd` is written in Go**: one static binary for macOS and Linux. *Was Q3.* | 2026-10-18 |
 | D16 | **Event bodies are kept on the host for 30 days.** *Was Q4.* | 2026-10-18 |

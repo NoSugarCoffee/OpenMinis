@@ -187,7 +187,22 @@ func (s *Store) migrate() error {
 		}
 		return nil
 	}
-	return s.checkVersion()
+	if err := s.checkVersion(); err != nil {
+		return err
+	}
+	return s.rewriteLegacyLinks()
+}
+
+// rewriteLegacyLinks moves links stored by 0.2.0 to pico://, which only the fork claims; a queued
+// minis:// notice would otherwise still open an upstream Minis on the same phone (decision D22).
+func (s *Store) rewriteLegacyLinks() error {
+	for _, table := range []string{"events", "outbox"} {
+		if _, err := s.db.Exec(`UPDATE ` + table + ` SET url = 'pico://' || substr(url, length('minis://') + 1)
+			WHERE url LIKE 'minis://host-event/%'`); err != nil {
+			return fmt.Errorf("store: rewrite %s links: %w", table, err)
+		}
+	}
+	return nil
 }
 
 func (s *Store) checkVersion() error {

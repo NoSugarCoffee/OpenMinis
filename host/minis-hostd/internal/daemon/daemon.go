@@ -218,7 +218,7 @@ func (d *daemon) stamp(name, kind string, pollErr error, now time.Time) error {
 	return d.locked(func() error { return d.store.StampSource(name, kind, pollErr == nil, detail, now) })
 }
 
-func eventURL(host, eventID string) string { return "minis://host-event/" + host + "/" + eventID }
+func eventURL(host, eventID string) string { return "pico://host-event/" + host + "/" + eventID }
 
 // candidateEvent is one candidate ready for the store; decide runs under the write lock with the
 // same now the event is stored with.

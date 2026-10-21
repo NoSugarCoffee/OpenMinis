@@ -66,7 +66,7 @@ gate, quiet hours, automated-mail detection, poll scheduling, notice keys and th
 
 ```
 Minis (iOS)
- ├─ DeepLinkRouter        minis://host-event/<host>/<id>  → HostEventOpener
+ ├─ DeepLinkRouter        pico://host-event/<host>/<id>  → HostEventOpener
  ├─ HostEventClient       runs `"$HOME/.minis/bin/minis-hostd" … --json` as an A1 control script (§9.4)
  ├─ HostEventOpener       fetch → new session with the read-only policy → wrapped event as first prompt → ack
  ├─ SessionToolPolicy     per-session allowlist of tools; makeAgentTools filters, dispatch enforces
@@ -207,8 +207,8 @@ or window ends.
   an unknown reason is shown as GitHub names it).
 - Batch: title `<n> new: <m> mail, <k> GitHub`, body the distinct sender names and repos in arrival
   order ("Alice Chen, Bob Li, owner/repo").
-- All are truncated to 120 characters. The tap URL is `minis://host-event/<host>/<event id>` for one
-  event and `minis://host-event/<host>/batch/<batch id>` for a batch, where `<host>` is the name the
+- All are truncated to 120 characters. The tap URL is `pico://host-event/<host>/<event id>` for one
+  event and `pico://host-event/<host>/batch/<batch id>` for a batch, where `<host>` is the name the
   app gave this host (written into the config by the app's install command).
 
 ## 6. Store and retention
@@ -227,7 +227,7 @@ key, event or batch id, state, attempts, last_error), `pacing` (last push time, 
 ## 7. Notifier: Bark (D13)
 
 - **Request:** `POST https://api.day.app/<device key>` (or a self-hosted `bark-server`), form
-  fields `ciphertext` and `iv`. The encrypted JSON holds `title`, `body`, `url` (the `minis://`
+  fields `ciphertext` and `iv`. The encrypted JSON holds `title`, `body`, `url` (the `pico://`
   link) and `group: "minis"`.
 - **Encryption** (checked in S3, §7.1): on by default and required by `doctor`. Bark's server and
   APNs see only the device key and timing.
@@ -256,7 +256,7 @@ Bark's source (`Model/Algorithm.swift`, `CiphertextProcessor.swift`, CryptoSwift
   "may have been delivered" error kind). The built-in push of §15, ntfy, Telegram or an iMessage
   sender on macOS hosts can be added later without touching the gate.
 - **The app never depends on Bark.** Everything after the tap starts from the
-  `minis://host-event/<host>/<id>` link, so the app works the same whichever notifier showed the
+  `pico://host-event/<host>/<id>` link, so the app works the same whichever notifier showed the
   notification.
 
 Bark is a stopgap with a cost: the user installs a second app, the notification shows as Bark,
@@ -287,10 +287,13 @@ The CLI opens the database read-only, except `ack`, so it never blocks the daemo
 
 ### 9.1 Opening an event or a batch
 
-1. **Deep link:** the router parses `minis://host-event/<host>/<id>` and
-   `minis://host-event/<host>/batch/<id>`, and the opener runs from the app root, so the link works
+1. **Deep link:** the router parses `pico://host-event/<host>/<id>` and
+   `pico://host-event/<host>/batch/<id>`, and the opener runs from the app root, so the link works
    on a cold start and from any screen (S3). An unknown host shows "“<host>” is not configured. Add it
    in Settings → Remote Hosts."
+   Links from minis-hostd 0.2.0 used `minis://`. The parser still accepts them, but iOS may hand them
+   to an upstream Minis on the same phone (D22); 0.2.1 rewrites the ones in its database when it
+   starts, so only notifications already delivered keep the old form.
 2. **Fetch:** `events get <id>` or `batches get <id>` over the host's pooled connection. The same A1
    host key pin and the same `remote-host:<name>` permission apply.
 3. **Session:** one new session, not bound to a host, with the read-only policy (§9.2). It is titled
@@ -402,7 +405,7 @@ commit and send and checks that nothing is pushed twice.
 
 **App:** decoding the golden files in `MinisRemote`, deep-link parsing, `makeAgentTools` under the
 read-only policy, the dispatch guard, and an opener test against a fake `HostEventClient`. A UI test
-in the Simulator opens a `minis://host-event` link and checks the banner and summary.
+in the Simulator opens a `pico://host-event` link and checks the banner and summary.
 
 ## 13. Spikes before the plan
 
@@ -410,7 +413,7 @@ in the Simulator opens a `minis://host-event` link and checks the banner and sum
 |---|---|---|
 | S1 | Gmail: app-password login, how long `IDLE` lasts, `X-GM-RAW` category search, `BODY.PEEK` leaving mail unread, the `Authentication-Results` header Gmail writes | **Done 2026-10-19** (§13.1) |
 | S2 | GitHub: `/notifications` with a classic token scoped to `notifications` only; a fine-grained token is refused | **Done 2026-10-18** (§13.2); the fine-grained refusal is taken from GitHub's docs, not tested |
-| S3 | Bark: encrypted request format; tapping a notification opens `minis://host-event/…` in Minis | **Done 2026-10-18** (§7.1); the `host-event` route itself is tested once it exists |
+| S3 | Bark: encrypted request format; tapping a notification opens `minis://host-event/…` in Minis (`pico://` since D22; the reference vector keeps `minis://`) | **Done 2026-10-18** (§7.1); the `host-event` route itself is tested once it exists |
 | S4 | A1 exec of `~/.minis/bin/minis-hostd` under the host's login-shell rules, on macOS and Linux | **Done 2026-10-18** (§9.4) |
 
 ### 13.1 S1: Gmail (2026-10-19)
@@ -478,7 +481,7 @@ The design when those exist:
   authenticated by the credential. The relay sees only the token, ciphertext and timing, so D5
   holds.
 - **Display:** a Notification Service Extension decrypts the notice before it is shown. A tap opens
-  the same `minis://host-event` route as today.
+  the same `pico://host-event` route as today.
 - **Testing:** the Simulator accepts pushes through `xcrun simctl push`, so the app side can be
   built before the relay exists.
 
