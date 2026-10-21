@@ -14,11 +14,11 @@ Fork only, iOS only. All decisions are in [`decisions.md`](decisions.md).
 
 | Piece | What it delivers | Status | Docs |
 |---|---|---|---|
-| **A1** | Sessions bound to a host; shell and file tools run there; long commands survive app suspension | **Accepted on the iPhone** (2026-10-21); a Linux host and four items to run | [spec](a1-remote-exec/spec.md) · [plan](a1-remote-exec/plan.md) · [acceptance](a1-remote-exec/acceptance.md) |
+| **A1** | Sessions bound to a host; shell and file tools run there; long commands survive app suspension | **Checked on the iPhone** (2026-10-21): 12 items pass, 3 partial (`gh` over SSH among them); a Linux host and four items to run | [spec](a1-remote-exec/spec.md) · [plan](a1-remote-exec/plan.md) · [acceptance](a1-remote-exec/acceptance.md) |
 | Pairing | Add a host by running `minis-hostd pair` and scanning its code; no keys to copy or fingerprints to check | **Merged and in use** (minis-hostd 0.2.1): the Mac mini was added by scanning | [spec](pairing/spec.md) |
 | A2 | Browser with the user's login state; screenshots and screen control by the agent | **Step 1 accepted** (ego-browser through A1) on the Mac mini and the iPhone | [spec](a2-browser/spec.md) |
-| A3 | In-app screen viewer with take-over | **Merged**; device checks 1, 2, 4, 6 pass; the handoff link (check 3) is not built | [spec](a3-screen/spec.md) |
-| B | **Proactive push**: `minis-hostd` watches email and GitHub → rule gate → notification → Minis explains the event in a read-only session | **Accepted on the iPhone** (2026-10-21) except a real push tap and a batch | [scope](b-push/scope.md) · [spec](b-push/spec.md) · [plan](b-push/plan.md) · [acceptance](b-push/acceptance.md) |
+| A3 | In-app screen viewer with take-over | **Merged**; device checks 2, 4, 6 pass, 1 partial (4G only); 3 (the handoff link, not built) and 5 still to run | [spec](a3-screen/spec.md) |
+| B | **Proactive push**: `minis-hostd` watches email and GitHub → rule gate → notification → Minis explains the event in a read-only session | **Checked on the iPhone** (2026-10-21): 10–12 pass; open are a real push tap, a batch, and a cold-start race that leaves the session without a model | [scope](b-push/scope.md) · [spec](b-push/spec.md) · [plan](b-push/plan.md) · [acceptance](b-push/acceptance.md) |
 | Later | Built-in push once the app is distributed (B spec §15) · heartbeat with the proactivity dial (v2) · trust core (v3) · webhooks, Gmail API, Android (v4) | — | — |
 
 ## Shape

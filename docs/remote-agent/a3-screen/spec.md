@@ -1,7 +1,7 @@
 # A3 — Host screen in the app
 
-Status: implemented (#33, #35) except the handoff link and the Done prompt of §5; device checks 1, 2,
-4 and 6 pass (2026-10-21), 3 and 5 are still to run.
+Status: implemented (#33, #35) except the handoff link and the Done prompt of §5; device checks 2, 4
+and 6 pass (2026-10-21), 1 is partial (measured over 4G only), 3 and 5 are still to run.
 
 ## 1. Goal
 
@@ -225,7 +225,7 @@ with iCTRL. Model: Claude Haiku 5.5 through OpenRouter.
 
 | # | Check | Result |
 |---|---|---|
-| 1 | From Settings, the Mac mini's screen opens view-only within 5 s on Wi-Fi | **Pass** over 4G: about 3 s |
+| 1 | From Settings, the Mac mini's screen opens view-only within 5 s on Wi-Fi | **Partial:** about 3 s over 4G; not measured on Wi-Fi |
 | 2 | Control lets the user click and type; the banner shows while it is on | **Pass.** "You are controlling macmini" shows in the bar; a tap focused ego lite's settings search and the typing bar entered "pico check" there |
 | 3 | An agent handoff in ego lite → link → finish the step → Done → the agent continues | Not run: the `host-screen` link and the Done prompt are not built |
 | 4 | Nothing on the host listens anywhere new; the only traffic is the SSH connection | **Pass.** The phone's only connection is SSH on port 22; the viewer's 5900 connection is `sshd-session` to 127.0.0.1. Port 5900 on all interfaces is macOS Screen Sharing's own listener |

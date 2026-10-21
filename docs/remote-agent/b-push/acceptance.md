@@ -1,6 +1,6 @@
 # B acceptance
 
-Status: host side accepted on the Mac mini (2026-10-19); app side accepted on the iPhone (2026-10-21) except a real push tap and a batch.
+Status: host side accepted on the Mac mini (2026-10-19); app side checked on the iPhone (2026-10-21): 10–12 pass; 9 is partial (no real push tapped, and some cold starts give the session no model); 13 not run.
 `minis-hostd` runs there as a launchd service watching the user's Gmail and GitHub.
 
 Each item names the evidence. Spec sections are in [`spec.md`](spec.md).
@@ -22,11 +22,11 @@ Each item names the evidence. Spec sections are in [`spec.md`](spec.md).
 
 Pico (the fork, D22) on the iPhone 17, built by `scripts/ios-personal-device.sh` under the paid
 team, next to an upstream Minis 1.15; minis-hostd 0.2.1 on the Mac mini. The `pico://host-event`
-links were opened with iCTRL's `open_url`, which is what a Bark tap does.
+links were opened with iCTRL's `open_url`, the link a Bark push carries; a tap on a real push was not run.
 
 | # | Check | Result |
 |---|---|---|
-| 9 | Tapping a push opens Minis on a read-only session, from the home screen and from a cold start | **Pass** for the link, from a cold start and with the app running. A tap on a real Bark push is still to do. Before D22 the `minis://` link opened upstream Minis. Two bugs found and fixed: each open made two sessions (#45), and the name hostd used differed from the app's (#43). Open: on some cold starts the session gets no model ("No model configured") because the provider settings finish loading just after the opener creates the session; Retry or picking a model recovers. |
+| 9 | Tapping a push opens Minis on a read-only session, from the home screen and from a cold start | **Partial:** the link opens the session from a cold start and with the app running. A tap on a real Bark push is still to do. Before D22 the `minis://` link opened upstream Minis. Two bugs found and fixed: each open made two sessions (#45), and the name hostd used differed from the app's (#43). Open: on some cold starts the session gets no model ("No model configured") because the provider settings finish loading just after the opener creates the session; Retry or picking a model recovers. |
 | 10 | The session shows a summary and offers only `file_read`, `read_image`, `memory_get` | **Pass.** Summary with the PR link and what needs action; asked for its tools, the model listed exactly those three. |
 | 11 | "Turn Tools On" asks first and affects that session only | **Pass.** A confirmation explains the risk; afterwards that session listed `shell_execute`, `file_write`, `browser_use` and the rest, and another event session still offered Turn Tools On. |
 | 12 | Settings → Remote Hosts → mac-mini → Notifications shows status and recent events | **Pass.** Running, `github` and `mail:personal` green, recent events with their push decision. |
