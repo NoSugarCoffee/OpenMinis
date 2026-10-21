@@ -1,72 +1,49 @@
 # Renaming the fork to Pico
 
-Status: stage 1 in progress, 2026-10-22. Decision D23.
+Status: in progress, 2026-10-22. Decision D23.
 
 ## Goal
 
-The fork stops calling itself OpenMinis or Minis anywhere: the repository, identifiers, code names,
-runtime names on the phone and the hosts, visible text and the icon. What stays:
+People who meet the fork see Pico: its GitHub repository, its README and docs, the app's name and
+icon. Everything underneath keeps upstream's names, so upstream changes keep merging cleanly (D7).
 
-- the credit to OpenMinis and every open-source project in the README's acknowledgements;
-- `LICENSE` (GPLv3) and `THIRD_PARTY_LICENSES.md`, unchanged;
-- a plain statement that Pico is a modified version of OpenMinis, with the date the changes
-  started (GPLv3 §5a), and the app's licences and acknowledgements screens (§5d);
-- links to upstream repositories the build uses (`OpenMinis/ish-arm64`, `OpenMinis/proot`, …),
-  articles about OpenMinis, and recorded test data that names real repositories;
-- "Ministral", which is a Mistral model name, not ours.
+## What changes
 
-## Names
-
-| Was | Becomes |
-|---|---|
-| Repository `NoSugarCoffee/OpenMinis` | `NoSugarCoffee/Pico` (done; GitHub redirects the old URLs) |
-| Go module `github.com/NoSugarCoffee/OpenMinis/host/minis-hostd` | `github.com/NoSugarCoffee/Pico/host/pico-hostd` |
-| Identifier prefix `com.openminis.app` (iOS bundle, app group, iCloud, Android package) | `com.nosugarcoffee.pico` |
-| `OpenMinis`, `Minis` in code names (`MinisRemote`, `MinisApp`, `Minis.xcodeproj`, …) | `Pico…` |
-| `minis-hostd`, `~/.minis/` on hosts | `pico-hostd`, `~/.pico/` |
-| `/var/minis` in the app's sandbox, `minis-*` sandbox commands | `/var/pico`, `pico-*` |
-| `.minisbak` backups | `.picobak` |
-| `minis://` links | `pico://` |
-| "Minis" in visible text | "Pico" |
-
-## What must keep working
-
-Renaming a runtime name breaks whatever already uses it, so each one ships with its migration:
-
-| Name | Who already uses it | Migration |
+| Surface | Was | Becomes |
 |---|---|---|
-| `~/.minis/hostd` (config, state.db), `~/.minis/bin/minis-hostd`, the launchd job `app.minis.hostd` on macOS and the systemd user unit on Linux | The Mac mini's running daemon, and any Linux host | `pico-hostd install-service` moves `~/.minis/hostd` to `~/.pico/hostd` when the new one is absent, then stops and removes the old service: `launchctl bootout` and its plist on macOS, `systemctl --user disable --now` and its unit file on Linux. Tested against both service managers' fakes, and on the Mac mini. The app runs hostd under its new name and offers the install command when it is missing. |
-| `~/.minis/runs` (A1 run files) on each host | Running and finished remote runs | New runs go to `~/.pico/runs`; the app still reads a run it started under the old path until it ends. |
-| `/var/minis` in the app's sandbox | Files, skills and memory inside the app | Moved once at launch, before the sandbox starts, when `/var/pico` is absent. |
-| `.minisbak` | Existing backups | Still restored; new backups are `.picobak`. |
-| `minis://` | Shortcuts, widgets and links that already exist | Still opened; Pico writes only `pico://`. |
-| iOS bundle id and app group (the phone build drops the iCloud entitlements, so it has no iCloud container) | Data and Keychain items on installed builds | The phone build always passes `--prefix com.nosugarcoffee.minis` to `scripts/ios-personal-device.sh`, which rewrites every identifier to that prefix, so the installed app keeps its id and data after the source moves to `com.nosugarcoffee.pico`. A new prefix would install a separate app with empty data; moving an existing install to it is out of scope. |
-| Android `applicationId` | Installed Android builds | A new id is a new app; no Android install exists yet (D1), so nothing migrates. |
+| GitHub repository | `NoSugarCoffee/OpenMinis` | `NoSugarCoffee/Pico` (done; GitHub redirects the old URLs) |
+| Links to the fork (install URLs, docs) | `NoSugarCoffee/OpenMinis` | `NoSugarCoffee/Pico` |
+| hostd's Go module path (fork-only code) | `github.com/NoSugarCoffee/OpenMinis/host/minis-hostd` | `github.com/NoSugarCoffee/Pico/host/minis-hostd` |
+| README, `BUILDING.md`, `CONTRIBUTING.md`, PR template | OpenMinis branding and upstream's contribution rules | Pico, introduced as a modified version of OpenMinis |
+| App name on the home screen | Pico (D22, done) | unchanged |
+| App icon | Upstream's | Pico's own, once chosen |
+
+## What stays
+
+- Identifiers (`com.openminis.app`, the app group, the Android package), code names (`Minis…`,
+  `Minis.xcodeproj`, `MinisRemote`), runtime names (`minis-hostd`, `~/.minis`, `/var/minis`,
+  `.minisbak`, `minis://`) and upstream's in-app text.
+- The credit to OpenMinis and every project in the acknowledgements, `LICENSE` (GPLv3) and
+  `THIRD_PARTY_LICENSES.md`.
+- Links to upstream's repositories, site, store listing, press and community, labelled as
+  OpenMinis's.
+- Recorded test data that names real repositories.
+
+## Licence
+
+GPLv3 lets a modified version carry its own name. The README says Pico is a modified version of
+OpenMinis and since when (§5a), and the app keeps its licences and acknowledgements screens (§5d).
 
 ## Stages
 
-One PR each, merged before the next starts.
-
-1. **Repository and links.** GitHub rename, the Go module path, the install URLs in `install.sh` and the
-   app, links to the fork in docs.
-2. **Branding.** README, `BUILDING.md`, `CONTRIBUTING.md`, the PR template and docs say Pico, with the
-   modified-version notice and the acknowledgements kept.
-3. **iOS identifiers, code names, visible text and icon.** `com.openminis.app` → `com.nosugarcoffee.pico`,
-   the Xcode project, targets, packages and types, "Minis" in strings, and the new icon. The build
-   script learns the new source prefix, so `--prefix` keeps rewriting it.
-4. **Android.** Package `com.openminis.app` → `com.nosugarcoffee.pico` (sources, manifests, Room schema
-   directories), code names, strings and the icon. Built and unit-tested before merging.
-5. **Runtime names, with the migrations above.** hostd becomes `pico-hostd` in `host/pico-hostd`
-   (release 0.3.0, installed on the Mac mini), then the app's sandbox path, commands, backup format
-   and link scheme.
+1. **Repository and links**: the GitHub rename, the Go module path, the install URLs and the docs.
+2. **README and contribution docs**: Pico branding, the modified-version notice, upstream's links
+   moved under its own heading.
+3. **Icon**: the chosen mark in the iOS asset catalogue. Upstream rarely changes its icon, and if it
+   does, keeping ours is a one-file merge.
 
 ## Checks
 
-- Each stage: the grep below, limited to that stage's area, lists only the kept references. After
-  stage 5 it runs on the whole repository: `git grep -i -P '(?<!open)minis|openminis'`.
-- iOS: the app and MinisRemote/PicoRemote test suites pass; the phone build, made with
-  `--prefix com.nosugarcoffee.minis`, installs over the current one and keeps its hosts, keys, chats and
-  settings.
-- hostd: tests pass; on the Mac mini the 0.3.0 install moves the state, the daemon runs under the new
-  label, and pushes and event links still open in the app.
-- Android: `./gradlew assembleDebug testDebugUnitTest` passes.
+- hostd tests pass under the new module path; the app's install command names the new repository.
+- `git grep -i "NoSugarCoffee/OpenMinis"` lists only recorded test data.
+- The README names OpenMinis as the origin and keeps the acknowledgements and licence sections whole.
