@@ -1,6 +1,6 @@
 # Renaming the fork to Pico
 
-Status: stages 1 and 2 done, icon pending, 2026-10-22. Decision D23.
+Status: done, 2026-10-22. Decision D23.
 
 ## Goal
 
@@ -16,7 +16,7 @@ icon. Everything underneath keeps upstream's names, so upstream changes keep mer
 | hostd's Go module path (fork-only code) | `github.com/NoSugarCoffee/OpenMinis/host/minis-hostd` | `github.com/NoSugarCoffee/Pico/host/minis-hostd` |
 | README, `BUILDING.md`, `CONTRIBUTING.md`, PR template | OpenMinis branding and upstream's contribution rules | Pico, introduced as a modified version of OpenMinis |
 | App name on the home screen | Pico (D22, done) | unchanged |
-| App icon | Upstream's | Pico's own, once chosen |
+| App icon | Upstream's | Pico's "window p": a p whose bowl is a small screen, light and dark (`assets/pico-icon.svg`) |
 
 ## What stays
 

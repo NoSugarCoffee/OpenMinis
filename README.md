@@ -1,3 +1,5 @@
+<img src="assets/pico-icon.png" alt="Pico icon" width="96" align="right" />
+
 # Pico
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
