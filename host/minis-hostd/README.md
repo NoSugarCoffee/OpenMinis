@@ -8,6 +8,26 @@ Minis, which reads it from the host over SSH. The design is in
 
 One static binary runs on macOS and Linux, arm64 and amd64.
 
+## Pair with Minis
+
+To add this computer in Minis without copying keys, run on it, as the user Minis should log in as:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/OpenMinis/main/host/minis-hostd/scripts/install.sh \
+  | sh -s -- --pair --version <version>
+```
+
+This installs only the binary, then runs `minis-hostd pair`, which prints a QR code. In Minis, open
+Settings > Remote Hosts > Add Host and scan it. With the binary already installed, run
+`~/.minis/bin/minis-hostd pair [--name <name>] [--ssh-port <port>]` directly.
+
+The code carries the computer's SSH host key, so Minis trusts it without asking you to compare a
+fingerprint, and a one-time secret. Minis uses the secret to send the phone's public key to a
+pairing port that `pair` opens for at most 5 minutes and one phone; `pair` then adds the key to
+`~/.ssh/authorized_keys`. It needs Remote Login (macOS) or sshd (Linux) on, an Ed25519 host key in
+`/etc/ssh/ssh_host_ed25519_key.pub`, and a Tailscale or private network address. The protocol is
+in [`docs/remote-agent/pairing/spec.md`](../../docs/remote-agent/pairing/spec.md).
+
 ## Install
 
 Minis shows the install command under Settings > Remote Hosts > *host* > Notifications. It looks

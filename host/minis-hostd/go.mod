@@ -8,6 +8,7 @@ require (
 	github.com/emersion/go-message v0.18.2
 	github.com/oklog/ulid/v2 v2.1.2
 	modernc.org/sqlite v1.60.1
+	rsc.io/qr v0.2.0
 )
 
 require (
