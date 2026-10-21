@@ -9,7 +9,7 @@ Adding a host today means handling two keys by hand: copy the phone's public key
 found this too hard to follow. Pairing replaces both steps with one command and one scan:
 
 1. On the computer: `minis-hostd pair`. It prints a QR code.
-2. In Minis: Settings → Remote Hosts → Add Host → scan the code → Add.
+2. In Pico: Settings → Remote Hosts → Add Host → scan the code → Add.
 
 The manual form stays as "Enter Details Manually" for hosts without `minis-hostd`.
 
@@ -20,7 +20,7 @@ trusted channel. It carries:
 
 | Field | Use |
 |---|---|
-| `name` | Suggested host name in Minis: `host_name` from `~/.minis/hostd/config.toml` when that file exists, since push links carry it and Minis opens them only for a host of that name; otherwise the short host name, cleaned to `[A-Za-z0-9_-]{1,32}`. Editable before Add |
+| `name` | Suggested host name in Pico: `host_name` from `~/.minis/hostd/config.toml` when that file exists, since push links carry it and Pico opens them only for a host of that name; otherwise the short host name, cleaned to `[A-Za-z0-9_-]{1,32}`. Editable before Add |
 | `user` | The SSH login (the user who ran `pair`) |
 | `port` | The SSH port (22 unless `--ssh-port`) |
 | `addresses` | IPv4 addresses to reach the host: Tailscale (100.64.0.0/10) first, then private LAN ones |
@@ -28,7 +28,7 @@ trusted channel. It carries:
 | `hostKey` | The host's `ssh-ed25519` public key from `/etc/ssh/ssh_host_ed25519_key.pub` |
 | `secret` | 32 random bytes, base64url, used only to authenticate the pairing request |
 
-- **The host key comes from the code**, so Minis pins it without showing a fingerprint. The first
+- **The host key comes from the code**, so Pico pins it without showing a fingerprint. The first
   SSH connection then proves the host holds the matching private key, so nobody on the network
   can stand in for it.
 - **The phone's public key goes to the host over the pairing listener**, authenticated with an
@@ -38,7 +38,7 @@ trusted channel. It carries:
 - The private key is generated on the phone and never leaves it, as in A1.
 
 Payload text: `minis-pair:` followed by compact JSON with `"v": 1` and the fields above. A version
-Minis does not know is refused with "Update Minis to pair with this host."
+Pico does not know is refused with "Update Minis to pair with this host."
 
 ## 3. Host: `minis-hostd pair`
 
@@ -103,7 +103,7 @@ curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/Pico/main/host/minis-
   (VisionKit `DataScannerViewController`, QR only), and "Enter Details Manually" below.
 - After a scan: the name (editable, refused if it duplicates a host), `user@address`, and Add.
   When the host already runs `minis-hostd`, the suggested name is its `host_name`; changing it here
-  means its push links name a host Minis does not have, until `host_name` is changed to match and
+  means its push links name a host Pico does not have, until `host_name` is changed to match and
   the daemon restarted (`minis-hostd install-service`), since it reads the name only at start.
   Pairing shows progress, then the checks, then closes.
 - Devices without a usable camera see the command and the manual entry only.
@@ -112,7 +112,7 @@ curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/Pico/main/host/minis-
 
 | Case | Shown |
 |---|---|
-| Code is not a Minis pairing code | "This is not a Minis pairing code. Run minis-hostd pair on the computer and scan the code it prints." |
+| Code is not a Pico pairing code | "This is not a Minis pairing code. Run minis-hostd pair on the computer and scan the code it prints." |
 | Newer payload version | "Update Minis to pair with this host." |
 | No address answered | "Could not reach <name> at <addresses>. Check that the phone and the computer are on the same Tailscale network or Wi-Fi, and that minis-hostd pair is still running." |
 | `bad_mac` | "The computer refused the pairing. Run minis-hostd pair again and scan the new code." |
@@ -130,7 +130,7 @@ curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/Pico/main/host/minis-
 
 ## 7. Out of scope
 
-- Opening Minis from the system Camera (a `minis://` link would put the secret in the app's URL
+- Opening Pico from the system Camera (a `minis://` link would put the secret in the app's URL
   logs; the in-app scanner avoids that).
 - Hosts reachable only through a jump host or by DNS name: use manual entry.
 - Re-pairing an existing host in place: remove it, then pair again.

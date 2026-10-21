@@ -5,7 +5,7 @@ and 6 pass (2026-10-21), 1 is partial (measured over 4G only), 3 and 5 are still
 
 ## 1. Goal
 
-Let the user see the host's screen from Minis and take control when the agent needs a person:
+Let the user see the host's screen from Pico and take control when the agent needs a person:
 finishing ego lite onboarding, signing in, a captcha, 2FA, or a confirmation the agent should
 not click itself. Today each of these sends the user to the host's own screen (A2 spec §5).
 
@@ -31,7 +31,7 @@ while the user has control.
 ## 3. Architecture
 
 ```
-Minis on iPhone                                               Host
+Pico on iPhone                                               Host
 ┌─────────────────────────────────────────┐                ┌──────────────────────┐
 │ HostScreenView                          │                │                      │
 │  WKWebView ── noVNC (bundled, MPL 2.0)  │                │ Screen Sharing / VNC │
@@ -75,8 +75,8 @@ mini. The ways to avoid typing one:
 
 | Option | What the user does | Cost |
 |---|---|---|
-| **A. Screen Sharing, password once** | Types the Mac password (or VNC password) the first time; Minis saves it in the Keychain under the host and never asks again | None; works today |
-| B. Screen Sharing, random VNC password set by Minis | Once, over SSH: `sudo kickstart -configure -clientopts -setvnclegacy -vnclegacy yes -setvncpw -vncpw <random>`, which asks for the sudo password one time | `kickstart` on macOS 27 unverified; the random password still lives in the Keychain |
+| **A. Screen Sharing, password once** | Types the Mac password (or VNC password) the first time; Pico saves it in the Keychain under the host and never asks again | None; works today |
+| B. Screen Sharing, random VNC password set by Pico | Once, over SSH: `sudo kickstart -configure -clientopts -setvnclegacy -vnclegacy yes -setvncpw -vncpw <random>`, which asks for the sudo password one time | `kickstart` on macOS 27 unverified; the random password still lives in the Keychain |
 | C. Own VNC server on loopback, started over SSH per open with a one-time password | Nothing after a one-time Screen Recording and Accessibility grant | A server to ship and maintain: macVNC (GPL-2.0) has had no commit since 2024-12 and builds from source; writing one means a Swift helper beside `minis-hostd`. On Linux `x11vnc -localhost` / `wayvnc` already work this way. |
 
 Chosen: A (D20), since the prompt appears once per host. C is the zero-password path if the
@@ -144,7 +144,7 @@ The agent acts on the host in two ways, and each has one lock:
    `minis://host-screen/<host>` link.
 2. The user taps it, the viewer opens in Control on the host's screen, and the user finishes
    the step in the ego lite window.
-3. The user taps **Done**. Minis sends a programmatic prompt into the session: "The user finished
+3. The user taps **Done**. Pico sends a programmatic prompt into the session: "The user finished
    on the host's screen; continue." Control turns off, and in ego lite the agent starts its next
    script with `takeOverTaskSpace(id)`.
 
@@ -205,7 +205,7 @@ with `handOffTaskSpace`, include the link, wait for the user.
 
 | # | Question | Proposal |
 |---|---|---|
-| ~~Q1~~ | How does Minis log in to the VNC server without a password, since SSH already proves who the user is? | **Option A** (2026-10-20, D20): the password once, then the Keychain. |
+| ~~Q1~~ | How does Pico log in to the VNC server without a password, since SSH already proves who the user is? | **Option A** (2026-10-20, D20): the password once, then the Keychain. |
 | ~~Q2~~ | Does the agent get the host's screen too? | **Yes** (2026-10-20, D19): §4.4. |
 | ~~Q3~~ | Should a handoff also push (Bark) when the app is closed? | **Yes, later** through `minis-hostd`; not part of A3 (2026-10-20). |
 

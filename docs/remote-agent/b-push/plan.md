@@ -3,7 +3,7 @@
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Mail from allowlisted senders and GitHub activity that needs the user reach the iPhone as
-encrypted Bark notifications; tapping one opens the event, or a batch of events, in Minis as
+encrypted Bark notifications; tapping one opens the event, or a batch of events, in Pico as
 untrusted content in a read-only session.
 
 **Architecture:**

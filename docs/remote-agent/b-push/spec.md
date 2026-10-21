@@ -11,15 +11,15 @@ settle B's open questions). Scope: [`scope.md`](scope.md).
 A **host event** is something the host noticed for the user: a new mail or a GitHub notification,
 stored on the host with the rule decision about it. Proactive push is the whole path from
 noticing to understanding, not only the notification: the host watches, filters and notifies;
-Minis fetches the event and explains it.
+Pico fetches the event and explains it.
 
 New mail from people who matter, and GitHub activity that needs the user, reach the iPhone as
-notifications within a minute. Tapping one opens the event in Minis as untrusted content in a
+notifications within a minute. Tapping one opens the event in Pico as untrusted content in a
 read-only session.
 
 **Success for B**: with `minis-hostd` running on the Mac mini, mail from an allowlisted sender to
 the user's Gmail and a GitHub review request each arrive as one Bark notification. Tapping it opens
-Minis, which fetches the body over SSH and summarises it without being able to run a command. A
+Pico, which fetches the body over SSH and summarises it without being able to run a command. A
 newsletter produces nothing. The same binary runs unchanged on a Linux VPS.
 
 ## 2. Principles
@@ -65,7 +65,7 @@ gate, quiet hours, automated-mail detection, poll scheduling, notice keys and th
 ### 3.2 App
 
 ```
-Minis (iOS)
+Pico (iOS)
  ├─ DeepLinkRouter        pico://host-event/<host>/<id>  → HostEventOpener
  ├─ HostEventClient       runs `"$HOME/.minis/bin/minis-hostd" … --json` as an A1 control script (§9.4)
  ├─ HostEventOpener       fetch → new session with the read-only policy → wrapped event as first prompt → ack
@@ -249,8 +249,8 @@ Bark's source (`Model/Algorithm.swift`, `CiphertextProcessor.swift`, CryptoSwift
   Failed".
 - **Checking the key:** `doctor --push-test` sends an encrypted test push, so a mistyped key shows
   up during setup rather than on the first real event.
-- **Tap:** opens Minis directly from the notification. A route handled only inside one screen is
-  lost: `minis://open_terminal` opened Minis on its home screen without the terminal, because only
+- **Tap:** opens Pico directly from the notification. A route handled only inside one screen is
+  lost: `minis://open_terminal` opened Pico on its home screen without the terminal, because only
   `AIChatView` listens for it. The `host-event` route is therefore handled at the app root (§9.1).
 - **Interface:** the notifier is a small Go interface (`Send(ctx, Notice) error` plus a
   "may have been delivered" error kind). The built-in push of §15, ntfy, Telegram or an iMessage
@@ -260,7 +260,7 @@ Bark's source (`Model/Algorithm.swift`, `CiphertextProcessor.swift`, CryptoSwift
   notification.
 
 Bark is a stopgap with a cost: the user installs a second app, the notification shows as Bark,
-and the tap passes through Bark with an "Open in Minis?" prompt. It is chosen because this fork is
+and the tap passes through Bark with an "Open in Pico?" prompt. It is chosen because this fork is
 not distributed (§15).
 
 ## 8. CLI contract
@@ -292,7 +292,7 @@ The CLI opens the database read-only, except `ack`, so it never blocks the daemo
    on a cold start and from any screen (S3). An unknown host shows "“<host>” is not configured. Add it
    in Settings → Remote Hosts."
    Links from minis-hostd 0.2.0 used `minis://`. The parser still accepts them, but iOS may hand them
-   to an upstream Minis on the same phone (D22); 0.2.1 rewrites the ones in its database when it
+   to an upstream OpenMinis on the same phone (D22); 0.2.1 rewrites the ones in its database when it
    starts, so only notifications already delivered keep the old form.
 2. **Fetch:** `events get <id>` or `batches get <id>` over the host's pooled connection. The same A1
    host key pin and the same `remote-host:<name>` permission apply.
@@ -413,7 +413,7 @@ in the Simulator opens a `pico://host-event` link and checks the banner and summ
 |---|---|---|
 | S1 | Gmail: app-password login, how long `IDLE` lasts, `X-GM-RAW` category search, `BODY.PEEK` leaving mail unread, the `Authentication-Results` header Gmail writes | **Done 2026-10-19** (§13.1) |
 | S2 | GitHub: `/notifications` with a classic token scoped to `notifications` only; a fine-grained token is refused | **Done 2026-10-18** (§13.2); the fine-grained refusal is taken from GitHub's docs, not tested |
-| S3 | Bark: encrypted request format; tapping a notification opens `minis://host-event/…` in Minis (`pico://` since D22; the reference vector keeps `minis://`) | **Done 2026-10-18** (§7.1); the `host-event` route itself is tested once it exists |
+| S3 | Bark: encrypted request format; tapping a notification opens `minis://host-event/…` in Pico (`pico://` since D22; the reference vector keeps `minis://`) | **Done 2026-10-18** (§7.1); the `host-event` route itself is tested once it exists |
 | S4 | A1 exec of `~/.minis/bin/minis-hostd` under the host's login-shell rules, on macOS and Linux | **Done 2026-10-18** (§9.4) |
 
 ### 13.1 S1: Gmail (2026-10-19)
@@ -457,12 +457,12 @@ check, DMARC before an allowlist match counts, and skipping unparseable mail ins
 
 Rejected for B: webhooks (they need a public endpoint, which §2 rules out) and running a model per
 event on the host (D4). Lighter builds were weighed on 2026-10-18 (iOS Mail VIP notifications plus
-sharing to Minis; a polling script with no app changes) and set aside in favour of this design,
-because neither opens the event in Minis behind the read-only policy.
+sharing to Pico; a polling script with no app changes) and set aside in favour of this design,
+because neither opens the event in Pico behind the read-only policy.
 
 ## 15. Later: built-in push
 
-Minis showing its own notifications needs three things this fork does not have yet:
+Pico showing its own notifications needs three things this fork does not have yet:
 
 1. **A paid Apple Developer account.** The free Personal Team has no push capability, and a free
    signed build expires after 7 days.
@@ -475,7 +475,7 @@ Minis showing its own notifications needs three things this fork does not have y
 
 The design when those exist:
 
-- **Registration:** Minis registers for remote notifications and writes its device token, a relay
+- **Registration:** Pico registers for remote notifications and writes its device token, a relay
   credential and a fresh AES key into the host's hostd config over A1's SSH connection.
 - **Sending:** a `relay` notifier encrypts the notice with that key and posts it to the relay,
   authenticated by the credential. The relay sees only the token, ciphertext and timing, so D5
@@ -494,7 +494,7 @@ Bark stays as the notifier for self-built installs.
 - Gmail API, OAuth (and so Outlook personal accounts), other mailboxes than INBOX.
 - Editing hostd's config from the app.
 - Docker packaging.
-- Notifications delivered by Minis itself (§15).
+- Notifications delivered by Pico itself (§15).
 - Android.
 
 ## 17. Known limitations

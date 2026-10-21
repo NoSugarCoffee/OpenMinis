@@ -34,7 +34,7 @@ code, runs builds and tests that outlive app suspension, and uses the host's log
   on the host for A1, and nothing may depend on macOS-only behaviour.
 - **Never fall back silently.** A command meant for the host is never run locally. Every failure is
   reported with a reason and a next step.
-- **The brain stays in Minis.** The agent loop and model keys stay on the phone; the host executes.
+- **The brain stays in Pico.** The agent loop and model keys stay on the phone; the host executes.
 - **Fork hygiene.** New code lives in `src/ios/Agent/Remote/`. Edits to upstream files are limited
   to the three integration points in §3.3 and marked `// fork(remote-host):`.
 
@@ -43,7 +43,7 @@ code, runs builds and tests that outlive app suspension, and uses the host's log
 ### 3.1 Components
 
 ```
-Minis (iOS)
+Pico (iOS)
  ├─ RemoteHostStore      host configs: name, address, port, user, key ref, pinned host key
  ├─ SSHConnectionPool    one long-lived connection per host; reconnect on foreground/network change
  ├─ RemoteExecutor       background runs: start → run id; attach by run id; read by offset; cancel

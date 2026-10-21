@@ -4,27 +4,27 @@ Status: step 1 merged; accepted on the Mac mini and the iPhone (2026-10-21).
 
 ## 1. Goal
 
-Let Minis's agent use a browser on the host that is already logged in to the user's sites, so it
+Let Pico's agent use a browser on the host that is already logged in to the user's sites, so it
 can read and act on pages that need an account (GitHub, Gmail, dashboards) and keep working while
 the app is suspended. The agent stays on the phone (D4); the browser and its cookies stay on the
 host.
 
 ```
-Minis on iPhone ── shell_execute over SSH (A1) ──► ego-browser nodejs <<'EOF' … EOF
+Pico on iPhone ── shell_execute over SSH (A1) ──► ego-browser nodejs <<'EOF' … EOF
        ▲                                                   │
        └──── page text, or a screenshot via minis-remote cp ◄─ ego lite (host profile)
 ```
 
 ## 2. Why ego lite
 
-| Option | Logins | Agent control | Cost to Minis |
+| Option | Logins | Agent control | Cost to Pico |
 |---|---|---|---|
-| Everyday Chrome with remote debugging (old D9) | The user's real profile | Raw CDP; a new client in Minis | A CDP client, a tunnel, a consent flow |
+| Everyday Chrome with remote debugging (old D9) | The user's real profile | Raw CDP; a new client in Pico | A CDP client, a tunnel, a consent flow |
 | **ego lite + `ego-browser`** | Its own profile on the host; can import Chrome's once (`ego-browser import --browser chrome --profile Default`) | Isolated task spaces, handoff to the user, helpers for text snapshots, clicks and input | One prompt sentence |
-| Minis's built-in `browser_use` | Minis's own WebKit store on the phone | Existing tool | None, but stops when the app is suspended and has no host logins |
+| Pico's built-in `browser_use` | Pico's own WebKit store on the phone | Existing tool | None, but stops when the app is suspended and has no host logins |
 
 ego lite gives the agent its own tabs instead of the user's windows, which is the main risk of
-driving the everyday profile, and its CLI is already a scripting surface, so Minis needs no new tool.
+driving the everyday profile, and its CLI is already a scripting surface, so Pico needs no new tool.
 
 ## 3. Step 1: prompt only
 
@@ -60,4 +60,4 @@ through `shell_execute`; copy screenshots to the phone with `minis-remote cp` an
 |---|---|---|
 | 1 | On the Mac mini, `ego-browser` opens GitHub notifications logged in | **Pass** (2026-10-21): logged in as NoSugarCoffee |
 | 2 | Over SSH as A1 runs it, the same script works from a login shell | **Pass**: covered by 3, which runs it through A1 |
-| 3 | From Minis on the iPhone, a bound session reads a logged-in page and shows a screenshot | **Pass**: the account, the first three notifications and a screenshot of the page, in the chat |
+| 3 | From Pico on the iPhone, a bound session reads a logged-in page and shows a screenshot | **Pass**: the account, the first three notifications and a screenshot of the page, in the chat |

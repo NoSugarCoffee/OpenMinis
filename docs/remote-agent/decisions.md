@@ -10,8 +10,8 @@ restating them. A changed decision is edited in place, with the date and what it
 | D1 | **iOS only.** Android is deferred. | 2026-10-15 |
 | D2 | **The host is any Unix machine reachable over SSH** (Mac mini, Linux VPS, NAS, cloud PC). Nothing core may depend on one vendor's ecosystem. *Replaced: "the iPad build on Mac is the host".* | 2026-10-16 |
 | D3 | **Only SSH reachability is required.** Tailscale is recommended, not required. | 2026-10-16 |
-| D4 | **The agent runs in Minis.** Model keys stay on the phone; the host executes and watches. | 2026-10-16 |
-| D5 | **Event bodies stay on the host.** A push carries a one-line summary and an event id; Minis fetches the body over SSH. | 2026-10-16 |
+| D4 | **The agent runs in Pico.** Model keys stay on the phone; the host executes and watches. | 2026-10-16 |
+| D5 | **Event bodies stay on the host.** A push carries a one-line summary and an event id; Pico fetches the body over SSH. | 2026-10-16 |
 | D6 | **Proactivity is a user dial** (Off / Low / Default / High). Pushes from email and GitHub are rule-based; only the High level of the later heartbeat may infer follow-ups from conversation. | 2026-10-15 |
 | D7 | **Fork only, never upstreamed.** New code goes in new files; edits to upstream files are minimal and marked `// fork(remote-host):`. *Replaced: "upstream once stable".* | 2026-10-16 |
 
@@ -34,8 +34,8 @@ environment > administering the host.
 |---|---|---|
 | D11 | **SSH library: Citadel 0.9.2** (MIT), with its SSH chain pinned exactly in `MinisRemote/Package.swift` (`Joannis/swift-nio-ssh` 0.3.5, BigInt 5.7.0, ColorizeSwift 1.7.0), because it depends on a third-party NIO SSH fork and SwiftPM ignores a dependency's own `Package.resolved`. swift-nio is shared with upstream's packages and gets only a floor. Citadel caps the whole app at swift-crypto <2.1.0, so an upstream package needing a newer swift-crypto will not resolve until Citadel lifts the cap. | 2026-10-16 |
 | D12 | **Cancel walks the process tree, not a process group.** `set -m` fails under busybox `sh` without a tty (verified). | 2026-10-16 |
-| D21 | **Hosts are added by scanning a code from `minis-hostd pair`** ([pairing spec](pairing/spec.md)). The code carries the host key, so Minis pins it without a fingerprint prompt, and a one-time secret that authenticates the phone's public key on its way into `authorized_keys`. Manual entry stays for hosts without `minis-hostd`. | 2026-10-21 |
-| D22 | **The fork installs as "Pico" and owns the `pico://` scheme** for its own links (host events today), because an upstream Minis on the same phone also claims `minis://` and iOS hands such links to either app. The fork keeps `minis://` for upstream's routes, which stay ambiguous while both apps are installed. | 2026-10-21 |
+| D21 | **Hosts are added by scanning a code from `minis-hostd pair`** ([pairing spec](pairing/spec.md)). The code carries the host key, so Pico pins it without a fingerprint prompt, and a one-time secret that authenticates the phone's public key on its way into `authorized_keys`. Manual entry stays for hosts without `minis-hostd`. | 2026-10-21 |
+| D22 | **The fork installs as "Pico" and owns the `pico://` scheme** for its own links (host events today), because an upstream OpenMinis on the same phone also claims `minis://` and iOS hands such links to either app. The fork keeps `minis://` for upstream's routes, which stay ambiguous while both apps are installed. | 2026-10-21 |
 | D23 | **The fork is renamed to Pico on its surface only**: the GitHub repository, links to it, the README and contribution docs, the app's name and icon ([rename plan](../pico-rename/plan.md)). Identifiers, code names, runtime names and upstream's in-app text keep upstream's names, so upstream changes keep merging (D7). The one identifier that moves is the Go module path of `minis-hostd`, which is fork-only code and follows the repository name. The credit to OpenMinis, the licences and a modified-version notice stay. | 2026-10-22 |
 
 ## B — Proactive push
@@ -44,7 +44,7 @@ Settled 2026-10-18 from the open questions Q1–Q6 that were here.
 
 | # | Decision | Since |
 |---|---|---|
-| D13 | **Push channel: Bark for now**, end-to-end encrypted, behind a notifier interface. Minis's own notifications need a paid developer account, distribution under the fork's bundle ID and a relay holding the APNs key (spec §15), none of which exist yet; the app side depends only on the host-event link (`pico://host-event` since D22), so switching later changes the notifier alone. *Was Q1.* | 2026-10-18 |
+| D13 | **Push channel: Bark for now**, end-to-end encrypted, behind a notifier interface. Pico's own notifications need a paid developer account, distribution under the fork's bundle ID and a relay holding the APNs key (spec §15), none of which exist yet; the app side depends only on the host-event link (`pico://host-event` since D22), so switching later changes the notifier alone. *Was Q1.* | 2026-10-18 |
 | D14 | **Rules only decide what pushes in B**; no model call before a push. *Was Q2.* | 2026-10-18 |
 | D15 | **`minis-hostd` is written in Go**: one static binary for macOS and Linux. *Was Q3.* | 2026-10-18 |
 | D16 | **Event bodies are kept on the host for 30 days.** *Was Q4.* | 2026-10-18 |
