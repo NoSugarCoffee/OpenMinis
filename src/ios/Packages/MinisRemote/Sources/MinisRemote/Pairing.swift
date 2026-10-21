@@ -74,6 +74,8 @@ public enum PairingRefusal: String, Equatable, Sendable {
     case badMAC = "bad_mac"
     case badKey = "bad_key"
     case badRequest = "bad_request"
+    /// The key was valid but the host could not write `authorized_keys`; the reason is in its terminal.
+    case hostError = "host_error"
 }
 
 public enum PairingError: Error, Equatable {

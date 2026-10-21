@@ -66,6 +66,32 @@ enum RemoteHostSetup {
         logger.info("Added remote host \(name)")
     }
 
+    /// Pairing spec §4: the key is generated first and deleted again unless the host accepted it, and the host
+    /// is added only once its `authorized_keys` holds the key, pinned to the host key the code carried.
+    static func pair(
+        _ payload: PairingPayload, name: String, client: PairingClient, services: RemoteServices
+    ) async throws {
+        try services.store.checkNewName(name)
+        let keyRef = "host-\(UUID().uuidString.lowercased())"
+        try storeKey(.generate, account: keyRef, secrets: services.secrets)
+        do {
+            let key = try RemoteKeyStore.privateKey(store: services.secrets, account: keyRef)
+            let address = try await client.pair(
+                payload, publicKey: RemoteKeyStore.publicKeyLine(of: key, comment: publicKeyComment()))
+            try services.store.add(RemoteHostConfig(
+                name: name, address: address, port: payload.port, user: payload.user, keyRef: keyRef,
+                pinnedHostKey: payload.hostKey, os: nil))
+        } catch {
+            try services.secrets.delete(account: keyRef)
+            throw error
+        }
+        logger.info("Paired remote host \(name)")
+    }
+
+    static func pairCommand() -> String {
+        "curl -fsSL \(HostdRelease.installScriptURL) | sh -s -- --pair --version \(HostdRelease.version)"
+    }
+
     static func updateHost(
         name: String, address: String, port: Int, user: String, services: RemoteServices
     ) async throws {
@@ -138,6 +164,8 @@ enum RemoteHostSetup {
             return failure.message
         case let hostError as RemoteHostError:
             return message(for: hostError)
+        case let pairingError as PairingError:
+            return message(for: pairingError)
         case RemoteRunError.outputFrameMissing(let host, let exitStatus, let detail):
             return RemoteHostL10n.string("“\(host)” did not run the Minis control script (exit status \(exitStatus), \(detail)). Check that /bin/sh and base64 -d (or base64 -D) work on the host and that its login files do not exit.")
         case RemoteRunError.homeDirectoryUnknown(let host, let detail):
@@ -190,6 +218,21 @@ enum RemoteHostSetup {
             return RemoteHostL10n.string("“\(host)” is not trusted yet (host key \(presented)). Check the fingerprint and trust it in Settings → Remote Hosts → \(host).")
         case .notConfigured(let host):
             return RemoteHostL10n.string("“\(host)” is not configured. Add it in Settings → Remote Hosts.")
+        }
+    }
+
+    private static func message(for pairingError: PairingError) -> String {
+        switch pairingError {
+        case .notAPairingCode, .malformedCode:
+            return RemoteHostL10n.string("This is not a Minis pairing code. Run minis-hostd pair on the computer and scan the code it prints.")
+        case .unsupportedVersion:
+            return RemoteHostL10n.string("Update Minis to pair with this host.")
+        case .unreachable(let name, let addresses):
+            return RemoteHostL10n.string("Could not reach \(name) at \(addresses.joined(separator: ", ")). Check that the phone and the computer are on the same Tailscale network or Wi-Fi, and that minis-hostd pair is still running.")
+        case .refused(.hostError):
+            return RemoteHostL10n.string("The computer could not save this iPhone's key. Its Terminal shows why; fix that and run minis-hostd pair again.")
+        case .refused, .malformedReply:
+            return RemoteHostL10n.string("The computer refused the pairing. Run minis-hostd pair again and scan the new code.")
         }
     }
 

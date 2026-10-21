@@ -1018,115 +1018,115 @@
         }
       }
     },
-    "A chat bound to a host runs its shell and file tools there over SSH, for example a Mac or a Linux machine on your Tailscale network. Nothing is installed on the host." : {
+    "A chat bound to a host runs its shell and file tools there over SSH, for example a Mac or a Linux machine on your Tailscale network." : {
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein an einen Host gebundener Chat führt seine Shell- und Dateitools dort über SSH aus, zum Beispiel auf einem Mac oder Linux-Rechner in deinem Tailscale-Netzwerk. Auf dem Host wird nichts installiert."
+            "value" : "Ein an einen Host gebundener Chat führt seine Shell- und Dateitools dort über SSH aus, zum Beispiel auf einem Mac oder Linux-Rechner in deinem Tailscale-Netzwerk."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A chat bound to a host runs its shell and file tools there over SSH, for example a Mac or a Linux machine on your Tailscale network. Nothing is installed on the host."
+            "value" : "A chat bound to a host runs its shell and file tools there over SSH, for example a Mac or a Linux machine on your Tailscale network."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un chat vinculado a un host ejecuta allí sus herramientas de shell y de archivos por SSH, por ejemplo en un Mac o un equipo Linux de tu red Tailscale. No se instala nada en el host."
+            "value" : "Un chat vinculado a un host ejecuta allí sus herramientas de shell y de archivos por SSH, por ejemplo en un Mac o un equipo Linux de tu red Tailscale."
           }
         },
         "fil" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pinapatakbo ng chat na naka-bind sa isang host ang shell at file tools nito roon gamit ang SSH, halimbawa sa isang Mac o Linux machine sa iyong Tailscale network. Walang ini-install sa host."
+            "value" : "Pinapatakbo ng chat na naka-bind sa isang host ang shell at file tools nito roon gamit ang SSH, halimbawa sa isang Mac o Linux machine sa iyong Tailscale network."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une discussion liée à un hôte y exécute ses outils shell et fichiers via SSH, par exemple sur un Mac ou une machine Linux de votre réseau Tailscale. Rien n’est installé sur l’hôte."
+            "value" : "Une discussion liée à un hôte y exécute ses outils shell et fichiers via SSH, par exemple sur un Mac ou une machine Linux de votre réseau Tailscale."
           }
         },
         "hr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Razgovor vezan uz host ondje pokreće svoje alate ljuske i datoteka putem SSH-a, na primjer na Macu ili Linux računalu u vašoj mreži Tailscale. Na host se ništa ne instalira."
+            "value" : "Razgovor vezan uz host ondje pokreće svoje alate ljuske i datoteka putem SSH-a, na primjer na Macu ili Linux računalu u vašoj mreži Tailscale."
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chat yang terikat ke host menjalankan alat shell dan file-nya di sana melalui SSH, misalnya Mac atau komputer Linux di jaringan Tailscale Anda. Tidak ada yang diinstal di host."
+            "value" : "Chat yang terikat ke host menjalankan alat shell dan file-nya di sana melalui SSH, misalnya Mac atau komputer Linux di jaringan Tailscale Anda."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ホストに紐付けたチャットは、シェルとファイルのツールを SSH 経由でそのホスト上で実行します。たとえば Tailscale ネットワーク上の Mac や Linux マシンです。ホストには何もインストールされません。"
+            "value" : "ホストに紐付けたチャットは、シェルとファイルのツールを SSH 経由でそのホスト上で実行します。たとえば Tailscale ネットワーク上の Mac や Linux マシンです。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "호스트에 연결된 채팅은 셸과 파일 도구를 SSH로 그 호스트에서 실행합니다. 예를 들어 Tailscale 네트워크의 Mac이나 Linux 컴퓨터입니다. 호스트에는 아무것도 설치되지 않습니다."
+            "value" : "호스트에 연결된 채팅은 셸과 파일 도구를 SSH로 그 호스트에서 실행합니다. 예를 들어 Tailscale 네트워크의 Mac이나 Linux 컴퓨터입니다."
           }
         },
         "ms" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sembang yang terikat pada hos menjalankan alat shell dan failnya di sana melalui SSH, contohnya Mac atau mesin Linux dalam rangkaian Tailscale anda. Tiada apa-apa dipasang pada hos."
+            "value" : "Sembang yang terikat pada hos menjalankan alat shell dan failnya di sana melalui SSH, contohnya Mac atau mesin Linux dalam rangkaian Tailscale anda."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Czat powiązany z hostem uruchamia tam swoje narzędzia powłoki i plików przez SSH, na przykład na Macu lub komputerze z Linuksem w sieci Tailscale. Na hoście nic nie jest instalowane."
+            "value" : "Czat powiązany z hostem uruchamia tam swoje narzędzia powłoki i plików przez SSH, na przykład na Macu lub komputerze z Linuksem w sieci Tailscale."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Um chat vinculado a um host executa as ferramentas de shell e de arquivos lá por SSH, por exemplo num Mac ou numa máquina Linux da sua rede Tailscale. Nada é instalado no host."
+            "value" : "Um chat vinculado a um host executa as ferramentas de shell e de arquivos lá por SSH, por exemplo num Mac ou numa máquina Linux da sua rede Tailscale."
           }
         },
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un chat legat de o gazdă își rulează acolo instrumentele de shell și fișiere prin SSH, de exemplu pe un Mac sau un calculator Linux din rețeaua dvs. Tailscale. Pe gazdă nu se instalează nimic."
+            "value" : "Un chat legat de o gazdă își rulează acolo instrumentele de shell și fișiere prin SSH, de exemplu pe un Mac sau un calculator Linux din rețeaua dvs. Tailscale."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Чат, привязанный к хосту, выполняет там инструменты оболочки и файлов по SSH, например на Mac или Linux-машине в вашей сети Tailscale. На хост ничего не устанавливается."
+            "value" : "Чат, привязанный к хосту, выполняет там инструменты оболочки и файлов по SSH, например на Mac или Linux-машине в вашей сети Tailscale."
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "แชทที่ผูกกับโฮสต์จะรันเครื่องมือเชลล์และไฟล์บนโฮสต์นั้นผ่าน SSH เช่น Mac หรือเครื่อง Linux ในเครือข่าย Tailscale ของคุณ ไม่มีการติดตั้งอะไรบนโฮสต์"
+            "value" : "แชทที่ผูกกับโฮสต์จะรันเครื่องมือเชลล์และไฟล์บนโฮสต์นั้นผ่าน SSH เช่น Mac หรือเครื่อง Linux ในเครือข่าย Tailscale ของคุณ"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir ana makineye bağlanan sohbet, kabuk ve dosya araçlarını orada SSH üzerinden çalıştırır; örneğin Tailscale ağınızdaki bir Mac veya Linux makinesinde. Ana makineye hiçbir şey yüklenmez."
+            "value" : "Bir ana makineye bağlanan sohbet, kabuk ve dosya araçlarını orada SSH üzerinden çalıştırır; örneğin Tailscale ağınızdaki bir Mac veya Linux makinesinde."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "绑定到主机的聊天会通过 SSH 在该主机上运行 Shell 和文件工具，例如你 Tailscale 网络中的 Mac 或 Linux 电脑。主机上不会安装任何东西。"
+            "value" : "绑定到主机的聊天会通过 SSH 在该主机上运行 Shell 和文件工具，例如你 Tailscale 网络中的 Mac 或 Linux 电脑。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "綁定到主機的聊天會透過 SSH 在該主機上執行 Shell 和檔案工具，例如你 Tailscale 網路中的 Mac 或 Linux 電腦。主機上不會安裝任何東西。"
+            "value" : "綁定到主機的聊天會透過 SSH 在該主機上執行 Shell 和檔案工具，例如你 Tailscale 網路中的 Mac 或 Linux 電腦。"
           }
         }
       }
@@ -1240,6 +1240,119 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已有名為「%@」的主機。請換一個名稱。"
+          }
+        }
+      }
+    },
+    "Add" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hinzufügen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idagdag"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodaj"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambah"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "追加"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "추가"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tambah"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodaj"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adaugă"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เพิ่ม"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekle"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加入"
           }
         }
       }
@@ -1466,6 +1579,119 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "請將此金鑰加入主機上的 ~/.ssh/authorized_keys，例如在主機上執行拷貝的安裝指令。私密金鑰保留在此裝置的鑰匙圈中，不會同步。"
+          }
+        }
+      }
+    },
+    "Added %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ hinzugefügt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added %@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se añadió %@."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naidagdag ang %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ajouté."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ je dodan."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ditambahkan."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ を追加しました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 추가됨."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ditambah."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodano %@."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ adicionado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ a fost adăugat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ добавлен."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เพิ่ม %@ แล้ว"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ eklendi."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已添加 %@。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已加入 %@。"
           }
         }
       }
@@ -2257,6 +2483,119 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "綁定到此主機的聊天會重新在這支 iPhone 上執行工具，且其私密金鑰會從鑰匙圈中刪除。"
+          }
+        }
+      }
+    },
+    "Checking the host…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Host wird geprüft …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checking the host…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprobando el host…"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sinusuri ang host…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérification de l’hôte…"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provjera hosta…"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memeriksa host…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホストを確認中…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "호스트 확인 중…"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menyemak hos…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprawdzanie hosta…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificando o host…"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se verifică gazda…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверка хоста…"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "กำลังตรวจสอบโฮสต์…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana makine denetleniyor…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在检查电脑…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在檢查電腦…"
           }
         }
       }
@@ -3165,6 +3504,232 @@
         }
       }
     },
+    "Copied" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copied"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiado"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nakopya"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copié"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopirano"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disalin"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コピーしました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "복사됨"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disalin"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skopiowano"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiado"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiat"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопировано"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คัดลอกแล้ว"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyalandı"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已复制"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已複製"
+          }
+        }
+      }
+    },
+    "Copy Command" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Befehl kopieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy Command"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar comando"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyahin ang Command"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier la commande"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiraj naredbu"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salin Perintah"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コマンドをコピー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명령 복사"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salin Arahan"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopiuj polecenie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiar Comando"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiază comanda"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопировать команду"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คัดลอกคำสั่ง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komutu Kopyala"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制命令"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製指令"
+          }
+        }
+      }
+    },
     "Copy Install Command" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3500,6 +4065,119 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "無法打開事件"
+          }
+        }
+      }
+    },
+    "Could not reach %@ at %@. Check that the phone and the computer are on the same Tailscale network or Wi-Fi, and that minis-hostd pair is still running." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ war unter %2$@ nicht erreichbar. Prüfe, ob iPhone und Computer im selben Tailscale-Netz oder WLAN sind und minis-hostd pair noch läuft."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not reach %@ at %@. Check that the phone and the computer are on the same Tailscale network or Wi-Fi, and that minis-hostd pair is still running."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo contactar con %1$@ en %2$@. Comprueba que el iPhone y el ordenador estén en la misma red de Tailscale o Wi-Fi y que minis-hostd pair siga en marcha."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hindi maabot ang %1$@ sa %2$@. Tiyaking nasa iisang Tailscale network o Wi-Fi ang phone at computer, at tumatakbo pa ang minis-hostd pair."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de joindre %1$@ à %2$@. Vérifiez que le téléphone et l’ordinateur sont sur le même réseau Tailscale ou Wi-Fi, et que minis-hostd pair tourne toujours."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ nije dostupan na %2$@. Provjeri jesu li telefon i računalo na istoj Tailscale mreži ili Wi-Fiju i radi li minis-hostd pair još uvijek."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak dapat menjangkau %1$@ di %2$@. Pastikan ponsel dan komputer berada di jaringan Tailscale atau Wi-Fi yang sama, dan minis-hostd pair masih berjalan."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$@ で %1$@ に接続できませんでした。iPhone とコンピュータが同じ Tailscale ネットワークか Wi-Fi にあり、minis-hostd pair がまだ実行中か確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$@에서 %1$@에 연결할 수 없습니다. 휴대폰과 컴퓨터가 같은 Tailscale 네트워크나 Wi-Fi에 있는지, minis-hostd pair가 아직 실행 중인지 확인하세요."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidak dapat mencapai %1$@ di %2$@. Pastikan telefon dan komputer berada dalam rangkaian Tailscale atau Wi-Fi yang sama, dan minis-hostd pair masih berjalan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się połączyć z %1$@ pod %2$@. Sprawdź, czy telefon i komputer są w tej samej sieci Tailscale lub Wi-Fi i czy minis-hostd pair nadal działa."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível alcançar %1$@ em %2$@. Verifique se o celular e o computador estão na mesma rede Tailscale ou Wi-Fi e se o minis-hostd pair ainda está em execução."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nu s-a putut contacta %1$@ la %2$@. Verifică dacă telefonul și computerul sunt în aceeași rețea Tailscale sau Wi-Fi și dacă minis-hostd pair încă rulează."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось связаться с %1$@ по адресу %2$@. Убедитесь, что телефон и компьютер в одной сети Tailscale или Wi-Fi и что minis-hostd pair всё ещё запущен."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เชื่อมต่อ %1$@ ที่ %2$@ ไม่ได้ ตรวจสอบว่าโทรศัพท์และคอมพิวเตอร์อยู่ในเครือข่าย Tailscale หรือ Wi-Fi เดียวกัน และ minis-hostd pair ยังทำงานอยู่"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ ana makinesine %2$@ adresinden ulaşılamadı. Telefonun ve bilgisayarın aynı Tailscale ağında veya Wi-Fi’da olduğunu ve minis-hostd pair’in hâlâ çalıştığını kontrol edin."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法通过 %2$@ 连上 %1$@。请确认手机和电脑在同一个 Tailscale 网络或 Wi-Fi 下，并且 minis-hostd pair 还在运行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法透過 %2$@ 連上 %1$@。請確認手機和電腦在同一個 Tailscale 網路或 Wi-Fi 下，且 minis-hostd pair 仍在執行。"
           }
         }
       }
@@ -4291,6 +4969,119 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "編輯檔案"
+          }
+        }
+      }
+    },
+    "Enter Details Manually" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daten manuell eingeben"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter Details Manually"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Introducir datos manualmente"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ilagay nang Mano-mano"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisir les informations à la main"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ručni unos podataka"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukkan Detail Secara Manual"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "詳細を手動で入力"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "직접 입력"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukkan Butiran Secara Manual"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wpisz dane ręcznie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserir Dados Manualmente"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Introdu manual detaliile"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ввести вручную"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ป้อนรายละเอียดด้วยตนเอง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilgileri Elle Gir"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手动填写"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動輸入"
           }
         }
       }
@@ -7798,6 +8589,119 @@
         }
       }
     },
+    "On the computer, open Terminal and run the command below, then point the camera at the code it prints." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne auf dem Computer das Terminal, führe den Befehl unten aus und richte die Kamera auf den angezeigten Code."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On the computer, open Terminal and run the command below, then point the camera at the code it prints."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En el ordenador, abre Terminal, ejecuta el comando de abajo y apunta la cámara al código que muestra."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sa computer, buksan ang Terminal at patakbuhin ang command sa ibaba, saka itutok ang camera sa code na ipapakita nito."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur l’ordinateur, ouvrez Terminal, exécutez la commande ci-dessous, puis pointez l’appareil photo vers le code affiché."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na računalu otvori Terminal i pokreni naredbu ispod, zatim usmjeri kameru prema kodu koji ispiše."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di komputer, buka Terminal dan jalankan perintah di bawah, lalu arahkan kamera ke kode yang ditampilkannya."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コンピュータでターミナルを開いて下のコマンドを実行し、表示されたコードにカメラを向けてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "컴퓨터에서 터미널을 열고 아래 명령을 실행한 다음, 표시되는 코드에 카메라를 비추세요."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pada komputer, buka Terminal dan jalankan arahan di bawah, kemudian halakan kamera ke kod yang dipaparkannya."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na komputerze otwórz Terminal i uruchom poniższe polecenie, a następnie skieruj aparat na wyświetlony kod."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No computador, abra o Terminal e execute o comando abaixo; depois aponte a câmera para o código exibido."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pe computer, deschide Terminal și rulează comanda de mai jos, apoi îndreaptă camera spre codul afișat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На компьютере откройте Терминал, выполните команду ниже и наведите камеру на показанный код."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "บนคอมพิวเตอร์ เปิด Terminal แล้วรันคำสั่งด้านล่าง จากนั้นหันกล้องไปที่โค้ดที่แสดงขึ้นมา"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilgisayarda Terminal’i açıp aşağıdaki komutu çalıştırın, sonra kamerayı ekrana gelen koda tutun."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在电脑上打开“终端”，运行下面的命令，然后用相机对准它显示的二维码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在電腦上打開「終端機」，執行下方指令，然後將相機對準它顯示的條碼。"
+          }
+        }
+      }
+    },
     "Operating system" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8020,6 +8924,119 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "其他原因（%@）"
+          }
+        }
+      }
+    },
+    "Pairing…" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird gekoppelt …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pairing…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emparejando…"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nagpe-pair…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jumelage…"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uparivanje…"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memasangkan…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ペアリング中…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "페어링 중…"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memasangkan…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parowanie…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emparelhando…"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se asociază…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сопряжение…"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "กำลังจับคู่…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eşleştiriliyor…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在配对…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在配對…"
           }
         }
       }
@@ -11527,6 +12544,119 @@
         }
       }
     },
+    "Scan Again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erneut scannen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan Again"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver a escanear"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I-scan Muli"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanner à nouveau"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skeniraj ponovno"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pindai Lagi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "もう一度読み取る"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다시 스캔"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imbas Semula"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skanuj ponownie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ler Novamente"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanează din nou"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканировать снова"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "สแกนอีกครั้ง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeniden Tara"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新扫码"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新掃描"
+          }
+        }
+      }
+    },
     "Screen" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -13222,6 +14352,458 @@
         }
       }
     },
+    "The camera could not start: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Kamera konnte nicht starten: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The camera could not start: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo iniciar la cámara: %@"
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hindi nagsimula ang camera: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de démarrer l’appareil photo : %@"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera se nije mogla pokrenuti: %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera tidak dapat dimulai: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カメラを起動できませんでした: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카메라를 시작할 수 없습니다: %@"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera tidak dapat dimulakan: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie udało się uruchomić aparatu: %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível iniciar a câmera: %@"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera nu a putut porni: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось запустить камеру: %@"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เปิดกล้องไม่ได้: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamera başlatılamadı: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法启动相机：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無法啟動相機：%@"
+          }
+        }
+      }
+    },
+    "The command installs minis-hostd for the current user. If it is installed already, ~/.minis/bin/minis-hostd pair is enough. The computer needs Remote Login (SSH) turned on." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Befehl installiert minis-hostd für den aktuellen Benutzer. Ist es schon installiert, reicht ~/.minis/bin/minis-hostd pair. Auf dem Computer muss „Entfernte Anmeldung“ (SSH) aktiviert sein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The command installs minis-hostd for the current user. If it is installed already, ~/.minis/bin/minis-hostd pair is enough. The computer needs Remote Login (SSH) turned on."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El comando instala minis-hostd para el usuario actual. Si ya está instalado, basta con ~/.minis/bin/minis-hostd pair. El ordenador necesita tener activado Sesión remota (SSH)."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ini-install ng command ang minis-hostd para sa kasalukuyang user. Kung naka-install na ito, sapat na ang ~/.minis/bin/minis-hostd pair. Kailangang naka-on ang Remote Login (SSH) sa computer."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La commande installe minis-hostd pour l’utilisateur actuel. S’il est déjà installé, ~/.minis/bin/minis-hostd pair suffit. L’ordinateur doit avoir la session à distance (SSH) activée."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naredba instalira minis-hostd za trenutačnog korisnika. Ako je već instaliran, dovoljno je ~/.minis/bin/minis-hostd pair. Na računalu mora biti uključena Udaljena prijava (SSH)."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perintah ini menginstal minis-hostd untuk pengguna saat ini. Jika sudah terinstal, ~/.minis/bin/minis-hostd pair sudah cukup. Komputer perlu menyalakan Login Jarak Jauh (SSH)."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このコマンドは現在のユーザに minis-hostd をインストールします。インストール済みなら ~/.minis/bin/minis-hostd pair だけで構いません。コンピュータで「リモートログイン」(SSH) をオンにしておく必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 명령은 현재 사용자에게 minis-hostd를 설치합니다. 이미 설치되어 있다면 ~/.minis/bin/minis-hostd pair만 실행하면 됩니다. 컴퓨터에서 원격 로그인(SSH)이 켜져 있어야 합니다."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arahan ini memasang minis-hostd untuk pengguna semasa. Jika sudah dipasang, ~/.minis/bin/minis-hostd pair sudah memadai. Komputer perlu menghidupkan Log Masuk Jauh (SSH)."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polecenie instaluje minis-hostd dla bieżącego użytkownika. Jeśli jest już zainstalowany, wystarczy ~/.minis/bin/minis-hostd pair. Na komputerze musi być włączone Logowanie zdalne (SSH)."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O comando instala o minis-hostd para o usuário atual. Se já estiver instalado, basta ~/.minis/bin/minis-hostd pair. O computador precisa estar com o Início de Sessão Remoto (SSH) ativado."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comanda instalează minis-hostd pentru utilizatorul curent. Dacă este deja instalat, ajunge ~/.minis/bin/minis-hostd pair. Computerul trebuie să aibă activată Autentificarea la distanță (SSH)."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Команда устанавливает minis-hostd для текущего пользователя. Если он уже установлен, достаточно ~/.minis/bin/minis-hostd pair. На компьютере должен быть включён «Удалённый вход» (SSH)."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คำสั่งนี้ติดตั้ง minis-hostd ให้ผู้ใช้ปัจจุบัน ถ้าติดตั้งไว้แล้ว แค่ ~/.minis/bin/minis-hostd pair ก็พอ คอมพิวเตอร์ต้องเปิดการเข้าสู่ระบบระยะไกล (SSH) ไว้"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komut, minis-hostd’yi geçerli kullanıcı için kurar. Zaten kuruluysa ~/.minis/bin/minis-hostd pair yeterlidir. Bilgisayarda Uzaktan Giriş (SSH) açık olmalıdır."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这条命令会为当前用户安装 minis-hostd。如果已经装过，运行 ~/.minis/bin/minis-hostd pair 即可。电脑需要打开“远程登录”（SSH）。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個指令會為目前使用者安裝 minis-hostd。如果已經安裝，執行 ~/.minis/bin/minis-hostd pair 即可。電腦需要開啟「遠端登入」（SSH）。"
+          }
+        }
+      }
+    },
+    "The computer could not save this iPhone's key. Its Terminal shows why; fix that and run minis-hostd pair again." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Computer konnte den Schlüssel dieses iPhones nicht speichern. Das Terminal zeigt den Grund; behebe ihn und führe minis-hostd pair erneut aus."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The computer could not save this iPhone's key. Its Terminal shows why; fix that and run minis-hostd pair again."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El ordenador no pudo guardar la clave de este iPhone. Terminal muestra el motivo; corrígelo y vuelve a ejecutar minis-hostd pair."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hindi na-save ng computer ang key ng iPhone na ito. Makikita ang dahilan sa Terminal nito; ayusin iyon at patakbuhin muli ang minis-hostd pair."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’ordinateur n’a pas pu enregistrer la clé de cet iPhone. Terminal en indique la raison ; corrigez-la et exécutez à nouveau minis-hostd pair."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Računalo nije moglo spremiti ključ ovog iPhonea. Terminal pokazuje zašto; popravi to i ponovno pokreni minis-hostd pair."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komputer tidak dapat menyimpan kunci iPhone ini. Terminal-nya menunjukkan alasannya; perbaiki lalu jalankan minis-hostd pair lagi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コンピュータがこの iPhone の鍵を保存できませんでした。理由はターミナルに表示されています。直してから minis-hostd pair をもう一度実行してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "컴퓨터가 이 iPhone의 키를 저장하지 못했습니다. 이유는 터미널에 표시됩니다. 문제를 해결한 뒤 minis-hostd pair를 다시 실행하세요."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komputer tidak dapat menyimpan kunci iPhone ini. Terminalnya menunjukkan sebabnya; betulkan dan jalankan minis-hostd pair sekali lagi."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komputer nie mógł zapisać klucza tego iPhone’a. Terminal pokazuje przyczynę; usuń ją i ponownie uruchom minis-hostd pair."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O computador não conseguiu salvar a chave deste iPhone. O Terminal mostra o motivo; corrija e execute minis-hostd pair de novo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Computerul nu a putut salva cheia acestui iPhone. Terminalul arată motivul; rezolvă-l și rulează din nou minis-hostd pair."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Компьютер не смог сохранить ключ этого iPhone. Причина показана в Терминале; устраните её и снова выполните minis-hostd pair."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คอมพิวเตอร์บันทึกคีย์ของ iPhone เครื่องนี้ไม่ได้ ดูสาเหตุได้ใน Terminal แก้ไขแล้วรัน minis-hostd pair อีกครั้ง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilgisayar bu iPhone’un anahtarını kaydedemedi. Nedeni Terminal’de görünüyor; düzeltip minis-hostd pair komutunu yeniden çalıştırın."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电脑没能保存这台 iPhone 的钥匙，原因显示在它的“终端”里。处理好后重新运行 minis-hostd pair。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "電腦無法儲存這部 iPhone 的金鑰，原因顯示在它的「終端機」中。處理好後重新執行 minis-hostd pair。"
+          }
+        }
+      }
+    },
+    "The computer refused the pairing. Run minis-hostd pair again and scan the new code." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Computer hat die Kopplung abgelehnt. Führe minis-hostd pair erneut aus und scanne den neuen Code."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The computer refused the pairing. Run minis-hostd pair again and scan the new code."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El ordenador rechazó el emparejamiento. Vuelve a ejecutar minis-hostd pair y escanea el código nuevo."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tinanggihan ng computer ang pag-pair. Patakbuhin muli ang minis-hostd pair at i-scan ang bagong code."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’ordinateur a refusé le jumelage. Exécutez à nouveau minis-hostd pair et scannez le nouveau code."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Računalo je odbilo uparivanje. Ponovno pokreni minis-hostd pair i skeniraj novi kod."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komputer menolak pemasangan. Jalankan minis-hostd pair lagi dan pindai kode yang baru."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コンピュータがペアリングを拒否しました。minis-hostd pair をもう一度実行し、新しいコードを読み取ってください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "컴퓨터가 페어링을 거부했습니다. minis-hostd pair를 다시 실행하고 새 코드를 스캔하세요."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komputer menolak pasangan. Jalankan minis-hostd pair sekali lagi dan imbas kod baharu."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komputer odrzucił parowanie. Uruchom ponownie minis-hostd pair i zeskanuj nowy kod."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O computador recusou o emparelhamento. Execute minis-hostd pair de novo e leia o novo código."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Computerul a refuzat asocierea. Rulează din nou minis-hostd pair și scanează codul nou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Компьютер отклонил сопряжение. Снова выполните minis-hostd pair и отсканируйте новый код."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คอมพิวเตอร์ปฏิเสธการจับคู่ รัน minis-hostd pair อีกครั้งแล้วสแกนโค้ดใหม่"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilgisayar eşleştirmeyi reddetti. minis-hostd pair komutunu yeniden çalıştırıp yeni kodu tarayın."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电脑拒绝了配对。请重新运行 minis-hostd pair，扫描新的二维码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "電腦拒絕了配對。請重新執行 minis-hostd pair，掃描新的條碼。"
+          }
+        }
+      }
+    },
     "The host could not open %@: %@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -13331,6 +14913,232 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "主機無法開啟 %@：%@"
+          }
+        }
+      }
+    },
+    "The host is saved. Test the connection again from its settings once this is fixed." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Host ist gespeichert. Teste die Verbindung in seinen Einstellungen erneut, sobald das behoben ist."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The host is saved. Test the connection again from its settings once this is fixed."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El host está guardado. Vuelve a probar la conexión desde sus ajustes cuando esté resuelto."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naka-save na ang host. Subukan muli ang koneksyon mula sa settings nito kapag naayos na ito."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’hôte est enregistré. Testez à nouveau la connexion depuis ses réglages une fois le problème réglé."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Host je spremljen. Ponovno testiraj vezu u njegovim postavkama kad ovo popraviš."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Host sudah disimpan. Uji koneksi lagi dari pengaturannya setelah ini diperbaiki."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホストは保存されました。問題を直したら、ホストの設定から接続をもう一度テストしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "호스트가 저장되었습니다. 문제를 해결한 뒤 호스트 설정에서 연결을 다시 테스트하세요."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hos telah disimpan. Uji sambungan sekali lagi dari tetapannya selepas ini dibetulkan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Host został zapisany. Po rozwiązaniu problemu ponownie przetestuj połączenie w jego ustawieniach."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O host foi salvo. Teste a conexão de novo nos ajustes dele depois de corrigir isso."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gazda a fost salvată. Testează din nou conexiunea din setările ei după ce rezolvi problema."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Хост сохранён. Когда исправите это, снова проверьте подключение в его настройках."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "บันทึกโฮสต์แล้ว เมื่อแก้ไขเรียบร้อย ให้ทดสอบการเชื่อมต่ออีกครั้งจากการตั้งค่าของโฮสต์"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana makine kaydedildi. Bu sorun giderilince bağlantıyı ayarlarından yeniden test edin."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电脑已保存。解决这个问题后，在它的设置里再测试一次连接。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "電腦已儲存。解決這個問題後，請在它的設定中再測試一次連線。"
+          }
+        }
+      }
+    },
+    "The host presented a different key from the one in the code. Open the host's settings to check it before using it." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Host hat einen anderen Schlüssel vorgelegt als den im Code. Prüfe ihn in den Einstellungen des Hosts, bevor du ihn verwendest."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The host presented a different key from the one in the code. Open the host's settings to check it before using it."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El host presentó una clave distinta de la del código. Ábrelo en sus ajustes y compruébalo antes de usarlo."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ibang key ang ipinakita ng host kaysa sa nasa code. Buksan ang settings ng host para suriin ito bago gamitin."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’hôte a présenté une clé différente de celle du code. Ouvrez ses réglages pour la vérifier avant de l’utiliser."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Host je predočio drugačiji ključ od onog u kodu. Otvori postavke hosta i provjeri ga prije korištenja."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Host menunjukkan kunci yang berbeda dari yang ada di kode. Buka pengaturan host untuk memeriksanya sebelum digunakan."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホストがコードとは異なる鍵を提示しました。使う前にホストの設定を開いて確認してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "호스트가 코드에 있는 것과 다른 키를 제시했습니다. 사용하기 전에 호스트 설정을 열어 확인하세요."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hos menunjukkan kunci yang berbeza daripada yang ada dalam kod. Buka tetapan hos untuk menyemaknya sebelum digunakan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Host przedstawił inny klucz niż ten w kodzie. Zanim go użyjesz, otwórz ustawienia hosta i sprawdź go."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O host apresentou uma chave diferente da que está no código. Abra os ajustes do host e verifique-a antes de usá-lo."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gazda a prezentat o cheie diferită de cea din cod. Deschide setările gazdei și verifică-o înainte de a o folosi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Хост предъявил другой ключ, не тот, что в коде. Перед использованием откройте настройки хоста и проверьте его."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "โฮสต์แสดงคีย์ที่ต่างจากในโค้ด เปิดการตั้งค่าของโฮสต์เพื่อตรวจสอบก่อนใช้งาน"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana makine, koddakinden farklı bir anahtar sundu. Kullanmadan önce ana makinenin ayarlarını açıp kontrol edin."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电脑出示的身份钥匙和二维码里的不一致。使用前请打开它的设置检查一下。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "電腦出示的身分金鑰與條碼中的不一致。使用前請打開它的設定檢查一下。"
           }
         }
       }
@@ -14691,6 +16499,232 @@
         }
       }
     },
+    "This iPhone cannot scan codes right now. Allow camera access for Minis in Settings, or enter the details manually." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieses iPhone kann gerade keine Codes scannen. Erlaube Minis den Kamerazugriff in den Einstellungen oder gib die Daten manuell ein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This iPhone cannot scan codes right now. Allow camera access for Minis in Settings, or enter the details manually."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este iPhone no puede escanear códigos ahora. Permite el acceso a la cámara para Minis en Ajustes o introduce los datos manualmente."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hindi makapag-scan ng code ang iPhone na ito ngayon. Payagan ang camera para sa Minis sa Settings, o ilagay nang mano-mano ang mga detalye."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet iPhone ne peut pas scanner de code pour le moment. Autorisez l’accès à l’appareil photo pour Minis dans Réglages, ou saisissez les informations à la main."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ovaj iPhone trenutačno ne može skenirati kodove. Dopusti Minisu pristup kameri u Postavkama ili ručno unesi podatke."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone ini tidak dapat memindai kode sekarang. Izinkan akses kamera untuk Minis di Pengaturan, atau masukkan detailnya secara manual."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この iPhone は今コードを読み取れません。設定で Minis のカメラへのアクセスを許可するか、詳細を手動で入力してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금은 이 iPhone에서 코드를 스캔할 수 없습니다. 설정에서 Minis의 카메라 접근을 허용하거나 정보를 직접 입력하세요."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone ini tidak dapat mengimbas kod sekarang. Benarkan akses kamera untuk Minis dalam Tetapan, atau masukkan butiran secara manual."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten iPhone nie może teraz skanować kodów. Zezwól Minis na dostęp do aparatu w Ustawieniach lub wpisz dane ręcznie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este iPhone não consegue ler códigos agora. Permita o acesso à câmera para o Minis em Ajustes ou insira os dados manualmente."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acest iPhone nu poate scana coduri acum. Permite accesul Minis la cameră în Configurări sau introdu manual detaliile."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот iPhone сейчас не может сканировать коды. Разрешите Minis доступ к камере в Настройках или введите данные вручную."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone เครื่องนี้สแกนโค้ดไม่ได้ในขณะนี้ อนุญาตให้ Minis เข้าถึงกล้องในการตั้งค่า หรือป้อนรายละเอียดด้วยตนเอง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu iPhone şu anda kod tarayamıyor. Ayarlar’da Minis’e kamera erişimi verin veya bilgileri elle girin."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台 iPhone 现在无法扫码。请在“设置”中允许 Minis 使用相机，或手动填写信息。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這部 iPhone 目前無法掃描條碼。請在「設定」中允許 Minis 使用相機，或手動輸入資料。"
+          }
+        }
+      }
+    },
+    "This is not a Minis pairing code. Run minis-hostd pair on the computer and scan the code it prints." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das ist kein Minis-Kopplungscode. Führe auf dem Computer minis-hostd pair aus und scanne den angezeigten Code."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is not a Minis pairing code. Run minis-hostd pair on the computer and scan the code it prints."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este no es un código de emparejamiento de Minis. Ejecuta minis-hostd pair en el ordenador y escanea el código que muestra."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hindi ito Minis pairing code. Patakbuhin ang minis-hostd pair sa computer at i-scan ang code na ipapakita nito."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce n’est pas un code de jumelage Minis. Exécutez minis-hostd pair sur l’ordinateur et scannez le code affiché."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ovo nije Minis kod za uparivanje. Pokreni minis-hostd pair na računalu i skeniraj kod koji ispiše."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ini bukan kode pemasangan Minis. Jalankan minis-hostd pair di komputer dan pindai kode yang ditampilkannya."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これは Minis のペアリングコードではありません。コンピュータで minis-hostd pair を実行し、表示されたコードを読み取ってください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minis 페어링 코드가 아닙니다. 컴퓨터에서 minis-hostd pair를 실행하고 표시되는 코드를 스캔하세요."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ini bukan kod pasangan Minis. Jalankan minis-hostd pair pada komputer dan imbas kod yang dipaparkannya."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To nie jest kod parowania Minis. Uruchom minis-hostd pair na komputerze i zeskanuj wyświetlony kod."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este não é um código de emparelhamento do Minis. Execute minis-hostd pair no computador e leia o código exibido."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acesta nu este un cod de asociere Minis. Rulează minis-hostd pair pe computer și scanează codul afișat."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это не код сопряжения Minis. Выполните minis-hostd pair на компьютере и отсканируйте показанный код."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "นี่ไม่ใช่โค้ดจับคู่ของ Minis รัน minis-hostd pair บนคอมพิวเตอร์แล้วสแกนโค้ดที่แสดงขึ้นมา"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu bir Minis eşleştirme kodu değil. Bilgisayarda minis-hostd pair komutunu çalıştırıp ekrana gelen kodu tarayın."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这不是 Minis 的配对码。请在电脑上运行 minis-hostd pair，再扫它显示的二维码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這不是 Minis 的配對碼。請在電腦上執行 minis-hostd pair，再掃描它顯示的條碼。"
+          }
+        }
+      }
+    },
     "This key's passphrase encryption uses more bcrypt rounds than Minis can read (current ssh-keygen uses 24, the limit is 17). Re-encrypt a copy with fewer rounds, ssh-keygen -p -a 16 -f <copy of the key>, then import it again." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -15252,6 +17286,119 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在 %@ 上輸入"
+          }
+        }
+      }
+    },
+    "Update Minis to pair with this host." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualisiere Minis, um mit diesem Host zu koppeln."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update Minis to pair with this host."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualiza Minis para emparejar con este host."
+          }
+        },
+        "fil" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I-update ang Minis para makapag-pair sa host na ito."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mettez Minis à jour pour le jumeler avec cet hôte."
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ažuriraj Minis za uparivanje s ovim hostom."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perbarui Minis untuk memasangkan dengan host ini."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このホストとペアリングするには Minis をアップデートしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 호스트와 페어링하려면 Minis를 업데이트하세요."
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kemas kini Minis untuk berpasangan dengan hos ini."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaktualizuj Minis, aby sparować go z tym hostem."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualize o Minis para emparelhar com este host."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizează Minis pentru a te asocia cu această gazdă."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновите Minis, чтобы выполнить сопряжение с этим хостом."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "อัปเดต Minis เพื่อจับคู่กับโฮสต์นี้"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ana makineyle eşleştirmek için Minis’i güncelleyin."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请更新 Minis 后再和这台电脑配对。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請更新 Minis 後再與這部電腦配對。"
           }
         }
       }

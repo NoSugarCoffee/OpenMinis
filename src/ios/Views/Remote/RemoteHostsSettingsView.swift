@@ -89,7 +89,14 @@ private struct UnreadableRemoteHostsView: View {
 private struct RemoteHostListView: View {
     let services: RemoteServices
     @ObservedObject var store: RemoteHostStore
-    @State private var showAddHost = false
+    @State private var addHost: AddHostSheet?
+
+    private enum AddHostSheet: String, Identifiable {
+        case pair
+        case manual
+
+        var id: String { rawValue }
+    }
 
     var body: some View {
         List {
@@ -102,12 +109,12 @@ private struct RemoteHostListView: View {
                     }
                 }
                 Button {
-                    showAddHost = true
+                    addHost = .pair
                 } label: {
                     Label(RemoteHostL10n.string("Add Host"), systemImage: "plus")
                 }
             } footer: {
-                Text(RemoteHostL10n.string("A chat bound to a host runs its shell and file tools there over SSH, for example a Mac or a Linux machine on your Tailscale network. Nothing is installed on the host."))
+                Text(RemoteHostL10n.string("A chat bound to a host runs its shell and file tools there over SSH, for example a Mac or a Linux machine on your Tailscale network."))
             }
 
             if !store.hosts.isEmpty {
@@ -124,8 +131,13 @@ private struct RemoteHostListView: View {
         }
         .navigationTitle(RemoteHostL10n.string("Remote Hosts"))
         .navigationBarTitleDisplayMode(.inline)
-        .sheet(isPresented: $showAddHost) {
-            RemoteHostEditorView(mode: .add, services: services)
+        .sheet(item: $addHost) { sheet in
+            switch sheet {
+            case .pair:
+                RemoteHostPairView(services: services, onManualEntry: { addHost = .manual })
+            case .manual:
+                RemoteHostEditorView(mode: .add, services: services)
+            }
         }
     }
 }
@@ -418,7 +430,7 @@ private struct RemoteHostDetailView: View {
     }
 }
 
-private struct RemoteHostCheckRow: View {
+struct RemoteHostCheckRow: View {
     let result: RemoteHostChecks.Result
 
     var body: some View {

@@ -69,13 +69,16 @@ public final class RemoteHostStore: ObservableObject {
     }
 
     public func add(_ host: RemoteHostConfig) throws {
-        guard Self.isValidName(host.name) else { throw RemoteHostStoreError.invalidName(host.name) }
-        guard !hosts.contains(where: { $0.name == host.name }) else {
-            throw RemoteHostStoreError.duplicateName(host.name)
-        }
+        try checkNewName(host.name)
         try Self.validateConnection(address: host.address, port: host.port, user: host.user)
         try commit(hosts: hosts + [host], bindings: bindings, recentWorkdirs: recentWorkdirs)
         onHostAdded("remote-host:\(host.name)")
+    }
+
+    /// Pairing calls this before it touches the host, so a name `add` would refuse never leaves a key behind there.
+    public func checkNewName(_ name: String) throws {
+        guard Self.isValidName(name) else { throw RemoteHostStoreError.invalidName(name) }
+        guard !hosts.contains(where: { $0.name == name }) else { throw RemoteHostStoreError.duplicateName(name) }
     }
 
     /// A new address or port may be a different machine, so its pinned key and OS no longer apply.
