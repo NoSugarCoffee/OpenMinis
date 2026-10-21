@@ -35,12 +35,12 @@ Renaming a runtime name breaks whatever already uses it, so each one ships with 
 
 | Name | Who already uses it | Migration |
 |---|---|---|
-| `~/.minis/hostd` (config, state.db), `~/.minis/bin/minis-hostd`, launchd `app.minis.hostd` | The Mac mini's running daemon | `pico-hostd install-service` moves `~/.minis/hostd` to `~/.pico/hostd` when the new one is absent, boots out the old launchd job and removes its plist. The app runs hostd under its new name and offers the install command when it is missing. |
+| `~/.minis/hostd` (config, state.db), `~/.minis/bin/minis-hostd`, the launchd job `app.minis.hostd` on macOS and the systemd user unit on Linux | The Mac mini's running daemon, and any Linux host | `pico-hostd install-service` moves `~/.minis/hostd` to `~/.pico/hostd` when the new one is absent, then stops and removes the old service: `launchctl bootout` and its plist on macOS, `systemctl --user disable --now` and its unit file on Linux. Tested against both service managers' fakes, and on the Mac mini. The app runs hostd under its new name and offers the install command when it is missing. |
 | `~/.minis/runs` (A1 run files) on each host | Running and finished remote runs | New runs go to `~/.pico/runs`; the app still reads a run it started under the old path until it ends. |
 | `/var/minis` in the app's sandbox | Files, skills and memory inside the app | Moved once at launch, before the sandbox starts, when `/var/pico` is absent. |
 | `.minisbak` | Existing backups | Still restored; new backups are `.picobak`. |
 | `minis://` | Shortcuts, widgets and links that already exist | Still opened; Pico writes only `pico://`. |
-| iOS app group and iCloud container | Data on installed builds | On the phone the build script sets the identifiers from `--prefix` (`com.nosugarcoffee.minis` today), so a source rename does not move them. The default prefix becomes `com.nosugarcoffee.pico` for new installs only. |
+| iOS bundle id, app group and iCloud container | Data and Keychain items on installed builds | The phone build always passes `--prefix com.nosugarcoffee.minis` to `scripts/ios-personal-device.sh`, which rewrites every identifier to that prefix, so the installed app keeps its id and data after the source moves to `com.nosugarcoffee.pico`. A new prefix would install a separate app with empty data; moving an existing install to it is out of scope. |
 | Android `applicationId` | Installed Android builds | A new id is a new app; no Android install exists yet (D1), so nothing migrates. |
 
 ## Stages
@@ -53,7 +53,7 @@ One PR each, merged before the next starts.
    modified-version notice and the acknowledgements kept.
 3. **iOS identifiers, code names, visible text and icon.** `com.openminis.app` → `com.nosugarcoffee.pico`,
    the Xcode project, targets, packages and types, "Minis" in strings, and the new icon. The build
-   script's `--prefix` default follows.
+   script learns the new source prefix, so `--prefix` keeps rewriting it.
 4. **Android.** Package `com.openminis.app` → `com.nosugarcoffee.pico` (sources, manifests, Room schema
    directories), code names, strings and the icon. Built and unit-tested before merging.
 5. **Runtime names, with the migrations above.** hostd becomes `pico-hostd` in `host/pico-hostd`
@@ -62,9 +62,11 @@ One PR each, merged before the next starts.
 
 ## Checks
 
-- Every stage: `git grep -i -P '(?<!open)minis|openminis'` lists only the kept references above.
-- iOS: the app and MinisRemote/PicoRemote test suites pass; the phone build installs over the current
-  one and keeps its hosts, keys, chats and settings.
+- Each stage: the grep below, limited to that stage's area, lists only the kept references. After
+  stage 5 it runs on the whole repository: `git grep -i -P '(?<!open)minis|openminis'`.
+- iOS: the app and MinisRemote/PicoRemote test suites pass; the phone build, made with
+  `--prefix com.nosugarcoffee.minis`, installs over the current one and keeps its hosts, keys, chats and
+  settings.
 - hostd: tests pass; on the Mac mini the 0.3.0 install moves the state, the daemon runs under the new
   label, and pushes and event links still open in the app.
 - Android: `./gradlew assembleDebug testDebugUnitTest` passes.
