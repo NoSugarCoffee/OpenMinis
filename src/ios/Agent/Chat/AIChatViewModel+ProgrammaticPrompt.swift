@@ -35,7 +35,7 @@ enum ProgrammaticPromptOrigin: Equatable {
     case shortcut
     /// An `AgentJobRegistry` job (scheduled trigger, helper completion, …).
     case job(jobId: String)
-    case hostEvent // fork(remote-host): a tapped minis://host-event notification
+    case hostEvent // fork(remote-host): a tapped pico://host-event notification
 
     var logLabel: String {
         switch self {

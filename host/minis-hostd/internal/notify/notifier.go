@@ -9,7 +9,7 @@ import (
 type Notice struct {
 	Title string
 	Body  string
-	URL   string // the minis:// link opened on tap; empty for none
+	URL   string // the pico:// link opened on tap; empty for none
 }
 
 type Notifier interface {

@@ -33,14 +33,14 @@ var nightWindow = &config.Window{Start: 22 * 60, End: 7*60 + 30}
 func mail(id, sender, subject string) EventSummary {
 	return EventSummary{
 		Source: store.SourceMail, Title: sender, Body: subject,
-		URL: "minis://host-event/" + host + "/" + id, Key: "mail:personal:" + id, EventID: id,
+		URL: "pico://host-event/" + host + "/" + id, Key: "mail:personal:" + id, EventID: id,
 	}
 }
 
 func github(id, repo, reason, subject string) EventSummary {
 	return EventSummary{
 		Source: store.SourceGitHub, Title: repo, Body: reason + ": " + subject,
-		URL: "minis://host-event/" + host + "/" + id, Key: "github:" + id, EventID: id,
+		URL: "pico://host-event/" + host + "/" + id, Key: "github:" + id, EventID: id,
 	}
 }
 
@@ -59,7 +59,7 @@ func TestLoneEventAfterQuietSpellSendsNow(t *testing.T) {
 	if p.Batch != nil || p.Notice == nil {
 		t.Fatalf("placement %+v", p)
 	}
-	want := store.Notice{Key: "mail:personal:01A", EventID: "01A", Title: "Alice Chen", Body: "Lunch?", URL: "minis://host-event/mac-mini/01A"}
+	want := store.Notice{Key: "mail:personal:01A", EventID: "01A", Title: "Alice Chen", Body: "Lunch?", URL: "pico://host-event/mac-mini/01A"}
 	if *p.Notice != want {
 		t.Errorf("notice %+v, want %+v", *p.Notice, want)
 	}
@@ -130,7 +130,7 @@ func TestLargerBatchClosesAsBatchNotice(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	want := store.Notice{Key: "batch:B1", BatchID: "B1", Title: "2 new: 1 mail, 1 GitHub", Body: "Bob Li, owner/repo", URL: "minis://host-event/mac-mini/batch/B1"}
+	want := store.Notice{Key: "batch:B1", BatchID: "B1", Title: "2 new: 1 mail, 1 GitHub", Body: "Bob Li, owner/repo", URL: "pico://host-event/mac-mini/batch/B1"}
 	if n != want {
 		t.Errorf("notice %+v, want %+v", n, want)
 	}
@@ -439,7 +439,7 @@ func TestOpenBatchSurvivesRestart(t *testing.T) {
 	mailEvent := func(id, sender, subject string, created time.Time) store.Event {
 		return store.Event{
 			ID: id, Key: "mail:personal:" + id, Source: store.SourceMail, CreatedAt: created,
-			Title: sender, Summary: subject, URL: "minis://host-event/" + host + "/" + id,
+			Title: sender, Summary: subject, URL: "pico://host-event/" + host + "/" + id,
 			Body: json.RawMessage(`{}`), Decision: "push", Reason: "allowed",
 		}
 	}
@@ -484,7 +484,7 @@ func TestOpenBatchSurvivesRestart(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	want := store.Notice{Key: "mail:personal:01B", EventID: "01B", BatchID: "01BATCH", Title: "Bob Li", Body: "合同", URL: "minis://host-event/mac-mini/01B"}
+	want := store.Notice{Key: "mail:personal:01B", EventID: "01B", BatchID: "01BATCH", Title: "Bob Li", Body: "合同", URL: "pico://host-event/mac-mini/01B"}
 	if notice != want {
 		t.Errorf("notice %+v, want %+v", notice, want)
 	}

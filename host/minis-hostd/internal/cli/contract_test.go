@@ -57,7 +57,7 @@ const storedOnlyBody = `{"from":{"name":"Shop","address":"news@shop.example"},` 
 func fixtureEvent(id string, source store.Source, createdAt time.Time, title, summary, body, decision, reason string) store.Event {
 	return store.Event{
 		ID: id, Key: string(source) + ":" + id, Source: source, CreatedAt: createdAt, Title: title,
-		Summary: summary, URL: "minis://host-event/mac-mini/" + id, Body: json.RawMessage(body),
+		Summary: summary, URL: "pico://host-event/mac-mini/" + id, Body: json.RawMessage(body),
 		Decision: decision, Reason: reason,
 	}
 }

@@ -4,7 +4,7 @@ import UIKit
 
 private let logger = AppLogger(category: "HostEvents")
 
-/// Opens a `minis://host-event` link (B spec §9.1). It runs from the app root, so the link works on a cold
+/// Opens a `pico://host-event` link (B spec §9.1). It runs from the app root, so the link works on a cold
 /// start and from any screen: the session is created first and opened through the same buffered navigation
 /// a notification tap uses, then the event is fetched inside it, where A1's permission prompt can show.
 @MainActor

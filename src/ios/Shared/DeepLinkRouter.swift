@@ -46,7 +46,7 @@ enum DeepLinkRouter {
 
     @MainActor
     static func handle(url: URL, shareCoordinator: ShareCoordinator) {
-        guard url.scheme == "minis", let host = url.host else {
+        guard url.scheme == "minis" || url.scheme == "pico", let host = url.host else { // fork(remote-host):
             deepLinkLog.info("ignored — non-minis or missing host: \(url.absoluteString)")
             return
         }

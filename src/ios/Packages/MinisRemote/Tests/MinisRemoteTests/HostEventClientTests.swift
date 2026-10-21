@@ -8,10 +8,14 @@ final class HostEventLinkTests: XCTestCase {
     }
 
     func testParsesEventAndBatchLinks() {
-        XCTAssertEqual(parse("minis://host-event/mac-mini/01JS0000000000000000000001"),
+        XCTAssertEqual(parse("pico://host-event/mac-mini/01JS0000000000000000000001"),
                        .event(host: "mac-mini", id: "01JS0000000000000000000001"))
-        XCTAssertEqual(parse("minis://host-event/mac_mini/batch/01JSBATCH"),
+        XCTAssertEqual(parse("pico://host-event/mac_mini/batch/01JSBATCH"),
                        .batch(host: "mac_mini", id: "01JSBATCH"))
+    }
+
+    func testParsesLinksFromHostdBeforePicoScheme() {
+        XCTAssertEqual(parse("minis://host-event/mac-mini/01A"), .event(host: "mac-mini", id: "01A"))
     }
 
     func testRejectsEverythingElse() {
@@ -27,6 +31,7 @@ final class HostEventLinkTests: XCTestCase {
             "minis://host-event/mac-mini/01A%3Brm",
             "minis://host-event/../01A",
             "minis://open_terminal/mac-mini/01A",
+            "pico://open_terminal/mac-mini/01A",
             "https://host-event/mac-mini/01A",
         ]
         for link in rejected {

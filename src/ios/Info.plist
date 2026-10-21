@@ -156,6 +156,9 @@
 		<string>pt-BR</string>
 		<string>hr</string>
 	</array>
+	<!-- fork(remote-host): tells the fork apart from an upstream Minis on the home screen -->
+	<key>CFBundleDisplayName</key>
+	<string>Pico</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -172,6 +175,8 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>minis</string>
+				<!-- fork(remote-host): links only this fork claims, so they never reach an upstream Minis on the same phone -->
+				<string>pico</string>
 			</array>
 		</dict>
 		<dict>

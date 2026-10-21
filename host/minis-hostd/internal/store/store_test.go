@@ -25,7 +25,7 @@ func openTemp(t *testing.T) (*Store, string) {
 func event(id, key string) Event {
 	return Event{
 		ID: id, Key: key, Source: SourceMail, CreatedAt: t0,
-		Title: "Alice Chen", Summary: "Re: 合同 “第三版”", URL: "minis://host-event/mac-mini/" + id,
+		Title: "Alice Chen", Summary: "Re: 合同 “第三版”", URL: "pico://host-event/mac-mini/" + id,
 		Body: json.RawMessage(`{"text":"hi"}`), Decision: "push", Reason: "allowed",
 	}
 }

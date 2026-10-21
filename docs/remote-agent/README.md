@@ -29,7 +29,7 @@ Host (any SSH-reachable Unix machine)
  ├─ ego lite           A2  browser with the user's logins, driven by `ego-browser`
  ├─ Screen Sharing/VNC A3  screen the user watches and takes over, tunnelled over SSH
  └─ minis-hostd        B   IMAP / GitHub → rule gate → push (body stays on the host)
-          │ push: one-line summary + minis://host-event/<id>
+          │ push: one-line summary + pico://host-event/<id>
 Minis on iPhone ◄─┘   the agent loop and model keys live here; fetches over SSH
 ```
 
