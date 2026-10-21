@@ -40,7 +40,7 @@ Renaming a runtime name breaks whatever already uses it, so each one ships with 
 | `/var/minis` in the app's sandbox | Files, skills and memory inside the app | Moved once at launch, before the sandbox starts, when `/var/pico` is absent. |
 | `.minisbak` | Existing backups | Still restored; new backups are `.picobak`. |
 | `minis://` | Shortcuts, widgets and links that already exist | Still opened; Pico writes only `pico://`. |
-| iOS bundle id, app group and iCloud container | Data and Keychain items on installed builds | The phone build always passes `--prefix com.nosugarcoffee.minis` to `scripts/ios-personal-device.sh`, which rewrites every identifier to that prefix, so the installed app keeps its id and data after the source moves to `com.nosugarcoffee.pico`. A new prefix would install a separate app with empty data; moving an existing install to it is out of scope. |
+| iOS bundle id and app group (the phone build drops the iCloud entitlements, so it has no iCloud container) | Data and Keychain items on installed builds | The phone build always passes `--prefix com.nosugarcoffee.minis` to `scripts/ios-personal-device.sh`, which rewrites every identifier to that prefix, so the installed app keeps its id and data after the source moves to `com.nosugarcoffee.pico`. A new prefix would install a separate app with empty data; moving an existing install to it is out of scope. |
 | Android `applicationId` | Installed Android builds | A new id is a new app; no Android install exists yet (D1), so nothing migrates. |
 
 ## Stages
