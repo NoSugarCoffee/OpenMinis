@@ -34,6 +34,7 @@ environment > administering the host.
 |---|---|---|
 | D11 | **SSH library: Citadel 0.9.2** (MIT), with its SSH chain pinned exactly in `MinisRemote/Package.swift` (`Joannis/swift-nio-ssh` 0.3.5, BigInt 5.7.0, ColorizeSwift 1.7.0), because it depends on a third-party NIO SSH fork and SwiftPM ignores a dependency's own `Package.resolved`. swift-nio is shared with upstream's packages and gets only a floor. Citadel caps the whole app at swift-crypto <2.1.0, so an upstream package needing a newer swift-crypto will not resolve until Citadel lifts the cap. | 2026-10-16 |
 | D12 | **Cancel walks the process tree, not a process group.** `set -m` fails under busybox `sh` without a tty (verified). | 2026-10-16 |
+| D21 | **Hosts are added by scanning a code from `minis-hostd pair`** ([pairing spec](pairing/spec.md)). The code carries the host key, so Minis pins it without a fingerprint prompt, and a one-time secret that authenticates the phone's public key on its way into `authorized_keys`. Manual entry stays for hosts without `minis-hostd`. | 2026-10-21 |
 
 ## B — Proactive push
 
