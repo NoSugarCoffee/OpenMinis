@@ -1,6 +1,6 @@
 # B acceptance
 
-Status: host side accepted on the Mac mini (2026-10-19); the app side on the iPhone is pending.
+Status: host side accepted on the Mac mini (2026-10-19); app side checked on the iPhone (2026-10-21): 10–12 pass; 9 is partial (no real push tapped, and some cold starts give the session no model); 13 not run.
 `minis-hostd` runs there as a launchd service watching the user's Gmail and GitHub.
 
 Each item names the evidence. Spec sections are in [`spec.md`](spec.md).
@@ -18,20 +18,16 @@ Each item names the evidence. Spec sections are in [`spec.md`](spec.md).
 | 7 | The same binary runs on macOS and Linux | **Pass.** Static `CGO_ENABLED=0` builds; the CLI contract ran over SSH on macOS and Alpine (S4). |
 | 8 | Runs unattended | **Pass.** launchd service since 2026-10-19 09:17; seven hours later both sources `ok`, no warnings in `hostd.log`. |
 
-## App side (pending: the new Minis is not on the iPhone yet)
+## App side (2026-10-21)
 
-A free Apple ID cannot use upstream's bundle id or App Group, so the device build comes from
-`scripts/ios-personal-device.sh`. Its last run registered the four bundle ids under the user's team,
-then stopped because the App Group `group.com.nosugarcoffee.minis` is not registered: command-line
-signing does not register App Groups, so it needs one pass in Xcode's Signing & Capabilities (see
-the script's header).
+Pico (the fork, D22) on the iPhone 17, built by `scripts/ios-personal-device.sh` under the paid
+team, next to an upstream Minis 1.15; minis-hostd 0.2.1 on the Mac mini. The `pico://host-event`
+links were opened with iCTRL's `open_url`, the link a Bark push carries; a tap on a real push was not run.
 
 | # | Check | Result |
 |---|---|---|
-| 9 | Tapping a push opens Minis on a read-only session, from the home screen and from a cold start | Pending |
-| 10 | The session shows a summary and offers only `file_read`, `read_image`, `memory_get` | Pending (unit tests pass in the Simulator) |
-| 11 | "Turn Tools On" asks first and affects that session only | Pending |
-| 12 | Settings → Remote Hosts → mac-mini → Notifications shows status and recent events | Pending |
-| 13 | A batch push opens one session with all its events | Pending |
-
-Items 9–13 run together with A1's device checklist.
+| 9 | Tapping a push opens Minis on a read-only session, from the home screen and from a cold start | **Partial:** the link opens the session from a cold start and with the app running. A tap on a real Bark push is still to do. Before D22 the `minis://` link opened upstream Minis. Two bugs found and fixed: each open made two sessions (#45), and the name hostd used differed from the app's (#43). Open: on some cold starts the session gets no model ("No model configured") because the provider settings finish loading just after the opener creates the session; Retry or picking a model recovers. |
+| 10 | The session shows a summary and offers only `file_read`, `read_image`, `memory_get` | **Pass.** Summary with the PR link and what needs action; asked for its tools, the model listed exactly those three. |
+| 11 | "Turn Tools On" asks first and affects that session only | **Pass.** A confirmation explains the risk; afterwards that session listed `shell_execute`, `file_write`, `browser_use` and the rest, and another event session still offered Turn Tools On. |
+| 12 | Settings → Remote Hosts → mac-mini → Notifications shows status and recent events | **Pass.** Running, `github` and `mail:personal` green, recent events with their push decision. |
+| 13 | A batch push opens one session with all its events | Not run: no batch has formed on the host yet. |

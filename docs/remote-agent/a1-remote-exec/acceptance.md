@@ -1,8 +1,10 @@
 # A1 acceptance
 
 Status: implementation complete and reviewed (package: 269 tests passing against an sshd container; app
-builds for device; the 36 app-side Remote tests pass in the iOS Simulator). **Nothing below has run on
-a device yet.**
+builds for device; the 36 app-side Remote tests pass in the iOS Simulator). The device run on
+2026-10-21 (results below) passed 2–6, 9–12 and 16; 1, 13 and 14 are partial (`gh` over SSH, the
+second prompt, and unbinding are not shown); a Linux host and items 8, 15, 17 and 18 are still to
+run.
 
 ## Before merge
 
@@ -66,3 +68,35 @@ Also on device:
 17. **Choosing a key file:** its contents are never visible on screen.
 18. **Stop during connect:** cancelling while a cold host is still connecting starts nothing on the
     host.
+
+## Device results (2026-10-21)
+
+iPhone 17 on iOS 27 (build from `main` at `8a4c9c8`, paid team) over 4G and Tailscale to the Mac mini
+(macOS 27, `light@100.81.208.83`), host added by scan pairing. Model: Claude Haiku 5.5 through
+OpenRouter. Driven with iCTRL; screenshots kept out of the repo.
+
+| # | Result |
+|---|---|
+| 1 | **Partial:** all but `gh auth status`. The agent copied `host/minis-hostd` to `/tmp`, edited a Go file, and `go build ./...` and `go test ./internal/pairing/` passed. `gh auth status` failed with "token invalid": gh keeps the token in the login keychain, which an SSH session cannot read. Host fix: `GH_TOKEN` for the SSH shell, or as a last resort `gh auth login --insecure-storage`, which keeps the token in a plain file. |
+| 2 | **Pass.** A 600-second loop kept running on the host through 5 minutes in the background (tick 328 when checked); back in the app the card resumed at tick 420 and the turn ended with `tick 600`, exit 0. Upstream's "Background Task Interrupted" banner showed on return; the remote run was not affected. |
+| 3 | **Pass.** `detach: true` returned at once; reading the exit file later gave 0 and "done". |
+| 4 | **Pass.** Stop on `sleep 600 & sleep 600 & wait` left no `sleep 600` process on the host. |
+| 5 | **Pass**, against a second sshd (user-run, port 2222) whose host key was replaced after trusting it: the tool call was refused with the new fingerprint, Test Connection showed the red mismatch sheet, and Trust New Key re-pinned it. The sheet opens at half height with Trust New Key below the fold; it shows after dragging the sheet up. |
+| 6 | **Pass.** `apple-calendar` ran on the iPhone (the iOS Calendar prompt appeared; access left at None). `minis-remote hosts` listed macmini as reachable, and `minis-remote cp` copied a file host → phone and back, intact. |
+| 7 | Not run: no Linux host yet. |
+| 8 | Not run. The key made at pairing survived reinstalling the app. |
+| 9 | **Pass** through scan pairing ([pairing spec](../pairing/spec.md)): the pinned `SHA256:M8TxWVZ9…` matches `ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub`, there are four check rows, and the OS reads Darwin. Long fingerprints wrap with a hyphen that is not part of the value (`…VM-Tygft…`). |
+| 10 | **Pass.** Ask Once prompted on the first call (an unanswered prompt returns "declined or did not answer in time" after about 30 s); Not Allowed blocked the call; Bypass ran without a prompt. |
+| 11 | **Pass** for both directions with spaces in the paths (`/tmp/acc dir/from mac.txt`, `/var/minis/shared/acc copy.txt`). |
+| 12 | **Pass.** Stopping from the card left the exit file at `cancelled` and the card said cancelled. |
+| 13 | **Partial:** the sub-agent ran `hostname` and `pwd` on macmini in the parent's directory. Run under Bypass, so the "no second prompt" part is not shown. |
+| 14 | **Partial:** "This iPhone" unbinding not recorded. The menu row read "Remote Host" unbound and "macmini" bound; the folder browser listed recent directories first and Go to path worked; a draft chat bound before its first message kept the binding. |
+| 15 | Not run. |
+| 16 | **Pass.** After changing the port, Test Connection offered the new endpoint's fingerprint for trust. |
+| 17 | Not run. |
+| 18 | Not run. |
+
+Also seen:
+
+- A Settings link in an agent reply ("Settings → Remote Hosts → macmini") opens the top of Settings,
+  not the host page.
