@@ -6,7 +6,7 @@ connection. Decisions referenced as D*/Q* are in [`../decisions.md`](../decision
 ## What it delivers
 
 New email from people who matter, and GitHub activity that needs the user, reach the iPhone as
-notifications. Tapping one opens the event in Minis as untrusted content in a read-only session.
+notifications. Tapping one opens the event in Pico as untrusted content in a read-only session.
 
 ## Shape
 
@@ -19,7 +19,7 @@ Host
       ├─ notifier  pluggable: Bark (D13) · ntfy · Telegram · webhook
       └─ CLI       minis-hostd events list|get|ack --json   (versioned contract)
              │ push: title + one-line summary + pico://host-event/<host>/<id>   (body stays on the host, D5)
-Minis ◄──────┘ tap → events get over SSH → wrap as untrusted → read-only session (D17)
+Pico ◄───────┘ tap → events get over SSH → wrap as untrusted → read-only session (D17)
 ```
 
 ## Scope

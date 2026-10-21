@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Let a Minis session bind to any SSH-reachable host so `shell_execute` and the file tools run there, with long commands surviving app suspension.
+**Goal:** Let a Pico session bind to any SSH-reachable host so `shell_execute` and the file tools run there, with long commands surviving app suspension.
 
 **Architecture:**
 - **Remote layer:** a local Swift package, `src/ios/Packages/MinisRemote` (library `MinisRemote`), holds the routing and script logic as pure
