@@ -11,6 +11,7 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+	"time"
 )
 
 func golden(t *testing.T, name string) string {
@@ -74,10 +75,16 @@ func TestTargetForGOOS(t *testing.T) {
 type fakeRunner struct {
 	commands []Command
 	results  map[string]error
+	// queued results are returned first, one per call, before falling back to results.
+	queued map[string][]error
 }
 
 func (r *fakeRunner) Run(_ context.Context, c Command) error {
 	r.commands = append(r.commands, c)
+	if next := r.queued[c.String()]; len(next) > 0 {
+		r.queued[c.String()] = next[1:]
+		return next[0]
+	}
 	return r.results[c.String()]
 }
 
@@ -95,7 +102,7 @@ func newHome(t *testing.T) string {
 }
 
 func newInstaller(home string, runner *fakeRunner) Installer {
-	return Installer{Home: home, UID: 501, Runner: runner}
+	return Installer{Home: home, UID: 501, Runner: runner, Pause: func(time.Duration) {}}
 }
 
 func notLoaded() error { return &ExitError{Code: 113, Output: "Could not find service"} }
@@ -162,6 +169,40 @@ func TestInstallDarwinReloadsALoadedService(t *testing.T) {
 	)
 	if got := commandLines(runner.commands); !reflect.DeepEqual(got, want) {
 		t.Errorf("commands\n got %q\nwant %q", got, want)
+	}
+}
+
+func TestInstallDarwinRetriesBootstrapWhileTheOldJobIsStillGoing(t *testing.T) {
+	home := newHome(t)
+	plistPath := filepath.Join(home, "Library", "LaunchAgents", "app.minis.hostd.plist")
+	bootstrap := "launchctl bootstrap gui/501 " + plistPath
+	ioError := &ExitError{Code: 5, Output: "Bootstrap failed: 5: Input/output error"}
+	runner := &fakeRunner{results: map[string]error{}, queued: map[string][]error{bootstrap: {ioError, ioError}}}
+	if _, err := newInstaller(home, runner).Install(context.Background(), Darwin, DefaultPaths(home)); err != nil {
+		t.Fatal(err)
+	}
+	want := cmds(
+		probe,
+		"launchctl bootout gui/501/app.minis.hostd",
+		bootstrap, bootstrap, bootstrap,
+		"launchctl kickstart -k gui/501/app.minis.hostd",
+	)
+	if got := commandLines(runner.commands); !reflect.DeepEqual(got, want) {
+		t.Errorf("commands\n got %q\nwant %q", got, want)
+	}
+}
+
+func TestInstallDarwinGivesUpOnAPersistentBootstrapError(t *testing.T) {
+	home := newHome(t)
+	plistPath := filepath.Join(home, "Library", "LaunchAgents", "app.minis.hostd.plist")
+	ioError := &ExitError{Code: 5, Output: "Bootstrap failed: 5: Input/output error"}
+	runner := &fakeRunner{results: map[string]error{"launchctl bootstrap gui/501 " + plistPath: ioError}}
+	_, err := newInstaller(home, runner).Install(context.Background(), Darwin, DefaultPaths(home))
+	if !errors.Is(err, ioError) {
+		t.Fatalf("err = %v", err)
+	}
+	if got := len(runner.commands); got != 2+bootoutSettleAttempts {
+		t.Errorf("ran %d commands, want %d", got, 2+bootoutSettleAttempts)
 	}
 }
 
