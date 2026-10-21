@@ -26,7 +26,7 @@ import (
 	"github.com/emersion/go-imap/v2/imapserver"
 	"github.com/emersion/go-imap/v2/imapserver/imapmemserver"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/service"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/service"
 )
 
 const (

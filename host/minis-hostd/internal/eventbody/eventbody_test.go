@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/candidate"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/candidate"
 )
 
 var update = flag.Bool("update", false, "rewrite the golden files in testdata/eventbody")

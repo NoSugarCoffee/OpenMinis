@@ -14,11 +14,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/notify"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/service"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/source/github"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/source/imap"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/notify"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/service"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/source/github"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/source/imap"
 )
 
 const usageDoctor = "minis-hostd doctor [--push-test] [--json]"

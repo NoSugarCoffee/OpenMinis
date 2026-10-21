@@ -10,13 +10,13 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/daemon"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/notify"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/service"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/source/github"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/source/imap"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/store"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/daemon"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/notify"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/service"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/source/github"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/source/imap"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/store"
 )
 
 const (

@@ -11,7 +11,7 @@ import (
 
 	"github.com/emersion/go-imap/v2/imapclient"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
 )
 
 func probeSource(t *testing.T, password string, dial Dialer) *Source {

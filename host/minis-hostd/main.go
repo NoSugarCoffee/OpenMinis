@@ -7,8 +7,8 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/cli"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/service"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/cli"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/service"
 )
 
 // version is set at release time with -ldflags "-X main.version=<tag>".

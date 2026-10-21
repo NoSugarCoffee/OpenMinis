@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/candidate"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/candidate"
 )
 
 var (

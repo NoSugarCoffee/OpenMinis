@@ -25,7 +25,7 @@ v2.1.2; Swift 6, SwiftUI, XCTest, the A1 `MinisRemote` package.
   only.
 - **Code location:**
   - **hostd** (Tasks 1–10) is the Go module `host/minis-hostd/` (module path
-    `github.com/NoSugarCoffee/OpenMinis/host/minis-hostd`). Packages under `internal/`: `config`,
+    `github.com/NoSugarCoffee/Pico/host/minis-hostd`). Packages under `internal/`: `config`,
     `store`, `gate`, `pacing`, `notify`, `source/github`, `source/imap`, `daemon`, `cli`, `service`.
     `main.go` only dispatches to `cli`.
   - **Contract types** (Task 11) live in `src/ios/Packages/MinisRemote`, next to A1.

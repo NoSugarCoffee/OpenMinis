@@ -7,9 +7,9 @@ import (
 	"io/fs"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/notify"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/service"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/notify"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/service"
 )
 
 // Setup holds what the setup commands touch on the host; tests swap in a temp home and a fake runner.

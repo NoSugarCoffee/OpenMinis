@@ -1,4 +1,4 @@
-module github.com/NoSugarCoffee/OpenMinis/host/minis-hostd
+module github.com/NoSugarCoffee/Pico/host/minis-hostd
 
 go 1.26.0
 

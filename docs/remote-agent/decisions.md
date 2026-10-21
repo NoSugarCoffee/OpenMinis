@@ -36,6 +36,7 @@ environment > administering the host.
 | D12 | **Cancel walks the process tree, not a process group.** `set -m` fails under busybox `sh` without a tty (verified). | 2026-10-16 |
 | D21 | **Hosts are added by scanning a code from `minis-hostd pair`** ([pairing spec](pairing/spec.md)). The code carries the host key, so Minis pins it without a fingerprint prompt, and a one-time secret that authenticates the phone's public key on its way into `authorized_keys`. Manual entry stays for hosts without `minis-hostd`. | 2026-10-21 |
 | D22 | **The fork installs as "Pico" and owns the `pico://` scheme** for its own links (host events today), because an upstream Minis on the same phone also claims `minis://` and iOS hands such links to either app. The fork keeps `minis://` for upstream's routes, which stay ambiguous while both apps are installed. | 2026-10-21 |
+| D23 | **The fork is renamed to Pico on its surface only**: the GitHub repository, links to it, the README and contribution docs, the app's name and icon ([rename plan](../pico-rename/plan.md)). Identifiers, code names, runtime names and upstream's in-app text keep upstream's names, so upstream changes keep merging (D7). The one identifier that moves is the Go module path of `minis-hostd`, which is fork-only code and follows the repository name. The credit to OpenMinis, the licences and a modified-version notice stay. | 2026-10-22 |
 
 ## B — Proactive push
 

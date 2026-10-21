@@ -8,7 +8,7 @@
 # `minis-hostd pair` instead, which shows the code to scan in Minis.
 set -eu
 
-repo_releases="https://github.com/NoSugarCoffee/OpenMinis/releases/download"
+repo_releases="https://github.com/NoSugarCoffee/Pico/releases/download"
 
 fail() {
 	echo "minis-hostd install: $*" >&2
