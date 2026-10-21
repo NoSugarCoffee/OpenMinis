@@ -9,12 +9,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/candidate"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/gate"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/notify"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/pacing"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/source/github"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/store"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/candidate"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/gate"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/notify"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/pacing"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/source/github"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/store"
 )
 
 const githubLoops = backgroundLoops + 1

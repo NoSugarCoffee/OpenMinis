@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/notify"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/notify"
 )
 
 func newTemplate(t *testing.T) string {

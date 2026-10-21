@@ -6,12 +6,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/candidate"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/eventbody"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/gate"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/source/github"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/store"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/candidate"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/eventbody"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/gate"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/source/github"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/store"
 )
 
 func (d *daemon) runGitHub(ctx context.Context) error {

@@ -13,7 +13,7 @@ One static binary runs on macOS and Linux, arm64 and amd64.
 To add this computer in Minis without copying keys, run on it, as the user Minis should log in as:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/OpenMinis/main/host/minis-hostd/scripts/install.sh \
+curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/Pico/main/host/minis-hostd/scripts/install.sh \
   | sh -s -- --pair --version <version>
 ```
 
@@ -34,7 +34,7 @@ Minis shows the install command under Settings > Remote Hosts > *host* > Notific
 like this; run it on the host as the user who owns the SSH login Minis uses:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/OpenMinis/main/host/minis-hostd/scripts/install.sh \
+curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/Pico/main/host/minis-hostd/scripts/install.sh \
   | sh -s -- --host-name mac-mini --version 0.1.0
 ```
 

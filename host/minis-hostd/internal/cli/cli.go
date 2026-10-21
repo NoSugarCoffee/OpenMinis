@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/store"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/store"
 )
 
 const SchemaVersion = 1

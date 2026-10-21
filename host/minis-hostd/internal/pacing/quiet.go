@@ -3,7 +3,7 @@ package pacing
 import (
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
 )
 
 func minuteOfDay(t time.Time) int { return t.Hour()*60 + t.Minute() }

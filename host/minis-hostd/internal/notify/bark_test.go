@@ -19,7 +19,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
 )
 
 const testKey = "k7m2pq9wxa4hnc3rts8vbe5fgjy6dz2u"

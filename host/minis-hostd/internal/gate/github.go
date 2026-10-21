@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/candidate"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/candidate"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
 )
 
 // GitHub applies the same freshness limit as mail: the first poll returns every unread notification,

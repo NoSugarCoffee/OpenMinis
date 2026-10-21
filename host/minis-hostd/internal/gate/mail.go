@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/candidate"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/candidate"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
 )
 
 // FreshnessLimit keeps a long outage or a reconcile from pushing stale mail.

@@ -76,7 +76,7 @@ A person runs it in a terminal, so it prints plain text, like the other setup co
 one line:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/OpenMinis/main/host/minis-hostd/scripts/install.sh \
+curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/Pico/main/host/minis-hostd/scripts/install.sh \
   | sh -s -- --pair --version <version>
 ```
 

@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/service"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/service"
 )
 
 const testHostKeyFile = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKZLkiISgErH3yhnlmPsTraduwwNsQAXgtmW88hYus50 root@mini\n"

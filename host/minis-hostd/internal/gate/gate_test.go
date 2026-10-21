@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/candidate"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/candidate"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
 )
 
 var testNow = time.Date(2026, 10, 19, 17, 0, 0, 0, time.UTC)

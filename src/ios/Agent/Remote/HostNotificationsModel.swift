@@ -7,7 +7,7 @@ enum HostdRelease {
     /// Read from `main` so a fix to the script reaches users without an app update; the binary it installs
     /// is still pinned by `version` and checked against the release's SHA256SUMS.
     static let installScriptURL =
-        "https://raw.githubusercontent.com/NoSugarCoffee/OpenMinis/main/host/minis-hostd/scripts/install.sh"
+        "https://raw.githubusercontent.com/NoSugarCoffee/Pico/main/host/minis-hostd/scripts/install.sh"
 }
 
 enum HostdRunState: Equatable {

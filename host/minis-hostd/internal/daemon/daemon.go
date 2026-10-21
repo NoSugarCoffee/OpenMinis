@@ -13,12 +13,12 @@ import (
 
 	"github.com/oklog/ulid/v2"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/gate"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/notify"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/pacing"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/source/github"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/store"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/gate"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/notify"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/pacing"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/source/github"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/store"
 )
 
 const (

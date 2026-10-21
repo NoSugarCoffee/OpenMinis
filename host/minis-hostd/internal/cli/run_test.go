@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/service"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/service"
 )
 
 func TestRunRefusesGmailPrimaryOnly(t *testing.T) {

@@ -9,8 +9,8 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/store"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/store"
 )
 
 const host = "mac-mini"

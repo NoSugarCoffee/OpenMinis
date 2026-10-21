@@ -3,7 +3,7 @@ package cli
 import (
 	"time"
 
-	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/store"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/store"
 )
 
 const usageStatus = "minis-hostd status --json"
