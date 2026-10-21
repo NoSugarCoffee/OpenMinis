@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/fs"
+	"time"
 
 	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
 	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/notify"
@@ -65,7 +66,7 @@ func runInstallService(env Env, args []string) int {
 	if err != nil {
 		return plainFail(env, err.Error())
 	}
-	installer := service.Installer{Home: env.Setup.Home, UID: env.Setup.UID, Runner: env.Setup.Runner}
+	installer := service.Installer{Home: env.Setup.Home, UID: env.Setup.UID, Runner: env.Setup.Runner, Pause: time.Sleep}
 	result, err := installer.Install(context.Background(), target, paths)
 	if err != nil {
 		return plainFail(env, err.Error())
@@ -81,7 +82,7 @@ func runUninstallService(env Env, args []string) int {
 	if err != nil {
 		return plainFail(env, err.Error())
 	}
-	installer := service.Installer{Home: env.Setup.Home, UID: env.Setup.UID, Runner: env.Setup.Runner}
+	installer := service.Installer{Home: env.Setup.Home, UID: env.Setup.UID, Runner: env.Setup.Runner, Pause: time.Sleep}
 	result, err := installer.Uninstall(context.Background(), target)
 	if err != nil {
 		return plainFail(env, err.Error())

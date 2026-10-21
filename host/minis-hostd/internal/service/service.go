@@ -11,6 +11,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 type OS string
@@ -111,6 +112,7 @@ type Installer struct {
 	Home   string
 	UID    int
 	Runner Runner
+	Pause  func(time.Duration)
 }
 
 // Result tells the user what happened and what to do next; the CLI decides how to show it.
@@ -216,13 +218,11 @@ func (in Installer) loadLaunchd(ctx context.Context, plistPath string, paths Pat
 			return Result{}, err
 		}
 	}
-	for _, c := range []Command{
-		launchctl("bootstrap", in.domain(), plistPath),
-		launchctl("kickstart", "-k", in.serviceTarget()),
-	} {
-		if err := in.Runner.Run(ctx, c); err != nil {
-			return Result{}, err
-		}
+	if err := in.bootstrap(ctx, plistPath); err != nil {
+		return Result{}, err
+	}
+	if err := in.Runner.Run(ctx, launchctl("kickstart", "-k", in.serviceTarget())); err != nil {
+		return Result{}, err
 	}
 	return Result{UnitPath: plistPath, Notes: []string{
 		"minis-hostd runs now and at every login.",
@@ -255,6 +255,28 @@ func (in Installer) enableSystemd(ctx context.Context, unitPath string, replacin
 
 // launchdLoaded treats a non-zero exit of `launchctl print` as "not loaded", but stops when
 // launchctl itself cannot run, since every later step would fail the same way.
+// bootoutSettleAttempts × bootoutSettleDelay bounds the wait for launchd to finish removing the old job.
+const (
+	bootoutSettleAttempts = 10
+	bootoutSettleDelay    = 500 * time.Millisecond
+	launchdIOErrorStatus  = 5
+)
+
+// bootstrap retries status 5 ("Input/output error"): bootout returns before launchd has removed the
+// job, and a bootstrap in that window fails although it would succeed a moment later.
+func (in Installer) bootstrap(ctx context.Context, plistPath string) error {
+	var err error
+	for attempt := 0; attempt < bootoutSettleAttempts; attempt++ {
+		err = in.Runner.Run(ctx, launchctl("bootstrap", in.domain(), plistPath))
+		var exitErr *ExitError
+		if !errors.As(err, &exitErr) || exitErr.Code != launchdIOErrorStatus {
+			return err
+		}
+		in.Pause(bootoutSettleDelay)
+	}
+	return err
+}
+
 func (in Installer) launchdLoaded(ctx context.Context) (bool, error) {
 	err := in.Runner.Run(ctx, launchctl("print", in.serviceTarget()))
 	var exitErr *ExitError
