@@ -18,7 +18,8 @@ enum HostScreenError: Error, Equatable {
         case .notConfigured(let host):
             return RemoteHostError.notConfigured(host: host).userMessage
         case .passwordNeeded(let host):
-            return "The screen of \(host) needs its login. Open Settings → Remote Hosts → \(host) → Screen in Minis once and enter the Mac password; Minis keeps it in the Keychain."
+            // Models read "needs its login" as "the Mac is locked" and fell back to screencapture over SSH.
+            return "Minis has no working Screen Sharing password for \(host) (none saved yet, or the Mac refused the saved one), so it cannot open the screen. This is a missing password, not a locked Mac, and screencapture over SSH usually cannot capture the display either. Ask the user to open Settings → Remote Hosts → \(host) → Screen in Minis once and enter the Mac password; Minis keeps it in the Keychain. Then try again."
         case .disconnected(let host):
             return "The screen connection to \(host) closed. Try again."
         case .tunnel(let error):
