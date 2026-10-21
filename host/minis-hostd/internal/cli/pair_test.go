@@ -11,6 +11,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/service"
 )
 
 const testHostKeyFile = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKZLkiISgErH3yhnlmPsTraduwwNsQAXgtmW88hYus50 root@mini\n"
@@ -159,6 +161,58 @@ func TestPairPreflightFailuresNameTheFix(t *testing.T) {
 		}
 		if out.Len() != 0 || listened {
 			t.Errorf("%s: stdout %q listened %v", c.name, out, listened)
+		}
+	}
+}
+
+func writePairConfig(t *testing.T, home, text string) string {
+	t.Helper()
+	path := service.DefaultPaths(home).Config
+	if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(path, []byte(text), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	return path
+}
+
+func TestPairNameFollowsTheConfig(t *testing.T) {
+	cases := []struct {
+		name      string
+		config    string
+		requested string
+		want      string
+		wantErr   string
+	}{
+		{name: "no config uses the computer name", want: "Mac-mini"},
+		{name: "no config takes --name", requested: "mini", want: "mini"},
+		{name: "config host_name wins", config: "host_name = \"macmini\"\n[bark]\n", want: "macmini"},
+		{name: "matching --name", config: "host_name = \"macmini\"\n", requested: "macmini", want: "macmini"},
+		{name: "conflicting --name", config: "host_name = \"macmini\"\n", requested: "mini",
+			wantErr: `names this host "macmini", so its pushes open only a host named "macmini" in Minis`},
+		{name: "bad host_name", config: "host_name = \"my mac\"\n", wantErr: "host_name: must be the host's name"},
+		{name: "broken TOML", config: "host_name = \"macmini\"\ndevice_key = abc\n", wantErr: "Fix the file, or move it aside"},
+	}
+	for _, c := range cases {
+		env, _, _, home := setupEnv(t, &recordingRunner{})
+		if c.config != "" {
+			writePairConfig(t, home, c.config)
+		}
+		session, err := preparePairing(env, pairOptions{Name: c.requested, SSHPort: 22}, fakePairDeps(t, func(int) {}))
+		if c.wantErr != "" {
+			if err == nil || !strings.Contains(err.Error(), c.wantErr) {
+				t.Errorf("%s: err %v", c.name, err)
+			}
+			continue
+		}
+		if err != nil {
+			t.Errorf("%s: %v", c.name, err)
+			continue
+		}
+		session.Listener.Close()
+		if session.Payload.Name != c.want {
+			t.Errorf("%s: name %q, want %q", c.name, session.Payload.Name, c.want)
 		}
 	}
 }

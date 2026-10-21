@@ -12,7 +12,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/config"
 	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/pairing"
+	"github.com/NoSugarCoffee/OpenMinis/host/minis-hostd/internal/service"
 )
 
 const (
@@ -202,13 +204,9 @@ func preparePairing(env Env, options pairOptions, deps pairDeps) (pairingSession
 	if err != nil {
 		return pairingSession{}, fmt.Errorf("cannot find the current user: %v", err)
 	}
-	name := options.Name
-	if name == "" {
-		hostname, err := deps.Hostname()
-		if err != nil {
-			return pairingSession{}, fmt.Errorf("cannot read the host name: %v; pass --name", err)
-		}
-		name = pairing.CleanName(hostname)
+	name, err := pairName(env, options.Name, deps)
+	if err != nil {
+		return pairingSession{}, err
 	}
 	secret := make([]byte, pairing.SecretSize)
 	if err := deps.Random(secret); err != nil {
@@ -223,6 +221,30 @@ func preparePairing(env Env, options pairOptions, deps pairDeps) (pairingSession
 		PairPort: listener.Addr().(*net.TCPAddr).Port, HostKey: hostKey, Secret: pairing.EncodeSecret(secret),
 	}
 	return pairingSession{Payload: payload, Secret: secret, Listener: listener}, nil
+}
+
+// pairName prefers config.toml's host_name: push links carry that name, and Minis opens them only
+// when it matches the host's name in the app.
+func pairName(env Env, requested string, deps pairDeps) (string, error) {
+	configPath := service.DefaultPaths(env.Setup.Home).Config
+	configured, found, err := config.ReadHostName(configPath)
+	if err != nil {
+		return "", fmt.Errorf("%v\nFix the file, or move it aside, then run `minis-hostd pair` again.", err)
+	}
+	switch {
+	case found && requested != "" && requested != configured:
+		return "", fmt.Errorf("%s names this host %q, so its pushes open only a host named %q in Minis. Pair without --name, or change host_name and run `minis-hostd install-service` to restart the daemon with it first.",
+			configPath, configured, configured)
+	case found:
+		return configured, nil
+	case requested != "":
+		return requested, nil
+	}
+	hostname, err := deps.Hostname()
+	if err != nil {
+		return "", fmt.Errorf("cannot read the host name: %v; pass --name", err)
+	}
+	return pairing.CleanName(hostname), nil
 }
 
 func sshOffMessage(goos string, port int) string {

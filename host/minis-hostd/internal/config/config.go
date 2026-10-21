@@ -2,7 +2,9 @@
 package config
 
 import (
+	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	"regexp"
 	"strings"
@@ -143,6 +145,29 @@ func Load(path string) (Config, error) {
 		return Config{}, &Error{Path: path, Message: err.Error()}
 	}
 	return Parse(path, data)
+}
+
+// ReadHostName reads only host_name, so pairing can match it while the other settings are still
+// incomplete; the file must still be valid TOML. found is false when the file does not exist.
+func ReadHostName(path string) (name string, found bool, err error) {
+	data, err := os.ReadFile(path)
+	if errors.Is(err, fs.ErrNotExist) {
+		return "", false, nil
+	}
+	if err != nil {
+		return "", false, &Error{Path: path, Message: err.Error()}
+	}
+	var raw struct {
+		HostName string `toml:"host_name"`
+	}
+	if _, err := toml.Decode(string(data), &raw); err != nil {
+		return "", false, &Error{Path: path, Message: err.Error()}
+	}
+	if !hostNamePattern.MatchString(raw.HostName) {
+		return "", false, &Error{Path: path, Field: "host_name",
+			Message: "must be the host's name in Minis: 1 to 32 letters, digits, '-' or '_'"}
+	}
+	return raw.HostName, true, nil
 }
 
 // Parse validates the TOML text; path is used only in error messages.
