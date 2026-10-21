@@ -1,6 +1,7 @@
 # A3 — Host screen in the app
 
-Status: draft. Open questions in §10; spikes in §11 run before the plan.
+Status: implemented (#33, #35) except the handoff link and the Done prompt of §5; device checks 1, 2,
+4 and 6 pass (2026-10-21), 3 and 5 are still to run.
 
 ## 1. Goal
 
@@ -219,11 +220,25 @@ with `handOffTaskSpace`, include the link, wait for the user.
 
 ## 12. Acceptance
 
-| # | Check |
-|---|---|
-| 1 | From Settings, the Mac mini's screen opens view-only within 5 s on Wi-Fi |
-| 2 | Control lets the user click and type; the banner shows while it is on |
-| 3 | An agent handoff in ego lite → link → finish the step → Done → the agent continues |
-| 4 | Nothing on the host listens anywhere new; the only traffic is the SSH connection |
-| 5 | A wrong password and Screen Sharing off show the messages in §7 |
-| 6 | The agent opens TextEdit with the screen tools and types a line; taking Control mid-task pauses it with the §4.4 reply |
+Run on 2026-10-21: Pico on the iPhone 17 over 4G and Tailscale to the Mac mini (macOS 27), driven
+with iCTRL. Model: Claude Haiku 5.5 through OpenRouter.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | From Settings, the Mac mini's screen opens view-only within 5 s on Wi-Fi | **Pass** over 4G: about 3 s |
+| 2 | Control lets the user click and type; the banner shows while it is on | **Pass.** "You are controlling macmini" shows in the bar; a tap focused ego lite's settings search and the typing bar entered "pico check" there |
+| 3 | An agent handoff in ego lite → link → finish the step → Done → the agent continues | Not run: the `host-screen` link and the Done prompt are not built |
+| 4 | Nothing on the host listens anywhere new; the only traffic is the SSH connection | **Pass.** The phone's only connection is SSH on port 22; the viewer's 5900 connection is `sshd-session` to 127.0.0.1. Port 5900 on all interfaces is macOS Screen Sharing's own listener |
+| 5 | A wrong password and Screen Sharing off show the messages in §7 | Not run: a wrong password replaces the saved one, and turning Screen Sharing off cuts other viewers, so the user runs it |
+| 6 | The agent opens TextEdit with the screen tools and types a line; taking Control mid-task pauses it with the §4.4 reply | **Pass.** In a chat bound to macmini the agent clicked TextEdit in the Dock, pressed cmd+n and typed "Pico screen check 2026-10-21"; with Control on, its next capture returned the §4.4 reply and it stopped and said to tap Done. Done does not resume it yet (check 3) |
+
+Also seen:
+
+- The first capture of a new screen session came back solid black; the next one was right.
+- Actions in one `host_screen_input` call run back to back: after `cmd+space` the typed "TextEdit"
+  and Return were lost because Spotlight had not taken focus yet, and a capture right after typing
+  showed only part of the line. A short settle between actions, and before `capture_after`, would fix
+  both.
+- In an unbound chat the agent has no screen tools, and asked to "use the screen tools" it ran
+  `osascript` through `shell_execute` instead, which made macOS ask whether `sshd-keygen-wrapper` may
+  control TextEdit (declined).

@@ -1,6 +1,6 @@
 # A2 — Browser on the host
 
-Status: step 1 merged; not yet checked on a host or the iPhone.
+Status: step 1 merged; accepted on the Mac mini and the iPhone (2026-10-21).
 
 ## 1. Goal
 
@@ -54,10 +54,10 @@ through `shell_execute`; copy screenshots to the phone with `minis-remote cp` an
 - A page that needs the user (captcha, 2FA) is handed off in ego lite on the host; the user has to
   reach the host to finish it.
 
-## 6. Acceptance (pending)
+## 6. Acceptance
 
 | # | Check | Result |
 |---|---|---|
-| 1 | On the Mac mini, `ego-browser` opens GitHub notifications logged in | Pending: onboarding not finished |
-| 2 | Over SSH as A1 runs it, the same script works from a login shell | Pending |
-| 3 | From Minis on the iPhone, a bound session reads a logged-in page and shows a screenshot | Pending: app not on the iPhone |
+| 1 | On the Mac mini, `ego-browser` opens GitHub notifications logged in | **Pass** (2026-10-21): logged in as NoSugarCoffee |
+| 2 | Over SSH as A1 runs it, the same script works from a login shell | **Pass**: covered by 3, which runs it through A1 |
+| 3 | From Minis on the iPhone, a bound session reads a logged-in page and shows a screenshot | **Pass**: the account, the first three notifications and a screenshot of the page, in the chat |
