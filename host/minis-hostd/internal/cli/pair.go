@@ -233,7 +233,7 @@ func pairName(env Env, requested string, deps pairDeps) (string, error) {
 	}
 	switch {
 	case found && requested != "" && requested != configured:
-		return "", fmt.Errorf("%s names this host %q, so its pushes open only a host named %q in Minis. Pair without --name, or change host_name first.",
+		return "", fmt.Errorf("%s names this host %q, so its pushes open only a host named %q in Minis. Pair without --name, or change host_name and run `minis-hostd install-service` to restart the daemon with it first.",
 			configPath, configured, configured)
 	case found:
 		return configured, nil

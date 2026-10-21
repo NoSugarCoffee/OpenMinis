@@ -103,7 +103,8 @@ curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/OpenMinis/main/host/m
   (VisionKit `DataScannerViewController`, QR only), and "Enter Details Manually" below.
 - After a scan: the name (editable, refused if it duplicates a host), `user@address`, and Add.
   When the host already runs `minis-hostd`, the suggested name is its `host_name`; changing it here
-  means its push links name a host Minis does not have, until `host_name` is changed to match.
+  means its push links name a host Minis does not have, until `host_name` is changed to match and
+  the daemon restarted (`minis-hostd install-service`), since it reads the name only at start.
   Pairing shows progress, then the checks, then closes.
 - Devices without a usable camera see the command and the manual entry only.
 
