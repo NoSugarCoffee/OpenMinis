@@ -18,7 +18,7 @@ for the agent to work on: a Mac or Linux machine you reach over SSH.
 |---|---|
 | **Remote computers** | Bind a chat to a host and its shell and file tools run there, over SSH. Long commands keep running while iOS suspends the app. |
 | **Pairing by scan** | Run `minis-hostd pair` on the computer and scan its code in Pico; no keys to copy or fingerprints to compare. |
-| **The host's browser** | The agent drives ego lite on the host, with your logins there, through `ego-browser`. |
+| **The host's browser** | On a Mac host, the agent drives ego lite, with your logins there, through `ego-browser`. ego lite is macOS only, so Linux hosts have no browser yet. |
 | **The host's screen** | View and control the computer's screen in the app, and let the agent see and click it; taking control pauses the agent. |
 | **Proactive push** | `minis-hostd` watches your mail and GitHub, pushes what needs you, and a tap opens a read-only session that explains it. |
 
