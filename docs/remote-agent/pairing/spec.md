@@ -20,7 +20,7 @@ trusted channel. It carries:
 
 | Field | Use |
 |---|---|
-| `name` | Suggested host name in Minis (the short host name, cleaned to `[A-Za-z0-9_-]{1,32}`); editable before Add |
+| `name` | Suggested host name in Minis: `host_name` from `~/.minis/hostd/config.toml` when that file exists, since push links carry it and Minis opens them only for a host of that name; otherwise the short host name, cleaned to `[A-Za-z0-9_-]{1,32}`. Editable before Add |
 | `user` | The SSH login (the user who ran `pair`) |
 | `port` | The SSH port (22 unless `--ssh-port`) |
 | `addresses` | IPv4 addresses to reach the host: Tailscale (100.64.0.0/10) first, then private LAN ones |
@@ -52,7 +52,8 @@ A person runs it in a terminal, so it prints plain text, like the other setup co
    - nothing listens on `127.0.0.1:<ssh-port>`: "Remote Login is off. Turn it on in System
      Settings → General → Sharing → Remote Login" on macOS, "Start sshd" on Linux;
    - `/etc/ssh/ssh_host_ed25519_key.pub` is missing or not an Ed25519 key;
-   - no non-loopback IPv4 address is up.
+   - no non-loopback IPv4 address is up;
+   - `config.toml` exists and `--name` differs from its `host_name`, or that `host_name` is invalid.
 2. Listens on a random TCP port on all interfaces, prints the code (Unicode half blocks, so it fits
    a terminal) and the host name, user and addresses in plain text under it.
 3. Waits up to 5 minutes for one request. Each connection may send one line of at most 4 KiB:
