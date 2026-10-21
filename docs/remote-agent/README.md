@@ -15,6 +15,7 @@ Fork only, iOS only. All decisions are in [`decisions.md`](decisions.md).
 | Piece | What it delivers | Status | Docs |
 |---|---|---|---|
 | **A1** | Sessions bound to a host; shell and file tools run there; long commands survive app suspension | **Merged; device acceptance pending** | [spec](a1-remote-exec/spec.md) · [plan](a1-remote-exec/plan.md) · [acceptance](a1-remote-exec/acceptance.md) |
+| Pairing | Add a host by running `minis-hostd pair` and scanning its code; no keys to copy or fingerprints to check | **Spec** | [spec](pairing/spec.md) |
 | A2 | Browser with the user's login state; screenshots and screen control by the agent | **Step 1 merged** (ego-browser through A1); host check and device acceptance pending | [spec](a2-browser/spec.md) |
 | A3 | In-app screen viewer with take-over | **Spec drafted**; open questions and spikes before the plan | [spec](a3-screen/spec.md) |
 | B | **Proactive push**: `minis-hostd` watches email and GitHub → rule gate → notification → Minis explains the event in a read-only session | **Running on the Mac mini; iPhone acceptance pending** | [scope](b-push/scope.md) · [spec](b-push/spec.md) · [plan](b-push/plan.md) · [acceptance](b-push/acceptance.md) |
@@ -38,6 +39,7 @@ Minis on iPhone ◄─┘   the agent loop and model keys live here; fetches ove
 - **To implement A1:** [`a1-remote-exec/spec.md`](a1-remote-exec/spec.md), then
   [`a1-remote-exec/plan.md`](a1-remote-exec/plan.md).
 - **To implement B:** [`b-push/spec.md`](b-push/spec.md), then [`b-push/plan.md`](b-push/plan.md).
+- **To implement pairing:** [`pairing/spec.md`](pairing/spec.md).
 - **To implement A2:** [`a2-browser/spec.md`](a2-browser/spec.md).
 - **To implement A3:** [`a3-screen/spec.md`](a3-screen/spec.md).
 

@@ -223,7 +223,8 @@ pull screenshots for `read_image`.
 
 ## 7. Setup flow
 
-Settings → Remote hosts → Add:
+Settings → Remote hosts → Add. Hosts with `minis-hostd` are added by scanning a code instead
+(D21, [pairing spec](../pairing/spec.md)); the steps below remain as Enter Details Manually.
 
 1. **Host details:** name, address (for example the Tailscale name `mini`), port (default 22), user.
 2. **Key:**
