@@ -269,6 +269,7 @@ final class ProviderConfigStore: ObservableObject {
     /// verbatim from init's completion closure so degraded-load recovery can
     /// re-run the same adoption after protected data becomes available.
     private func adoptDB(_ db: ProviderConfigDB?) async {
+                defer { markAuthoritativeConfigLoaded() } // fork(remote-host):
                 self.db = db
                 guard let db else { return }
                 // [T-thinking-rules-phase2] Prime the synchronous thinking-rule cache the
@@ -358,6 +359,21 @@ final class ProviderConfigStore: ObservableObject {
                         Task { await ChatStore.shared.markDirty(recordType: "ProviderModelEntryV3", recordId: eid, operation: "delete") }
                     }
                 }
+    }
+
+    // fork(remote-host): adoptDB replaces the whole config with the DB dump, so a session binding set
+    // before it finishes is lost and the session shows "No model configured". A session created by
+    // a link on a cold start waits for this first. A degraded (pre-unlock) load does not open it:
+    // recoverFromDegradedLoad runs adoptDB again after unlock, and that run does.
+    private let authoritativeConfigGate = OneShotGate()
+
+    func waitForAuthoritativeConfig() async {
+        await authoritativeConfigGate.wait()
+    }
+
+    private func markAuthoritativeConfigLoaded() {
+        guard loadDegradation == .none else { return }
+        authoritativeConfigGate.open()
     }
 
     /// [T-new-session-hang-credential-cache] L2 invalidation hook #3: iCloud
