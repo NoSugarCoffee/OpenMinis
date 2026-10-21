@@ -1,6 +1,6 @@
-# Building Minis
+# Building Pico
 
-Minis ships a full Linux sandbox inside the app, so a first build is not just
+Pico ships OpenMinis's full Linux sandbox inside the app, so a first build is not just
 "open the project and press Run": the native dependencies (iSH on iOS, PRoot on
 Android, FFmpeg, LAME) and the Alpine rootfs are **built from source by the
 scripts in `deps/`**, not committed as binaries. Budget ~30–60 minutes for the
@@ -18,8 +18,8 @@ Clone with submodules — the iSH and PRoot forks are submodules, and a clone
 without them will fail at the native build step:
 
 ```sh
-git clone --recurse-submodules https://github.com/OpenMinis/OpenMinis.git
-cd OpenMinis
+git clone --recurse-submodules https://github.com/NoSugarCoffee/Pico.git
+cd Pico
 
 # Already cloned without --recurse-submodules?
 git submodule update --init --recursive
@@ -293,7 +293,7 @@ from the customization file; see [Build-time customization](#build-time-customiz
 
 ## Licensing note
 
-Minis is **GPLv3** because it links iSH (GPLv3) and PRoot (GPLv2). If you
+Pico, like OpenMinis, is **GPLv3** because it links iSH (GPLv3) and PRoot (GPLv2). If you
 change how the native dependencies are built, keep FFmpeg on its LGPL
 configuration and preserve the vendored `LICENSE` files. See
 [LICENSE](LICENSE) and [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
