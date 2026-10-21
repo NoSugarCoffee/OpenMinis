@@ -1,9 +1,11 @@
 #!/bin/sh
 # Installs minis-hostd for the current user. Run on the host:
 #   curl -fsSL <url>/install.sh | sh -s -- --host-name <name> --version <version>
-# It downloads the release binary for this OS and CPU, checks its SHA-256, installs it to
-# ~/.minis/bin/minis-hostd, writes ~/.minis/hostd/config.toml if there is none yet, and installs
-# the launchd agent (macOS) or systemd user unit (Linux).
+#   curl -fsSL <url>/install.sh | sh -s -- --pair --version <version>
+# It downloads the release binary for this OS and CPU, checks its SHA-256 and installs it to
+# ~/.minis/bin/minis-hostd. With --host-name it then writes ~/.minis/hostd/config.toml if there is
+# none yet and prints the steps to start the push service; with --pair it runs
+# `minis-hostd pair` instead, which shows the code to scan in Minis.
 set -eu
 
 repo_releases="https://github.com/NoSugarCoffee/OpenMinis/releases/download"
@@ -14,12 +16,14 @@ fail() {
 }
 
 usage() {
-	echo "usage: sh install.sh --host-name <name> --version <version> [--base-url <url>]" >&2
+	echo "usage: sh install.sh (--host-name <name> | --pair) --version <version> [--base-url <url>]" >&2
+	echo "  --pair      install the binary only, then pair this computer with Minis" >&2
 	echo "  --base-url  download from <url>/<asset> instead of the GitHub release (mirrors, testing)" >&2
 	exit 64
 }
 
 host_name=""
+pair=0
 version=""
 base_url=""
 while [ "$#" -gt 0 ]; do
@@ -28,6 +32,10 @@ while [ "$#" -gt 0 ]; do
 		[ "$#" -ge 2 ] || usage
 		host_name=$2
 		shift 2
+		;;
+	--pair)
+		pair=1
+		shift
 		;;
 	--version)
 		[ "$#" -ge 2 ] || usage
@@ -42,7 +50,11 @@ while [ "$#" -gt 0 ]; do
 	*) usage ;;
 	esac
 done
-[ -n "$host_name" ] || usage
+if [ "$pair" = 1 ]; then
+	[ -z "$host_name" ] || usage
+else
+	[ -n "$host_name" ] || usage
+fi
 [ -n "$version" ] || usage
 version=${version#v}
 [ -n "$base_url" ] || base_url="$repo_releases/hostd-v$version"
@@ -93,6 +105,10 @@ chmod 0755 "$work/$asset"
 cp "$work/$asset" "$binary.new"
 mv -f "$binary.new" "$binary"
 echo "Installed $binary ($("$binary" version --json))" >&2
+
+if [ "$pair" = 1 ]; then
+	exec "$binary" pair
+fi
 
 if [ -e "$config" ]; then
 	echo "Keeping existing $config" >&2
