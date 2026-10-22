@@ -30,8 +30,8 @@ with no "Open in Pico?" prompt. Notices are grouped per host.
    for notification permission, gets its device token and registers it on the host (§4).
 4. **Check:** `minis-hostd doctor --push-test` sends an encrypted test notice through APNs.
 
-The build must keep the push entitlement: `ios-personal-device.sh --keep-push`, which a free team
-cannot sign.
+The build must keep the push entitlement: `ios-personal-device.sh --keep-push` (added with the app
+side of D24), which a free team cannot sign.
 
 ## 3. Sending
 
@@ -41,45 +41,65 @@ cannot sign.
   APNs rejects a token refreshed more than once per 20 minutes and one older than an hour, so hostd
   reuses one for 40 minutes.
 - **Headers:** `apns-topic: <bundle id>`, `apns-push-type: alert`, `apns-priority: 10`,
-  `apns-expiration: now + 24 h`, so a phone that is off gets the notice when it comes back.
+  `apns-expiration` set to the UNIX time 24 hours ahead, so a phone that is off gets the notice when it comes back.
 - **Payload:**
   ```json
   {"aps": {"alert": {"title": "New event", "body": "Open Pico to read it."},
            "mutable-content": 1, "thread-id": "<host>", "sound": "default"},
-   "pico": {"v": 1, "host": "<host>", "c": "<base64 ciphertext>"}}
+   "pico": {"v": 1, "host": "<host>", "k": "<key id>", "c": "<base64 ciphertext>"}}
   ```
   The visible alert is a placeholder; the real title, body and link are inside `c` (§5).
-- **Errors:** HTTP 200 is sent. `BadDeviceToken`, `Unregistered` and `DeviceTokenNotForTopic`
-  mean the registration is stale: the error says to tap Send to This iPhone again.
-  `InvalidProviderToken` and `ExpiredProviderToken` point at `key_id`, `team_id` or the key file.
-  Other 4xx and 5xx are definite failures and retried as today (§5.4). A connection lost after the
-  request was written is "may have been delivered", as with Bark.
+- **Errors:** HTTP 200 is sent. Each refusal names its cause:
+  - `Unregistered`: the app was removed or its token changed; tap Send to This iPhone again.
+  - `BadDeviceToken`: the token does not belong to the registered environment (a development token
+    sent to production or the reverse), or is malformed.
+  - `DeviceTokenNotForTopic`, `BadTopic`, `TopicDisallowed`: the registered bundle id is not the
+    app the token belongs to, or the key's team does not sign it.
+  - `InvalidProviderToken`, `ExpiredProviderToken`: check `key_id`, `team_id` and the key file.
+
+  Resending the same request cannot fix any of these, nor any other 4xx, so they fail at once.
+  429 and 5xx are retried as today (§5.4). A connection lost after the request was written is "may
+  have been delivered", as with Bark.
 
 ## 4. Registration
 
-`minis-hostd apns register <device token> --topic <bundle id> --environment development|production --json`
+Each registration draws a new key, and the phone must hold it before hostd encrypts with it. A
+key the phone never saved, because the SSH session dropped or iOS suspended the app halfway, would
+leave every later notice unreadable. So registration has two steps, and keys have ids:
 
-- hostd generates a fresh 32-byte AES key, writes `{token, topic, environment, key}` to
-  `~/.minis/hostd/apns-device.json` (mode 0600, replaced atomically) and prints
-  `{schemaVersion, key: "<base64>"}`. The key travels back over the SSH session, so it never
-  appears in a command line on the host.
-- One phone per host; registering again replaces it (and its key).
+1. `minis-hostd apns register <device token> --topic <bundle id> --environment development|production --json`
+   draws a 32-byte AES key and an 8-byte key id and stores them as the **pending** registration
+   beside the active one. It prints `{schemaVersion, keyId, key}`. The key travels back over the SSH
+   session, so it never appears in a command line on the host.
+2. The app saves the key in the keychain under host and key id.
+3. `minis-hostd apns activate <key id> --json` makes the pending registration the active one and
+   prints `{schemaVersion, ok: true}`. A key id that is not the pending one is refused.
+
+hostd encrypts only with the active registration, so a run that stops after step 1 or 2 changes
+nothing; registering again replaces the pending one. A run that stops after step 3 leaves both
+sides on the new key. The app keeps the keys of earlier registrations, so notices APNs still holds
+from before (up to 24 hours) decrypt by their key id.
+
+- State lives in `~/.minis/hostd/apns-device.json` (mode 0600, replaced atomically).
+- One phone per host; activating a new registration replaces the old phone.
 - The daemon reads the file for every send, so registering needs no restart. Before the first
-  registration, sends fail with "No iPhone is registered for Pico notifications" and are retried
+  activation, sends fail with "No iPhone is registered for Pico notifications" and are retried
   within the usual window.
 - **The environment** comes from the app's `embedded.mobileprovision` (`aps-environment`); an App
   Store build has none and is production.
 - **Token changes:** on launch, Pico registers for remote notifications again; when the token
-  differs from the one it registered on a host, it registers that host again in the background.
+  differs from the one it registered on a host, it runs the two steps for that host in the
+  background. A failed run changes nothing on the host, and the host's Notifications screen shows the
+  error with Send to This iPhone to retry.
 
 ## 5. Encryption and display
 
 - **Cipher:** AES-256-GCM, `c = base64(nonce ‖ ciphertext ‖ tag)` with a fresh 12-byte nonce,
   additional data `pico-push-v1:<host>`. The plaintext is `{"title", "body", "url"}`.
-- **What Apple sees:** the device token, the host name (thread id), timing and the placeholder.
-  Not the sender, subject or repository.
+- **What Apple sees:** the device token, the bundle id (topic), the host name (thread id), the key
+  id, timing and the fixed placeholder text. Not the sender, subject, repository or link.
 - **Notification Service Extension** (`PicoNotificationService`): reads the host's key from a
-  keychain group shared with the app (`<team prefix>.com.openminis.app.push`), decrypts, and replaces
+  keychain group shared with the app (`<team prefix>.com.openminis.app.push`) by host and key id, decrypts, and replaces
   title and body; it puts the link in `userInfo["url"]`. When decryption fails it shows "Pico could
   not decrypt this notice. Open Settings → Remote Hosts → <host> → Notifications and tap Send to
   This iPhone." and drops the link.

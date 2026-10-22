@@ -488,7 +488,7 @@ The design when those exist:
 - **Testing:** the Simulator accepts pushes through `xcrun simctl push`, so the app side can be
   built before the relay exists.
 
-Bark stays as the notifier for self-built installs.
+Bark stays as the notifier for builds without a paid team.
 
 ## 16. Out of scope for B
 
