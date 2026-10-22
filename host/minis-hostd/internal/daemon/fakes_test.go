@@ -215,7 +215,7 @@ func testConfig(withGitHub bool) config.Config {
 			Name: "personal", Address: "me@gmail.com", AppPassword: "x",
 			Allow: []config.SenderRule{{Pattern: "alice@example.com", RequireDMARC: false}},
 		}},
-		Bark: config.Bark{Server: "https://bark.invalid", DeviceKey: "device", EncryptionKey: "unused"},
+		Bark: &config.Bark{Server: "https://bark.invalid", DeviceKey: "device", EncryptionKey: "unused"},
 	}
 	if withGitHub {
 		cfg.GitHub = &config.GitHubSource{Token: "x", Reasons: config.DefaultGitHubReasons}

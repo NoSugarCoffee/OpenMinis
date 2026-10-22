@@ -147,3 +147,71 @@ encryption_key = "jkdxn8hv24xhrzw5nkjm7fwerx8kmr53"
 		t.Fatalf("err = %v", err)
 	}
 }
+
+const apnsSection = `[apns]
+key_file = "AuthKey_ABC123DEFG.p8"
+key_id = "ABC123DEFG"
+team_id = "28ZGY8C268"
+`
+
+func withAPNs(t *testing.T) string {
+	t.Helper()
+	text := validText(t)
+	start := strings.Index(text, "[bark]")
+	if start < 0 {
+		t.Fatal("fixture lacks [bark]")
+	}
+	return text[:start] + apnsSection
+}
+
+func TestAPNsReplacesBark(t *testing.T) {
+	cfg, err := Parse("/home/me/.minis/hostd/config.toml", []byte(withAPNs(t)))
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := APNs{KeyFile: "/home/me/.minis/hostd/AuthKey_ABC123DEFG.p8", KeyID: "ABC123DEFG", TeamID: "28ZGY8C268"}
+	if cfg.Bark != nil || cfg.APNs == nil || *cfg.APNs != want {
+		t.Errorf("bark %+v apns %+v", cfg.Bark, cfg.APNs)
+	}
+}
+
+func TestAPNsKeepsAnAbsoluteKeyFile(t *testing.T) {
+	text := strings.Replace(withAPNs(t), `key_file = "AuthKey_ABC123DEFG.p8"`, `key_file = "/etc/keys/k.p8"`, 1)
+	cfg, err := Parse("/home/me/.minis/hostd/config.toml", []byte(text))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cfg.APNs.KeyFile != "/etc/keys/k.p8" {
+		t.Errorf("key file %q", cfg.APNs.KeyFile)
+	}
+}
+
+func TestPushChannelMustBeExactlyOne(t *testing.T) {
+	text := validText(t)
+	cases := map[string]string{
+		"both":    text + "\n" + apnsSection,
+		"neither": text[:strings.Index(text, "[bark]")],
+	}
+	wants := map[string]string{"both": "both [bark] and [apns]", "neither": "no push channel"}
+	for name, body := range cases {
+		_, err := Parse("config.toml", []byte(body))
+		if err == nil || !strings.Contains(err.Error(), wants[name]) {
+			t.Errorf("%s: err = %v", name, err)
+		}
+	}
+}
+
+func TestInvalidAPNsSettingsNameTheField(t *testing.T) {
+	cases := []struct{ old, new, field string }{
+		{`key_file = "AuthKey_ABC123DEFG.p8"`, `key_file = ""`, "apns.key_file"},
+		{`key_id = "ABC123DEFG"`, `key_id = "abc"`, "apns.key_id"},
+		{`team_id = "28ZGY8C268"`, `team_id = "28zgy8c268"`, "apns.team_id"},
+	}
+	for _, tc := range cases {
+		_, err := Parse("config.toml", []byte(strings.Replace(withAPNs(t), tc.old, tc.new, 1)))
+		var configErr *Error
+		if !errors.As(err, &configErr) || configErr.Field != tc.field {
+			t.Errorf("%s: err = %v", tc.field, err)
+		}
+	}
+}

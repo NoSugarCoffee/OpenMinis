@@ -39,6 +39,7 @@ type doctorDeps struct {
 	GitHubBaseURL string
 	DialIMAP      imap.Dialer
 	CheckTimeout  time.Duration
+	NewNotifier   func(Env, config.Config, *http.Client) (notify.Notifier, error)
 }
 
 func productionDoctorDeps() doctorDeps {
@@ -47,6 +48,7 @@ func productionDoctorDeps() doctorDeps {
 		GitHubBaseURL: github.DefaultBaseURL,
 		DialIMAP:      imap.DialGmail,
 		CheckTimeout:  doctorCheckTimeout,
+		NewNotifier:   newNotifier,
 	}
 }
 
@@ -139,9 +141,12 @@ func doctorChecks(env Env, deps doctorDeps, pushTest bool) []doctorCheck {
 			return checkGitHub(ctx, deps, cfg.GitHub.Token)
 		}))
 	}
+	if cfg.APNs != nil {
+		checks = append(checks, checkAPNsSetup(env, cfg))
+	}
 	if pushTest {
 		checks = append(checks, withTimeout(deps, func(ctx context.Context) doctorCheck {
-			return checkPush(ctx, deps, cfg)
+			return checkPush(ctx, env, deps, cfg)
 		}))
 	}
 	return checks
@@ -315,20 +320,41 @@ func githubMessage(body io.Reader) string {
 	return strings.TrimSpace(string(raw))
 }
 
-func checkPush(ctx context.Context, deps doctorDeps, cfg config.Config) doctorCheck {
+func checkPush(ctx context.Context, env Env, deps doctorDeps, cfg config.Config) doctorCheck {
+	notifier, err := deps.NewNotifier(env, cfg, deps.Client)
+	if err != nil {
+		return doctorCheck{Name: "push", Detail: err.Error()}
+	}
+	channel, matches, fix, success := "Bark", "the Bark key matches", "check bark.device_key and bark.server",
+		"Bark accepted the test push; check the phone. If it shows \"Decryption Failed\", the key saved in Bark differs from bark.encryption_key in config.toml"
+	if cfg.APNs != nil {
+		channel, matches, fix, success = "APNs", "Pico decrypted it", "see the reason above",
+			"APNs accepted the test push; check the phone. If it says Pico could not decrypt it, tap Send to This iPhone again"
+	}
 	notice := notify.Notice{
 		Title: pushTestTitle,
-		Body:  fmt.Sprintf("Test push from %s: if you can read this, the Bark key matches.", cfg.HostName),
+		Body:  fmt.Sprintf("Test push from %s: if you can read this, %s.", cfg.HostName, matches),
 	}
-	err := notify.NewBark(cfg.Bark, deps.Client).Send(ctx, notice)
+	err = notifier.Send(ctx, notice)
 	switch {
 	case errors.Is(err, notify.ErrMaybeDelivered):
 		return doctorCheck{Name: "push", Detail: fmt.Sprintf(
-			"the test push may have been sent but Bark's reply was lost (%v); check the phone", err)}
+			"the test push may have been sent but %s's reply was lost (%v); check the phone", channel, err)}
 	case err != nil:
-		return doctorCheck{Name: "push", Detail: fmt.Sprintf(
-			"Bark did not accept the test push (%v); check bark.device_key and bark.server", err)}
+		return doctorCheck{Name: "push", Detail: fmt.Sprintf("%s did not accept the test push (%v); %s", channel, err, fix)}
 	}
-	return doctorCheck{Name: "push", OK: true, Detail: "Bark accepted the test push; check the phone. " +
-		"If it shows \"Decryption Failed\", the key saved in Bark differs from bark.encryption_key in config.toml"}
+	return doctorCheck{Name: "push", OK: true, Detail: success}
+}
+
+// checkAPNsSetup runs without --push-test: it reads the key and the registration but sends nothing.
+func checkAPNsSetup(env Env, cfg config.Config) doctorCheck {
+	if _, err := notify.LoadAPNsKey(cfg.APNs.KeyFile); err != nil {
+		return doctorCheck{Name: "apns", Detail: err.Error()}
+	}
+	registration, err := notify.LoadRegistration(registrationPath(env))
+	if err != nil {
+		return doctorCheck{Name: "apns", Detail: err.Error()}
+	}
+	return doctorCheck{Name: "apns", OK: true, Detail: fmt.Sprintf("key %s loads; %s registered %s (%s)",
+		cfg.APNs.KeyID, registration.Topic, registration.RegisteredAt.Format(time.RFC3339), registration.Environment)}
 }

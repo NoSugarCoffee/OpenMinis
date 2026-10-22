@@ -61,7 +61,8 @@ func WriteConfigTemplate(path, content string) error {
 const configTemplate = `# minis-hostd configuration (~/.minis/hostd/config.toml).
 #
 # This file holds passwords and keys: keep it mode 0600 (minis-hostd refuses to read it otherwise).
-# Turn on at least one [[mail]] account or the [github] section below, fill in the Bark device key,
+# Turn on at least one [[mail]] account or the [github] section below, fill in the Bark device key
+# (or switch to [apns]),
 # then run: minis-hostd doctor --push-test
 # A line starting with "#" is off; remove the leading "# " to turn a setting on.
 
@@ -109,6 +110,20 @@ host_name = "{{host_name}}"
 # [github]
 # token = "ghp_..."
 # repos = ["owner/name", "owner/*"]
+
+# Deliver notices with exactly one of [bark] or [apns].
+#
+# [apns] sends Pico's own notifications straight to Apple, for a Pico signed by your own paid team.
+# To use it, remove the [bark] section below and turn this one on (see docs/remote-agent/b-push/apns.md):
+#   key_file  the AuthKey_<key id>.p8 file from the Apple Developer site (Keys), mode 600; a relative
+#             path is read from this directory
+#   key_id    the key's 10-character ID
+#   team_id   the 10-character team ID that signs Pico
+# Then in Pico open Settings > Remote Hosts > this host > Notifications and tap Send to This iPhone.
+# [apns]
+# key_file = "AuthKey_ABC123DEFG.p8"
+# key_id = "ABC123DEFG"
+# team_id = "ABCDE12345"
 
 # Bark delivers the push to your iPhone, end-to-end encrypted.
 #   server          your Bark server; unset means https://api.day.app
