@@ -103,8 +103,11 @@ from before (up to 24 hours) decrypt by their key id.
   title and body; it puts the link in `userInfo["url"]`. When decryption fails it shows "Pico could
   not decrypt this notice. Open Settings → Remote Hosts → <host> → Notifications and tap Send to
   This iPhone." and drops the link.
+  The keys are stored After First Unlock (`kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`), since
+  the extension runs while the phone is locked.
 - **Tap:** the notification delegate passes `userInfo["url"]` to the same `host-event` opener as the
-  `pico://` link (§9.1).
+  `pico://` link (§9.1). If the extension crashed or ran out of time, iOS shows the placeholder and
+  there is no `url`; the delegate then opens the `pico` envelope itself with the same keys.
 
 ## 6. Where the code goes
 
