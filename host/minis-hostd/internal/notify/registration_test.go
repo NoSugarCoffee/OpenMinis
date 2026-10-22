@@ -148,6 +148,7 @@ func TestAnUnusableActiveDeviceIsRefused(t *testing.T) {
 		"staging":   func(d *Device) { d.Environment = "staging" },
 		"token":     func(d *Device) { d.Token = "" },
 		"bundle id": func(d *Device) { d.Topic = "pico" },
+		"key id":    func(d *Device) { d.KeyID = "" },
 	}
 	for want, corrupt := range cases {
 		device := newTestDevice(t)

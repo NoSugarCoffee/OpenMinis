@@ -53,6 +53,7 @@ var (
 	// APNs tokens are 32 bytes today; Apple says not to rely on the length, so any even run of hex is taken.
 	deviceTokenPattern = regexp.MustCompile(`^([0-9a-f]{2})+$`)
 	topicPattern       = regexp.MustCompile(`^[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$`)
+	keyIDPattern       = regexp.MustCompile(`^[0-9a-f]{16}$`)
 )
 
 // NewDevice validates what the app sent and draws a fresh key and key id for it.
@@ -178,6 +179,9 @@ func (d Device) check() error {
 	}
 	if !topicPattern.MatchString(d.Topic) {
 		return fmt.Errorf("the topic %q is not a bundle id", d.Topic)
+	}
+	if !keyIDPattern.MatchString(d.KeyID) {
+		return fmt.Errorf("the key id %q is not 16 lower-case hex digits", d.KeyID)
 	}
 	if len(d.Key) != PushKeyLength {
 		return fmt.Errorf("the key is %d bytes, want %d", len(d.Key), PushKeyLength)
