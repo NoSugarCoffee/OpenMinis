@@ -163,6 +163,7 @@ func TestDeliveryOutcome(t *testing.T) {
 	}{
 		{"sent", created, nil, store.NoticeSent, created},
 		{"maybe delivered", created, fmt.Errorf("x: %w", notify.ErrMaybeDelivered), store.NoticeUncertain, created},
+		{"permanent fails at once", created, fmt.Errorf("apns: %w: HTTP 410 Unregistered", notify.ErrPermanent), store.NoticeFailed, created},
 		{"first failure waits 10s", created, httpErr, store.NoticePending, created.Add(10 * time.Second)},
 		{"delay doubles with age", created.Add(5 * time.Minute), httpErr, store.NoticePending, created.Add(10 * time.Minute)},
 		{"last attempt at the window's end", created.Add(40 * time.Minute), httpErr, store.NoticePending, created.Add(time.Hour)},

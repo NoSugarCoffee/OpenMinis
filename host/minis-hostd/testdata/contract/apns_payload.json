@@ -1,5 +1,5 @@
 {
-  "key": "BpG3e5b3ESuIckp7LDNyer/9XcWvzmi0U++JLQlmwn8=",
+  "key": "Dt4sFmLq9gHlQQOut8eTiKoiGkAu6dSVEr5D4o2L1zk=",
   "payload": {
     "aps": {
       "alert": {
@@ -13,7 +13,8 @@
     "pico": {
       "v": 1,
       "host": "mac-mini",
-      "c": "7m2Md0nf31Dd7SURQLib2ILoKxhEAltb2d6J8WyMwrzLMT7GGovZ4cx/2SCX3CHjzqhlML3zUyHB1Z46YXT152pRkZzimg+tfASbq97UYAIX7OdofxNlcLL2d95+ame5uit5YK8aPg4Jy+bCCxhDsZZXnS/MPiPcY14HJDpE3aU0ZfHIl7KFS3zkjkWf6jOa"
+      "k": "0123456789abcdef",
+      "c": "myAE/Nst8uIHUqBUKc9fT9u/+ZxjHPPcXwzZByxEIyBLfswQ5AOkbvDTDKKNUmzc5LHKIgqO71TiJAbgy5KWsasO1AaOJedk+jF2i53a4lceXxgqvjLnjt/C86oTmD5oajeYz+OBlZJhPjRzQQntr3dlWyhpLaljMYFqGvIc4w+9lKRLQU6lpmEIM51JnGxH"
     }
   },
   "notice": {

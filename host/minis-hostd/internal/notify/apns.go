@@ -123,6 +123,7 @@ type apnsAPS struct {
 type PicoEnvelope struct {
 	Version    int    `json:"v"`
 	Host       string `json:"host"`
+	KeyID      string `json:"k"`
 	Ciphertext string `json:"c"`
 }
 
@@ -143,15 +144,16 @@ type apnsErrorReply struct {
 }
 
 func (a *APNs) Send(ctx context.Context, n Notice) error {
-	registration, err := LoadRegistration(a.RegistrationPath)
+	device, err := ActiveDevice(a.RegistrationPath)
 	if err != nil {
 		return fmt.Errorf("apns: %w", err)
 	}
-	endpoint, ok := a.Endpoints[registration.Environment]
+	endpoint, ok := a.Endpoints[device.Environment]
 	if !ok {
-		return fmt.Errorf("apns: registration names environment %q; register the iPhone again", registration.Environment)
+		return fmt.Errorf("apns: %w: registration names environment %q; register the iPhone again",
+			ErrPermanent, device.Environment)
 	}
-	body, err := a.payload(registration.Key, n)
+	body, err := a.payload(device, n)
 	if err != nil {
 		return err
 	}
@@ -165,12 +167,12 @@ func (a *APNs) Send(ctx context.Context, n Notice) error {
 		WroteRequest: func(httptrace.WroteRequestInfo) { wrote.Store(true) },
 	}
 	request, err := http.NewRequestWithContext(httptrace.WithClientTrace(ctx, trace),
-		http.MethodPost, endpoint+"/3/device/"+registration.Token, bytes.NewReader(body))
+		http.MethodPost, endpoint+"/3/device/"+device.Token, bytes.NewReader(body))
 	if err != nil {
 		return fmt.Errorf("apns: build request: %w", err)
 	}
 	request.Header.Set("authorization", "bearer "+providerToken)
-	request.Header.Set("apns-topic", registration.Topic)
+	request.Header.Set("apns-topic", device.Topic)
 	request.Header.Set("apns-push-type", "alert")
 	request.Header.Set("apns-priority", "10")
 	request.Header.Set("apns-expiration", strconv.FormatInt(a.Now().Add(noticeExpiry).Unix(), 10))
@@ -183,15 +185,15 @@ func (a *APNs) Send(ctx context.Context, n Notice) error {
 		return fmt.Errorf("apns: send: %w", err)
 	}
 	defer response.Body.Close()
-	return apnsResult(response)
+	return apnsResult(response, device)
 }
 
-func (a *APNs) payload(key []byte, n Notice) ([]byte, error) {
+func (a *APNs) payload(device Device, n Notice) ([]byte, error) {
 	plaintext, err := json.Marshal(SealedNotice(n))
 	if err != nil {
 		return nil, fmt.Errorf("apns: encode notice: %w", err)
 	}
-	sealed, err := SealNotice(key, a.HostName, plaintext)
+	sealed, err := SealNotice(device.Key, a.HostName, plaintext)
 	if err != nil {
 		return nil, err
 	}
@@ -202,7 +204,7 @@ func (a *APNs) payload(key []byte, n Notice) ([]byte, error) {
 			ThreadID:       a.HostName,
 			Sound:          "default",
 		},
-		Pico: PicoEnvelope{Version: payloadVersion, Host: a.HostName, Ciphertext: sealed},
+		Pico: PicoEnvelope{Version: payloadVersion, Host: a.HostName, KeyID: device.KeyID, Ciphertext: sealed},
 	})
 }
 
@@ -265,35 +267,40 @@ func ProviderToken(key *ecdsa.PrivateKey, keyID, teamID string, now time.Time) (
 	return signingInput + "." + encode(signature), nil
 }
 
-// Reasons from Apple's "Handling notification responses from APNs".
-var (
-	staleRegistrationReasons = map[string]bool{"BadDeviceToken": true, "Unregistered": true, "DeviceTokenNotForTopic": true}
-	providerTokenReasons     = map[string]bool{"InvalidProviderToken": true, "ExpiredProviderToken": true, "MissingProviderToken": true}
-)
+const reRegister = "in Pico open Settings → Remote Hosts → this host → Notifications and tap Send to This iPhone"
 
-func apnsResult(response *http.Response) error {
+// apnsResult names the cause of each refusal (apns spec §3). Resending the same request cannot fix a
+// 4xx other than 429, so those are permanent; 429 and 5xx are retried.
+func apnsResult(response *http.Response, device Device) error {
 	raw, readErr := io.ReadAll(io.LimitReader(response.Body, maxResponseBytes))
-	if response.StatusCode == http.StatusOK {
+	status := response.StatusCode
+	if status == http.StatusOK {
 		return nil
 	}
-	if readErr != nil {
-		return fmt.Errorf("apns: HTTP %d, reading the reason failed: %w", response.StatusCode, readErr)
-	}
+	reason := truncate(string(raw))
 	var reply apnsErrorReply
-	if err := json.Unmarshal(raw, &reply); err != nil || reply.Reason == "" {
-		return fmt.Errorf("apns: HTTP %d: %s", response.StatusCode, truncate(string(raw)))
+	if readErr == nil && json.Unmarshal(raw, &reply) == nil && reply.Reason != "" {
+		reason = reply.Reason
 	}
-	switch {
-	case staleRegistrationReasons[reply.Reason]:
-		return fmt.Errorf("apns: HTTP %d %s: the iPhone's registration is stale; "+
-			"in Pico open Settings → Remote Hosts → this host → Notifications and tap Send to This iPhone",
-			response.StatusCode, reply.Reason)
-	case providerTokenReasons[reply.Reason]:
-		return fmt.Errorf("apns: HTTP %d %s: check apns.key_id, apns.team_id and the key file in config.toml",
-			response.StatusCode, reply.Reason)
-	default:
-		return fmt.Errorf("apns: HTTP %d %s", response.StatusCode, reply.Reason)
+	var hint string
+	switch reply.Reason {
+	case "Unregistered":
+		hint = "the app was removed or its token changed; " + reRegister
+	case "BadDeviceToken":
+		hint = fmt.Sprintf("the token is not a %s token; %s", device.Environment, reRegister)
+	case "DeviceTokenNotForTopic", "BadTopic", "TopicDisallowed":
+		hint = fmt.Sprintf("%s is not the app this token belongs to, or apns.team_id does not sign it", device.Topic)
+	case "InvalidProviderToken", "ExpiredProviderToken", "MissingProviderToken":
+		hint = "check apns.key_id, apns.team_id and the key file in config.toml"
 	}
+	message := fmt.Sprintf("HTTP %d %s", status, reason)
+	if hint != "" {
+		message += ": " + hint
+	}
+	if status == http.StatusTooManyRequests || status >= http.StatusInternalServerError {
+		return fmt.Errorf("apns: %s", message)
+	}
+	return fmt.Errorf("apns: %w: %s", ErrPermanent, message)
 }
 
 var _ Notifier = (*APNs)(nil)

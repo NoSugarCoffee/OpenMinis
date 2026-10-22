@@ -114,7 +114,7 @@ minis-hostd reports "nothing to watch".
 |---|---|
 | `~/.minis/bin/minis-hostd` | The binary. |
 | `~/.minis/hostd/config.toml` | Configuration, mode 0600. |
-| `~/.minis/hostd/apns-device.json` | The iPhone registered for Pico notifications and its push key, mode 0600. |
+| `~/.minis/hostd/apns-device.json` | The iPhone registered for Pico notifications and its push key, plus one waiting for Pico to confirm it saved its key; mode 0600. |
 | `~/.minis/hostd/state.db` | SQLite store: cursors, events, the push outbox, the heartbeat. |
 | `~/.minis/hostd/hostd.log` | Daemon output on macOS. On Linux it goes to the journal: `journalctl --user -u minis-hostd`. |
 | `~/Library/LaunchAgents/app.minis.hostd.plist` | The launchd agent (macOS). |

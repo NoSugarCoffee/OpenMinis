@@ -505,11 +505,11 @@ func useAPNs(t *testing.T, rig *doctorRig, register bool) *httptest.Server {
 	text = text[:strings.Index(text, "[bark]")] + "[apns]\nkey_file = \"AuthKey_ABC123DEFG.p8\"\nkey_id = \"ABC123DEFG\"\nteam_id = \"28ZGY8C268\"\n"
 	rig.writeConfig(t, text, 0o600)
 	if register {
-		registration, err := notify.NewRegistration(deviceToken, "com.example.pico", notify.Development, doctorNow)
+		device, err := notify.NewDevice(deviceToken, "com.example.pico", notify.Development, doctorNow)
 		if err != nil {
 			t.Fatal(err)
 		}
-		if err := notify.SaveRegistration(filepath.Join(stateDir, notify.RegistrationFile), registration); err != nil {
+		if err := notify.SaveRegistrations(filepath.Join(stateDir, notify.RegistrationFile), notify.Registrations{Active: &device}); err != nil {
 			t.Fatal(err)
 		}
 	}

@@ -351,10 +351,10 @@ func checkAPNsSetup(env Env, cfg config.Config) doctorCheck {
 	if _, err := notify.LoadAPNsKey(cfg.APNs.KeyFile); err != nil {
 		return doctorCheck{Name: "apns", Detail: err.Error()}
 	}
-	registration, err := notify.LoadRegistration(registrationPath(env))
+	device, err := notify.ActiveDevice(registrationPath(env))
 	if err != nil {
 		return doctorCheck{Name: "apns", Detail: err.Error()}
 	}
 	return doctorCheck{Name: "apns", OK: true, Detail: fmt.Sprintf("key %s loads; %s registered %s (%s)",
-		cfg.APNs.KeyID, registration.Topic, registration.RegisteredAt.Format(time.RFC3339), registration.Environment)}
+		cfg.APNs.KeyID, device.Topic, device.RegisteredAt.Format(time.RFC3339), device.Environment)}
 }

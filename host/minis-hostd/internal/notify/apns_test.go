@@ -100,23 +100,23 @@ func writeKeyFile(t *testing.T, mode os.FileMode) (string, *ecdsa.PrivateKey) {
 }
 
 type apnsFixture struct {
-	apns         *APNs
-	server       *apnsServer
-	key          *ecdsa.PrivateKey
-	registration Registration
-	now          *time.Time
+	apns   *APNs
+	server *apnsServer
+	key    *ecdsa.PrivateKey
+	device Device
+	now    *time.Time
 }
 
 func newAPNsFixture(t *testing.T) apnsFixture {
 	t.Helper()
 	server := startAPNs(t)
 	_, key := writeKeyFile(t, 0o600)
-	registration, err := NewRegistration(testToken, testTopic, Development, apnsT0)
+	device, err := NewDevice(testToken, testTopic, Development, apnsT0)
 	if err != nil {
 		t.Fatal(err)
 	}
 	path := filepath.Join(t.TempDir(), RegistrationFile)
-	if err := SaveRegistration(path, registration); err != nil {
+	if err := SaveRegistrations(path, Registrations{Active: &device}); err != nil {
 		t.Fatal(err)
 	}
 	now := apnsT0
@@ -126,7 +126,7 @@ func newAPNsFixture(t *testing.T) apnsFixture {
 		Client:    server.server.Client(),
 		Now:       func() time.Time { return now },
 	}
-	return apnsFixture{apns: apns, server: server, key: key, registration: registration, now: &now}
+	return apnsFixture{apns: apns, server: server, key: key, device: device, now: &now}
 }
 
 func openSealed(t *testing.T, key []byte, host, sealed string) SealedNotice {
@@ -226,10 +226,10 @@ func TestAPNsSendsAnEncryptedAlert(t *testing.T) {
 	if payload.APS != wantAPS {
 		t.Errorf("aps %+v", payload.APS)
 	}
-	if payload.Pico.Version != 1 || payload.Pico.Host != testHost {
+	if payload.Pico.Version != 1 || payload.Pico.Host != testHost || payload.Pico.KeyID != f.device.KeyID {
 		t.Errorf("envelope %+v", payload.Pico)
 	}
-	if opened := openSealed(t, f.registration.Key, testHost, payload.Pico.Ciphertext); opened != SealedNotice(notice) {
+	if opened := openSealed(t, f.device.Key, testHost, payload.Pico.Ciphertext); opened != SealedNotice(notice) {
 		t.Errorf("opened %+v", opened)
 	}
 	if strings.Contains(string(got.Body), "Mentioned") {
@@ -260,15 +260,18 @@ func TestAPNsReusesTheProviderTokenFor40Minutes(t *testing.T) {
 
 func TestAPNsErrorsNameTheFix(t *testing.T) {
 	cases := []struct {
-		status int
-		reply  string
-		want   string
+		status    int
+		reply     string
+		want      string
+		permanent bool
 	}{
-		{http.StatusGone, `{"reason":"Unregistered"}`, "tap Send to This iPhone"},
-		{http.StatusBadRequest, `{"reason":"BadDeviceToken"}`, "tap Send to This iPhone"},
-		{http.StatusForbidden, `{"reason":"InvalidProviderToken"}`, "apns.key_id"},
-		{http.StatusTooManyRequests, `{"reason":"TooManyRequests"}`, "HTTP 429 TooManyRequests"},
-		{http.StatusInternalServerError, `oops`, "HTTP 500: oops"},
+		{http.StatusGone, `{"reason":"Unregistered"}`, "its token changed", true},
+		{http.StatusBadRequest, `{"reason":"BadDeviceToken"}`, "not a development token", true},
+		{http.StatusBadRequest, `{"reason":"DeviceTokenNotForTopic"}`, "com.example.pico is not the app", true},
+		{http.StatusForbidden, `{"reason":"InvalidProviderToken"}`, "apns.key_id", true},
+		{http.StatusRequestEntityTooLarge, `{"reason":"PayloadTooLarge"}`, "HTTP 413 PayloadTooLarge", true},
+		{http.StatusTooManyRequests, `{"reason":"TooManyRequests"}`, "HTTP 429 TooManyRequests", false},
+		{http.StatusInternalServerError, `oops`, "HTTP 500 oops", false},
 	}
 	for _, tc := range cases {
 		t.Run(tc.want, func(t *testing.T) {
@@ -278,10 +281,35 @@ func TestAPNsErrorsNameTheFix(t *testing.T) {
 			if err == nil || !strings.Contains(err.Error(), tc.want) {
 				t.Fatalf("err = %v, want %q", err, tc.want)
 			}
+			if errors.Is(err, ErrPermanent) != tc.permanent {
+				t.Errorf("permanent = %v, want %v", errors.Is(err, ErrPermanent), tc.permanent)
+			}
 			if errors.Is(err, ErrMaybeDelivered) {
 				t.Error("an APNs refusal is a definite failure")
 			}
 		})
+	}
+}
+
+func TestAPNsSendsWithTheActiveDeviceNotThePendingOne(t *testing.T) {
+	f := newAPNsFixture(t)
+	pending, err := NewDevice(strings.Repeat("ab", 32), testTopic, Development, apnsT0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := SaveRegistrations(f.apns.RegistrationPath, Registrations{Active: &f.device, Pending: &pending}); err != nil {
+		t.Fatal(err)
+	}
+	if err := f.apns.Send(context.Background(), Notice{Title: "t", Body: "b"}); err != nil {
+		t.Fatal(err)
+	}
+	var payload apnsPayload
+	got := f.server.requests()[0]
+	if err := json.Unmarshal(got.Body, &payload); err != nil {
+		t.Fatal(err)
+	}
+	if got.Path != "/3/device/"+testToken || payload.Pico.KeyID != f.device.KeyID {
+		t.Errorf("sent to %s with key %s", got.Path, payload.Pico.KeyID)
 	}
 }
 
@@ -329,7 +357,8 @@ func TestAPNsPayloadVector(t *testing.T) {
 		key := make([]byte, PushKeyLength)
 		_, _ = rand.Read(key)
 		notice := Notice{Title: "owner/repo", Body: "Mentioned: “Fix” 1", URL: "pico://host-event/mac-mini/01JS0000000000000000000001"}
-		payload, err := (&APNs{HostName: testHost}).payload(key, notice)
+		device := Device{KeyID: "0123456789abcdef", Key: key}
+		payload, err := (&APNs{HostName: testHost}).payload(device, notice)
 		if err != nil {
 			t.Fatal(err)
 		}
