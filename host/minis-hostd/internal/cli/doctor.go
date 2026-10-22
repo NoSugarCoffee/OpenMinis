@@ -328,7 +328,8 @@ func checkPush(ctx context.Context, env Env, deps doctorDeps, cfg config.Config)
 	channel, matches, fix, success := "Bark", "the Bark key matches", "check bark.device_key and bark.server",
 		"Bark accepted the test push; check the phone. If it shows \"Decryption Failed\", the key saved in Bark differs from bark.encryption_key in config.toml"
 	if cfg.APNs != nil {
-		channel, matches, fix, success = "APNs", "Pico decrypted it", "see the reason above",
+		channel, matches, fix, success = "APNs", "Pico decrypted it",
+			"check that this host reaches api.push.apple.com and api.sandbox.push.apple.com on port 443",
 			"APNs accepted the test push; check the phone. If it says Pico could not decrypt it, tap Send to This iPhone again"
 	}
 	notice := notify.Notice{

@@ -265,9 +265,10 @@ func TestAPNsErrorsNameTheFix(t *testing.T) {
 		want      string
 		permanent bool
 	}{
-		{http.StatusGone, `{"reason":"Unregistered"}`, "its token changed", true},
-		{http.StatusBadRequest, `{"reason":"BadDeviceToken"}`, "not a development token", true},
-		{http.StatusBadRequest, `{"reason":"DeviceTokenNotForTopic"}`, "com.example.pico is not the app", true},
+		// A new registration fixes these, and every send re-reads it, so they are retried.
+		{http.StatusGone, `{"reason":"Unregistered"}`, "its token changed", false},
+		{http.StatusBadRequest, `{"reason":"BadDeviceToken"}`, "not a development token", false},
+		{http.StatusBadRequest, `{"reason":"DeviceTokenNotForTopic"}`, "com.example.pico is not the app", false},
 		{http.StatusForbidden, `{"reason":"InvalidProviderToken"}`, "apns.key_id", true},
 		{http.StatusRequestEntityTooLarge, `{"reason":"PayloadTooLarge"}`, "HTTP 413 PayloadTooLarge", true},
 		{http.StatusTooManyRequests, `{"reason":"TooManyRequests"}`, "HTTP 429 TooManyRequests", false},
@@ -310,6 +311,41 @@ func TestAPNsSendsWithTheActiveDeviceNotThePendingOne(t *testing.T) {
 	}
 	if got.Path != "/3/device/"+testToken || payload.Pico.KeyID != f.device.KeyID {
 		t.Errorf("sent to %s with key %s", got.Path, payload.Pico.KeyID)
+	}
+}
+
+func TestAPNsSignsANewTokenAfterARefusedOne(t *testing.T) {
+	f := newAPNsFixture(t)
+	f.server.status, f.server.reply = http.StatusForbidden, `{"reason":"ExpiredProviderToken"}`
+	_ = f.apns.Send(context.Background(), Notice{Title: "t", Body: "b"})
+	f.server.status, f.server.reply = http.StatusOK, ""
+	*f.now = apnsT0.Add(time.Minute)
+	if err := f.apns.Send(context.Background(), Notice{Title: "t", Body: "b"}); err != nil {
+		t.Fatal(err)
+	}
+	requests := f.server.requests()
+	if requests[0].Headers.Get("Authorization") == requests[1].Headers.Get("Authorization") {
+		t.Error("reused the provider token APNs refused")
+	}
+}
+
+func TestAPNsConnectionLostAfterTheRequestMayHaveDelivered(t *testing.T) {
+	f := newAPNsFixture(t)
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, _ = io.ReadAll(r.Body)
+		conn, _, err := w.(http.Hijacker).Hijack()
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		conn.Close()
+	}))
+	t.Cleanup(server.Close)
+	f.apns.Endpoints[Development] = server.URL
+	f.apns.Client = server.Client()
+	err := f.apns.Send(context.Background(), Notice{Title: "t", Body: "b"})
+	if !errors.Is(err, ErrMaybeDelivered) {
+		t.Fatalf("err = %v, want ErrMaybeDelivered", err)
 	}
 }
 

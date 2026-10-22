@@ -52,11 +52,17 @@ func apnsRegister(env Env, args []string) int {
 	if err != nil {
 		return fail(env, CodeBadRequest, err.Error())
 	}
-	registrations, err := notify.LoadRegistrations(registrationPath(env))
+	path := registrationPath(env)
+	err = notify.WithRegistrationLock(path, func() error {
+		registrations, err := notify.LoadRegistrations(path)
+		if err != nil {
+			// An unreadable file cannot send anything either; this registration is what repairs it.
+			fmt.Fprintf(env.Stderr, "minis-hostd: replacing the unreadable registration: %v\n", err)
+			registrations = notify.Registrations{}
+		}
+		return notify.SaveRegistrations(path, registrations.WithPending(device))
+	})
 	if err != nil {
-		return fail(env, CodeStoreUnavailable, err.Error())
-	}
-	if err := notify.SaveRegistrations(registrationPath(env), registrations.WithPending(device)); err != nil {
 		return fail(env, CodeStoreUnavailable, fmt.Sprintf("cannot save the registration: %v", err))
 	}
 	return emit(env, apnsRegisterOutput{
@@ -72,16 +78,25 @@ func apnsActivate(env Env, args []string) int {
 	if len(parsed.Positional) != 1 {
 		return fail(env, CodeBadRequest, "usage: "+usageAPNsActivate)
 	}
-	registrations, err := notify.LoadRegistrations(registrationPath(env))
-	if err != nil {
-		return fail(env, CodeStoreUnavailable, err.Error())
+	path := registrationPath(env)
+	var notPending error
+	err = notify.WithRegistrationLock(path, func() error {
+		registrations, err := notify.LoadRegistrations(path)
+		if err != nil {
+			return err
+		}
+		activated, err := registrations.Activated(parsed.Positional[0])
+		if err != nil {
+			notPending = err
+			return nil
+		}
+		return notify.SaveRegistrations(path, activated)
+	})
+	if notPending != nil {
+		return fail(env, CodeNotFound, notPending.Error())
 	}
-	activated, err := registrations.Activated(parsed.Positional[0])
 	if err != nil {
-		return fail(env, CodeNotFound, err.Error())
-	}
-	if err := notify.SaveRegistrations(registrationPath(env), activated); err != nil {
-		return fail(env, CodeStoreUnavailable, fmt.Sprintf("cannot save the registration: %v", err))
+		return fail(env, CodeStoreUnavailable, fmt.Sprintf("cannot activate the registration: %v", err))
 	}
 	return emit(env, ackOutput{SchemaVersion: SchemaVersion, OK: true})
 }

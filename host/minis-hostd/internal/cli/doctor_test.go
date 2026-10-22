@@ -486,7 +486,12 @@ func TestSystemZoneName(t *testing.T) {
 	}
 }
 
-func useAPNs(t *testing.T, rig *doctorRig, register bool) *httptest.Server {
+type fakeAPNsReply struct {
+	status int
+	body   string
+}
+
+func useAPNs(t *testing.T, rig *doctorRig, register bool, reply fakeAPNsReply) *httptest.Server {
 	t.Helper()
 	stateDir := rig.env.StateDir
 	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
@@ -514,9 +519,12 @@ func useAPNs(t *testing.T, rig *doctorRig, register bool) *httptest.Server {
 		}
 	}
 	server := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/3/device/"+deviceToken {
-			t.Errorf("path %s", r.URL.Path)
+		if r.URL.Path != "/3/device/"+deviceToken || r.Header.Get("apns-topic") != "com.example.pico" ||
+			!strings.HasPrefix(r.Header.Get("authorization"), "bearer ") {
+			t.Errorf("path %s topic %q authorization %q", r.URL.Path, r.Header.Get("apns-topic"), r.Header.Get("authorization"))
 		}
+		w.WriteHeader(reply.status)
+		io.WriteString(w, reply.body)
 	}))
 	server.EnableHTTP2 = true
 	server.StartTLS()
@@ -533,7 +541,7 @@ func useAPNs(t *testing.T, rig *doctorRig, register bool) *httptest.Server {
 
 func TestDoctorChecksTheAPNsSetupAndPushTests(t *testing.T) {
 	rig := newDoctorRig(t, doctorPassword)
-	useAPNs(t, rig, true)
+	useAPNs(t, rig, true, fakeAPNsReply{status: http.StatusOK})
 	status, stdout := rig.run("--push-test", "--json")
 	checks := decodeDoctor(t, stdout).Checks
 	if status != ExitOK {
@@ -549,9 +557,19 @@ func TestDoctorChecksTheAPNsSetupAndPushTests(t *testing.T) {
 
 func TestDoctorAPNsWithoutARegistrationSaysHowToRegister(t *testing.T) {
 	rig := newDoctorRig(t, doctorPassword)
-	useAPNs(t, rig, false)
+	useAPNs(t, rig, false, fakeAPNsReply{status: http.StatusOK})
 	status, stdout := rig.run("--json")
 	if c := findCheck(t, decodeDoctor(t, stdout).Checks, "apns"); status != ExitError || c.OK || !strings.Contains(c.Detail, "Send to This iPhone") {
 		t.Errorf("status %d apns %+v", status, c)
+	}
+}
+
+func TestDoctorReportsAnAPNsRefusal(t *testing.T) {
+	rig := newDoctorRig(t, doctorPassword)
+	useAPNs(t, rig, true, fakeAPNsReply{status: http.StatusForbidden, body: `{"reason":"InvalidProviderToken"}`})
+	status, stdout := rig.run("--push-test", "--json")
+	c := findCheck(t, decodeDoctor(t, stdout).Checks, "push")
+	if status != ExitError || c.OK || !strings.Contains(c.Detail, "InvalidProviderToken") || !strings.Contains(c.Detail, "apns.key_id") {
+		t.Errorf("status %d push %+v", status, c)
 	}
 }

@@ -164,7 +164,7 @@ func (a *APNs) Send(ctx context.Context, n Notice) error {
 
 	var wrote atomic.Bool
 	trace := &httptrace.ClientTrace{
-		WroteRequest: func(httptrace.WroteRequestInfo) { wrote.Store(true) },
+		WroteRequest: func(info httptrace.WroteRequestInfo) { wrote.Store(info.Err == nil) },
 	}
 	request, err := http.NewRequestWithContext(httptrace.WithClientTrace(ctx, trace),
 		http.MethodPost, endpoint+"/3/device/"+device.Token, bytes.NewReader(body))
@@ -185,6 +185,10 @@ func (a *APNs) Send(ctx context.Context, n Notice) error {
 		return fmt.Errorf("apns: send: %w", err)
 	}
 	defer response.Body.Close()
+	if response.StatusCode == http.StatusForbidden {
+		// The provider token was refused (expired, revoked or wrong); the next send must sign a new one.
+		a.dropProviderToken()
+	}
 	return apnsResult(response, device)
 }
 
@@ -228,10 +232,17 @@ func AdditionalData(hostName string) []byte {
 	return []byte("pico-push-v1:" + hostName)
 }
 
+func (a *APNs) dropProviderToken() {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	a.providerToken = ""
+}
+
 func (a *APNs) currentProviderToken() (string, error) {
 	a.mu.Lock()
 	defer a.mu.Unlock()
-	now := a.Now()
+	// Wall-clock time, as APNs checks iat: a monotonic reading stops while the host sleeps.
+	now := a.Now().Round(0)
 	if a.providerToken != "" && now.Sub(a.issuedAt) < providerTokenLifetime {
 		return a.providerToken, nil
 	}
@@ -267,10 +278,14 @@ func ProviderToken(key *ecdsa.PrivateKey, keyID, teamID string, now time.Time) (
 	return signingInput + "." + encode(signature), nil
 }
 
+// registrationReasons are refusals that tapping Send to This iPhone again fixes.
+var registrationReasons = map[string]bool{"Unregistered": true, "BadDeviceToken": true, "DeviceTokenNotForTopic": true, "BadTopic": true}
+
 const reRegister = "in Pico open Settings → Remote Hosts → this host → Notifications and tap Send to This iPhone"
 
-// apnsResult names the cause of each refusal (apns spec §3). Resending the same request cannot fix a
-// 4xx other than 429, so those are permanent; 429 and 5xx are retried.
+// apnsResult names the cause of each refusal (apns spec §3). 429 and 5xx are retried, and so are the
+// refusals a new registration fixes, since every send re-reads it. Any other 4xx is permanent: resending
+// cannot fix it, and a config change needs a restart.
 func apnsResult(response *http.Response, device Device) error {
 	raw, readErr := io.ReadAll(io.LimitReader(response.Body, maxResponseBytes))
 	status := response.StatusCode
@@ -297,7 +312,7 @@ func apnsResult(response *http.Response, device Device) error {
 	if hint != "" {
 		message += ": " + hint
 	}
-	if status == http.StatusTooManyRequests || status >= http.StatusInternalServerError {
+	if status == http.StatusTooManyRequests || status >= http.StatusInternalServerError || registrationReasons[reply.Reason] {
 		return fmt.Errorf("apns: %s", message)
 	}
 	return fmt.Errorf("apns: %w: %s", ErrPermanent, message)

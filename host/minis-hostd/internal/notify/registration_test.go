@@ -83,7 +83,8 @@ func TestNewDeviceRejectsBadInput(t *testing.T) {
 		want         string
 	}{
 		{"ABCD" + testToken[4:], testTopic, Development, "lower-case hex"},
-		{testToken[:62], testTopic, Development, "lower-case hex"},
+		{testToken[:61], testTopic, Development, "even number"},
+		{"", testTopic, Development, "even number"},
 		{testToken, "pico", Development, "bundle id"},
 		{testToken, testTopic, "staging", "environment"},
 	}
@@ -106,5 +107,50 @@ func TestNoActiveDeviceIsNotRegistered(t *testing.T) {
 	}
 	if _, err := ActiveDevice(path); !errors.Is(err, ErrNotRegistered) {
 		t.Fatalf("only pending: err = %v", err)
+	}
+}
+
+func TestNewDeviceTakesTokensOfAnyEvenLength(t *testing.T) {
+	for _, token := range []string{"0f1e", strings.Repeat("ab", 200)} {
+		if _, err := NewDevice(token, testTopic, Development, apnsT0); err != nil {
+			t.Errorf("%d hex digits: %v", len(token), err)
+		}
+	}
+}
+
+func TestRegistrationsMustBePrivate(t *testing.T) {
+	device := newTestDevice(t)
+	dir := t.TempDir()
+	path := filepath.Join(dir, RegistrationFile)
+	if err := SaveRegistrations(path, Registrations{Active: &device}); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Chmod(path, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := LoadRegistrations(path); err == nil || !strings.Contains(err.Error(), "chmod 600") {
+		t.Errorf("readable file: %v", err)
+	}
+	if err := os.Chmod(path, 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Chmod(dir, 0o777); err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { os.Chmod(dir, 0o700) })
+	if err := SaveRegistrations(path, Registrations{Active: &device}); err == nil || !strings.Contains(err.Error(), "chmod 700") {
+		t.Errorf("writable directory: %v", err)
+	}
+}
+
+func TestAnUnusableActiveDeviceIsRefused(t *testing.T) {
+	device := newTestDevice(t)
+	device.Environment = "staging"
+	path := filepath.Join(t.TempDir(), RegistrationFile)
+	if err := SaveRegistrations(path, Registrations{Active: &device}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := ActiveDevice(path); err == nil || !strings.Contains(err.Error(), "staging") {
+		t.Errorf("err = %v", err)
 	}
 }

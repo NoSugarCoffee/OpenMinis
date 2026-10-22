@@ -40,7 +40,7 @@ curl -fsSL https://raw.githubusercontent.com/NoSugarCoffee/Pico/main/host/minis-
   | sh -s -- --host-name mac-mini --version 0.1.0
 ```
 
-`--host-name` must match the host's name in Minis. The script:
+`--host-name` must match the host's name in Pico. The script:
 
 1. picks the release asset for `uname -s` / `uname -m`, downloads it and `SHA256SUMS` from the
    GitHub release `hostd-v<version>`, and stops if the checksum does not match;

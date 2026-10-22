@@ -202,16 +202,16 @@ func TestPushChannelMustBeExactlyOne(t *testing.T) {
 }
 
 func TestInvalidAPNsSettingsNameTheField(t *testing.T) {
-	cases := []struct{ old, new, field string }{
-		{`key_file = "AuthKey_ABC123DEFG.p8"`, `key_file = ""`, "apns.key_file"},
-		{`key_id = "ABC123DEFG"`, `key_id = "abc"`, "apns.key_id"},
-		{`team_id = "28ZGY8C268"`, `team_id = "28zgy8c268"`, "apns.team_id"},
+	cases := []struct{ old, new, field, message string }{
+		{`key_file = "AuthKey_ABC123DEFG.p8"`, `key_file = ""`, "apns.key_file", "AuthKey_<key id>.p8"},
+		{`key_id = "ABC123DEFG"`, `key_id = "abc"`, "apns.key_id", "10-character key ID"},
+		{`team_id = "28ZGY8C268"`, `team_id = "28zgy8c268"`, "apns.team_id", "10-character team ID"},
 	}
 	for _, tc := range cases {
 		_, err := Parse("config.toml", []byte(strings.Replace(withAPNs(t), tc.old, tc.new, 1)))
 		var configErr *Error
-		if !errors.As(err, &configErr) || configErr.Field != tc.field {
-			t.Errorf("%s: err = %v", tc.field, err)
+		if !errors.As(err, &configErr) || configErr.Field != tc.field || !strings.Contains(configErr.Message, tc.message) {
+			t.Errorf("%s: err = %v, want %q", tc.field, err, tc.message)
 		}
 	}
 }

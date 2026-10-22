@@ -383,7 +383,11 @@ func validateAPNs(path string, raw fileAPNs) (APNs, error) {
 	if !filepath.IsAbs(keyFile) {
 		keyFile = filepath.Join(filepath.Dir(path), keyFile)
 	}
-	return APNs{KeyFile: keyFile, KeyID: raw.KeyID, TeamID: raw.TeamID}, nil
+	absolute, err := filepath.Abs(keyFile)
+	if err != nil {
+		return fail("apns.key_file", "%q cannot be made absolute: %v", keyFile, err)
+	}
+	return APNs{KeyFile: absolute, KeyID: raw.KeyID, TeamID: raw.TeamID}, nil
 }
 
 func minutesOfDay(clock string) (int, bool) {

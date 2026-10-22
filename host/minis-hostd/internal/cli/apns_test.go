@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -91,5 +92,20 @@ func TestAPNsRegisterRejectsBadInput(t *testing.T) {
 		if status != ExitError || !strings.Contains(stdout, `"code":"bad_request"`) {
 			t.Errorf("%v: status %d stdout %s", args, status, stdout)
 		}
+	}
+}
+
+func TestAPNsRegisterReplacesAnUnreadableFile(t *testing.T) {
+	dir := t.TempDir()
+	path := filepath.Join(dir, notify.RegistrationFile)
+	if err := os.WriteFile(path, []byte("{not json"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	out := register(t, dir)
+	if status, _, stderr := runIn(dir, "apns", "activate", out.KeyID, "--json"); status != ExitOK {
+		t.Fatal(stderr)
+	}
+	if active, err := notify.ActiveDevice(path); err != nil || active.KeyID != out.KeyID {
+		t.Errorf("active %+v err %v", active, err)
 	}
 }
