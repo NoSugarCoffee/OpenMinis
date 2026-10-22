@@ -243,7 +243,8 @@ func (a *APNs) currentProviderToken() (string, error) {
 	defer a.mu.Unlock()
 	// Wall-clock time, as APNs checks iat: a monotonic reading stops while the host sleeps.
 	now := a.Now().Round(0)
-	if a.providerToken != "" && now.Sub(a.issuedAt) < providerTokenLifetime {
+	// A clock set back makes the age negative; that token's iat is in the future, so sign a new one.
+	if age := now.Sub(a.issuedAt); a.providerToken != "" && age >= 0 && age < providerTokenLifetime {
 		return a.providerToken, nil
 	}
 	token, err := ProviderToken(a.Key, a.KeyID, a.TeamID, now)
@@ -283,9 +284,10 @@ var registrationReasons = map[string]bool{"Unregistered": true, "BadDeviceToken"
 
 const reRegister = "in Pico open Settings → Remote Hosts → this host → Notifications and tap Send to This iPhone"
 
-// apnsResult names the cause of each refusal (apns spec §3). 429 and 5xx are retried, and so are the
-// refusals a new registration fixes, since every send re-reads it. Any other 4xx is permanent: resending
-// cannot fix it, and a config change needs a restart.
+// apnsResult names the cause of each refusal (apns spec §3). Retried: 429, 5xx, the refusals a new
+// registration fixes (every send re-reads it), and ExpiredProviderToken (Send dropped the token, so the
+// next attempt signs a fresh one). Any other 4xx is permanent: resending cannot fix it, and a config
+// change needs a restart.
 func apnsResult(response *http.Response, device Device) error {
 	raw, readErr := io.ReadAll(io.LimitReader(response.Body, maxResponseBytes))
 	status := response.StatusCode

@@ -256,6 +256,11 @@ func TestAPNsReusesTheProviderTokenFor40Minutes(t *testing.T) {
 	if send() == first {
 		t.Error("token not refreshed after 40 minutes")
 	}
+	refreshed := send()
+	*f.now = apnsT0.Add(30 * time.Minute)
+	if send() == refreshed {
+		t.Error("reused a token issued in the future after the clock moved back")
+	}
 }
 
 func TestAPNsErrorsNameTheFix(t *testing.T) {
