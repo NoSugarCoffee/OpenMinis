@@ -106,8 +106,9 @@ from before (up to 24 hours) decrypt by their key id.
   The keys are stored After First Unlock (`kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`), since
   the extension runs while the phone is locked.
 - **Tap:** the notification delegate passes `userInfo["url"]` to the same `host-event` opener as the
-  `pico://` link (§9.1). If the extension crashed or ran out of time, iOS shows the placeholder and
-  there is no `url`; the delegate then opens the `pico` envelope itself with the same keys.
+  `pico://` link (§9.1). Whenever the delivered notice has no `url` but still has the `pico`
+  envelope (the extension crashed, or its time ran out before it decrypted), the delegate opens the
+  envelope itself with the same keys.
 
 ## 6. Where the code goes
 
