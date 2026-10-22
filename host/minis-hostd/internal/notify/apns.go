@@ -312,7 +312,9 @@ func apnsResult(response *http.Response, device Device) error {
 	if hint != "" {
 		message += ": " + hint
 	}
-	if status == http.StatusTooManyRequests || status >= http.StatusInternalServerError || registrationReasons[reply.Reason] {
+	// An expired provider token was dropped in Send, so the outbox's next attempt signs a fresh one.
+	retryable := registrationReasons[reply.Reason] || reply.Reason == "ExpiredProviderToken"
+	if status == http.StatusTooManyRequests || status >= http.StatusInternalServerError || retryable {
 		return fmt.Errorf("apns: %s", message)
 	}
 	return fmt.Errorf("apns: %w: %s", ErrPermanent, message)

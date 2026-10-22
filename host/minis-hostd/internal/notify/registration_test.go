@@ -144,13 +144,20 @@ func TestRegistrationsMustBePrivate(t *testing.T) {
 }
 
 func TestAnUnusableActiveDeviceIsRefused(t *testing.T) {
-	device := newTestDevice(t)
-	device.Environment = "staging"
-	path := filepath.Join(t.TempDir(), RegistrationFile)
-	if err := SaveRegistrations(path, Registrations{Active: &device}); err != nil {
-		t.Fatal(err)
+	cases := map[string]func(*Device){
+		"staging":   func(d *Device) { d.Environment = "staging" },
+		"token":     func(d *Device) { d.Token = "" },
+		"bundle id": func(d *Device) { d.Topic = "pico" },
 	}
-	if _, err := ActiveDevice(path); err == nil || !strings.Contains(err.Error(), "staging") {
-		t.Errorf("err = %v", err)
+	for want, corrupt := range cases {
+		device := newTestDevice(t)
+		corrupt(&device)
+		path := filepath.Join(t.TempDir(), RegistrationFile)
+		if err := SaveRegistrations(path, Registrations{Active: &device}); err != nil {
+			t.Fatal(err)
+		}
+		if _, err := ActiveDevice(path); err == nil || !strings.Contains(err.Error(), want) {
+			t.Errorf("%s: err = %v", want, err)
+		}
 	}
 }

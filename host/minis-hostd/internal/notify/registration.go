@@ -173,6 +173,12 @@ func LoadRegistrations(path string) (Registrations, error) {
 }
 
 func (d Device) check() error {
+	if !deviceTokenPattern.MatchString(d.Token) {
+		return fmt.Errorf("the device token %q is not an even number of lower-case hex digits", d.Token)
+	}
+	if !topicPattern.MatchString(d.Topic) {
+		return fmt.Errorf("the topic %q is not a bundle id", d.Topic)
+	}
 	if len(d.Key) != PushKeyLength {
 		return fmt.Errorf("the key is %d bytes, want %d", len(d.Key), PushKeyLength)
 	}

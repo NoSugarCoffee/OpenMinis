@@ -270,6 +270,7 @@ func TestAPNsErrorsNameTheFix(t *testing.T) {
 		{http.StatusBadRequest, `{"reason":"BadDeviceToken"}`, "not a development token", false},
 		{http.StatusBadRequest, `{"reason":"DeviceTokenNotForTopic"}`, "com.example.pico is not the app", false},
 		{http.StatusForbidden, `{"reason":"InvalidProviderToken"}`, "apns.key_id", true},
+		{http.StatusForbidden, `{"reason":"ExpiredProviderToken"}`, "HTTP 403 ExpiredProviderToken", false},
 		{http.StatusRequestEntityTooLarge, `{"reason":"PayloadTooLarge"}`, "HTTP 413 PayloadTooLarge", true},
 		{http.StatusTooManyRequests, `{"reason":"TooManyRequests"}`, "HTTP 429 TooManyRequests", false},
 		{http.StatusInternalServerError, `oops`, "HTTP 500 oops", false},
