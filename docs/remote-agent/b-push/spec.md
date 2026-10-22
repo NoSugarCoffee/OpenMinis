@@ -462,6 +462,9 @@ because neither opens the event in Pico behind the read-only policy.
 
 ## 15. Later: built-in push
 
+For a build signed by the user's own paid team, D24 replaces this with hostd sending to APNs
+directly, no relay: see [apns.md](apns.md). The design below remains the one for a distributed build.
+
 Pico showing its own notifications needs three things this fork does not have yet:
 
 1. **A paid Apple Developer account.** The free Personal Team has no push capability, and a free

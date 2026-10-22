@@ -45,6 +45,7 @@ Settled 2026-10-18 from the open questions Q1–Q6 that were here.
 | # | Decision | Since |
 |---|---|---|
 | D13 | **Push channel: Bark for now**, end-to-end encrypted, behind a notifier interface. Pico's own notifications need a paid developer account, distribution under the fork's bundle ID and a relay holding the APNs key (spec §15), none of which exist yet; the app side depends only on the host-event link (`pico://host-event` since D22), so switching later changes the notifier alone. *Was Q1.* | 2026-10-18 |
+| D24 | **Pico notifications go straight from hostd to APNs** with an APNs key from the user's own team ([apns spec](b-push/apns.md)), for installs that team signs. The notice is encrypted for a Notification Service Extension, so Apple sees only the token, host name and timing. No relay: the key never leaves the user's host. Bark (D13) stays for builds without a paid team. | 2026-10-22 |
 | D14 | **Rules only decide what pushes in B**; no model call before a push. *Was Q2.* | 2026-10-18 |
 | D15 | **`minis-hostd` is written in Go**: one static binary for macOS and Linux. *Was Q3.* | 2026-10-18 |
 | D16 | **Event bodies are kept on the host for 30 days.** *Was Q4.* | 2026-10-18 |
