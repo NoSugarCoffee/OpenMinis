@@ -462,6 +462,9 @@ because neither opens the event in Pico behind the read-only policy.
 
 ## 15. Later: built-in push
 
+For a build signed by the user's own paid team, D24 replaces this with hostd sending to APNs
+directly, no relay: see [apns.md](apns.md). The design below remains the one for a distributed build.
+
 Pico showing its own notifications needs three things this fork does not have yet:
 
 1. **A paid Apple Developer account.** The free Personal Team has no push capability, and a free
@@ -485,7 +488,7 @@ The design when those exist:
 - **Testing:** the Simulator accepts pushes through `xcrun simctl push`, so the app side can be
   built before the relay exists.
 
-Bark stays as the notifier for self-built installs.
+Bark stays as the notifier for builds without a paid team.
 
 ## 16. Out of scope for B
 
