@@ -4,8 +4,13 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"crypto/x509"
 	"encoding/base64"
 	"encoding/json"
+	"encoding/pem"
 	"fmt"
 	"io"
 	"log"
@@ -26,6 +31,8 @@ import (
 	"github.com/emersion/go-imap/v2/imapserver"
 	"github.com/emersion/go-imap/v2/imapserver/imapmemserver"
 
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
+	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/notify"
 	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/service"
 )
 
@@ -205,7 +212,7 @@ func newDoctorRig(t *testing.T, password string) *doctorRig {
 		},
 		out: &out, errOut: &errOut, home: home, github: gh, bark: bark,
 		// httptest's TLS servers share one certificate, so the GitHub server's client trusts Bark too.
-		deps: doctorDeps{Client: gh.server.Client(), GitHubBaseURL: gh.server.URL, DialIMAP: startIMAP(t), CheckTimeout: 5 * time.Second},
+		deps: doctorDeps{Client: gh.server.Client(), GitHubBaseURL: gh.server.URL, DialIMAP: startIMAP(t), CheckTimeout: 5 * time.Second, NewNotifier: newNotifier},
 	}
 	rig.writeConfig(t, doctorConfig(password, bark.server.URL), 0o600)
 	return rig
@@ -476,5 +483,93 @@ func TestSystemZoneName(t *testing.T) {
 		if got, ok := systemZoneName(c.tz, c.link); got != c.want || ok != c.ok {
 			t.Errorf("systemZoneName(%q, %q) = %q, %v; want %q, %v", c.tz, c.link, got, ok, c.want, c.ok)
 		}
+	}
+}
+
+type fakeAPNsReply struct {
+	status int
+	body   string
+}
+
+func useAPNs(t *testing.T, rig *doctorRig, register bool, reply fakeAPNsReply) *httptest.Server {
+	t.Helper()
+	stateDir := rig.env.StateDir
+	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		t.Fatal(err)
+	}
+	der, err := x509.MarshalPKCS8PrivateKey(key)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(stateDir, "AuthKey_ABC123DEFG.p8"),
+		pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: der}), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	text := doctorConfig(doctorPassword, rig.bark.server.URL)
+	text = text[:strings.Index(text, "[bark]")] + "[apns]\nkey_file = \"AuthKey_ABC123DEFG.p8\"\nkey_id = \"ABC123DEFG\"\nteam_id = \"28ZGY8C268\"\n"
+	rig.writeConfig(t, text, 0o600)
+	if register {
+		device, err := notify.NewDevice(deviceToken, "com.example.pico", notify.Development, doctorNow)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := notify.SaveRegistrations(filepath.Join(stateDir, notify.RegistrationFile), notify.Registrations{Active: &device}); err != nil {
+			t.Fatal(err)
+		}
+	}
+	server := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/3/device/"+deviceToken || r.Header.Get("apns-topic") != "com.example.pico" ||
+			!strings.HasPrefix(r.Header.Get("authorization"), "bearer ") {
+			t.Errorf("path %s topic %q authorization %q", r.URL.Path, r.Header.Get("apns-topic"), r.Header.Get("authorization"))
+		}
+		w.WriteHeader(reply.status)
+		io.WriteString(w, reply.body)
+	}))
+	server.EnableHTTP2 = true
+	server.StartTLS()
+	t.Cleanup(server.Close)
+	rig.deps.NewNotifier = func(env Env, cfg config.Config, _ *http.Client) (notify.Notifier, error) {
+		notifier, err := newNotifier(env, cfg, server.Client())
+		if apns, ok := notifier.(*notify.APNs); ok {
+			apns.Endpoints[notify.Development] = server.URL
+		}
+		return notifier, err
+	}
+	return server
+}
+
+func TestDoctorChecksTheAPNsSetupAndPushTests(t *testing.T) {
+	rig := newDoctorRig(t, doctorPassword)
+	useAPNs(t, rig, true, fakeAPNsReply{status: http.StatusOK})
+	status, stdout := rig.run("--push-test", "--json")
+	checks := decodeDoctor(t, stdout).Checks
+	if status != ExitOK {
+		t.Fatalf("status %d: %+v", status, checks)
+	}
+	if c := findCheck(t, checks, "apns"); !strings.Contains(c.Detail, "com.example.pico registered") {
+		t.Errorf("apns %+v", c)
+	}
+	if c := findCheck(t, checks, "push"); !strings.Contains(c.Detail, "APNs accepted") {
+		t.Errorf("push %+v", c)
+	}
+}
+
+func TestDoctorAPNsWithoutARegistrationSaysHowToRegister(t *testing.T) {
+	rig := newDoctorRig(t, doctorPassword)
+	useAPNs(t, rig, false, fakeAPNsReply{status: http.StatusOK})
+	status, stdout := rig.run("--json")
+	if c := findCheck(t, decodeDoctor(t, stdout).Checks, "apns"); status != ExitError || c.OK || !strings.Contains(c.Detail, "Send to This iPhone") {
+		t.Errorf("status %d apns %+v", status, c)
+	}
+}
+
+func TestDoctorReportsAnAPNsRefusal(t *testing.T) {
+	rig := newDoctorRig(t, doctorPassword)
+	useAPNs(t, rig, true, fakeAPNsReply{status: http.StatusForbidden, body: `{"reason":"InvalidProviderToken"}`})
+	status, stdout := rig.run("--push-test", "--json")
+	c := findCheck(t, decodeDoctor(t, stdout).Checks, "push")
+	if status != ExitError || c.OK || !strings.Contains(c.Detail, "InvalidProviderToken") || !strings.Contains(c.Detail, "apns.key_id") {
+		t.Errorf("status %d push %+v", status, c)
 	}
 }

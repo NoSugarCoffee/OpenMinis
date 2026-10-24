@@ -12,7 +12,6 @@ import (
 
 	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/config"
 	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/daemon"
-	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/notify"
 	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/service"
 	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/source/github"
 	"github.com/NoSugarCoffee/Pico/host/minis-hostd/internal/source/imap"
@@ -45,10 +44,14 @@ func runDaemon(env Env, args []string) int {
 	defer st.Close()
 
 	client := newHTTPClient()
+	notifier, err := newNotifier(env, cfg, client)
+	if err != nil {
+		return plainFail(env, err.Error())
+	}
 	deps := daemon.Deps{
 		Config:        cfg,
 		Store:         st,
-		Notifier:      notify.NewBark(cfg.Bark, client),
+		Notifier:      notifier,
 		Clock:         daemon.SystemClock(),
 		Mail:          mail,
 		NewID:         daemon.ULIDs(time.Now),

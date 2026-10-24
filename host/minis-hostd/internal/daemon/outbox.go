@@ -51,13 +51,15 @@ func (d *daemon) drain(ctx context.Context, now time.Time) error {
 // DeliveryOutcome applies the retry rule: a definite failure is retried with doubling delays
 // (10 s, 20 s, 40 s, …, measured from creation) until SendRetryWindow after the notice was
 // created, the last attempt landing exactly at the window's end; a send that may have been
-// delivered is never retried.
+// delivered is never retried, and a permanent refusal fails at once.
 func DeliveryOutcome(createdAt, now time.Time, sendErr error) store.NoticeOutcome {
 	switch {
 	case sendErr == nil:
 		return store.NoticeOutcome{State: store.NoticeSent, NextAttemptAt: now}
 	case errors.Is(sendErr, notify.ErrMaybeDelivered):
 		return store.NoticeOutcome{State: store.NoticeUncertain, Error: sendErr.Error(), NextAttemptAt: now}
+	case errors.Is(sendErr, notify.ErrPermanent):
+		return store.NoticeOutcome{State: store.NoticeFailed, Error: sendErr.Error(), NextAttemptAt: now}
 	}
 	deadline := createdAt.Add(SendRetryWindow)
 	if !now.Before(deadline) {

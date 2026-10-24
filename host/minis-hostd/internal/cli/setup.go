@@ -59,7 +59,11 @@ func runInstallService(env Env, args []string) int {
 	paths := service.DefaultPaths(env.Setup.Home)
 	// Installing a daemon whose config cannot load would only make launchd or systemd restart it
 	// every few seconds; refuse until the config is complete.
-	if _, err := config.Load(paths.Config); err != nil {
+	cfg, err := config.Load(paths.Config)
+	if err == nil {
+		_, err = newNotifier(env, cfg, newHTTPClient())
+	}
+	if err != nil {
 		return plainFail(env, fmt.Sprintf("%v\nFix the config, then run `minis-hostd install-service` again.", err))
 	}
 	target, err := service.TargetForGOOS(env.Setup.GOOS)

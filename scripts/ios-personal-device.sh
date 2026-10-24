@@ -7,7 +7,9 @@
 # then builds with automatic signing and installs on the device.
 #
 # Usage: scripts/ios-personal-device.sh --team <TEAM_ID> --prefix <com.you.minis> --device <id>
-#        [--keep-healthkit] [--keep-homekit]
+#        [--keep-push] [--keep-healthkit] [--keep-homekit]
+# --keep-push keeps the push entitlement, which a paid team can sign; Pico notifications from
+# minis-hostd need it (docs/remote-agent/b-push/apns.md).
 # The device id is the identifier from `xcrun devicectl list devices`.
 #
 # One manual step the first time: command-line signing registers the bundle ids but not the App
@@ -18,16 +20,17 @@
 set -eu
 
 usage() {
-	echo "usage: $0 --team <TEAM_ID> --prefix <com.you.minis> --device <device id> [--keep-healthkit] [--keep-homekit]" >&2
+	echo "usage: $0 --team <TEAM_ID> --prefix <com.you.minis> --device <device id> [--keep-push] [--keep-healthkit] [--keep-homekit]" >&2
 	exit 2
 }
 
-team="" prefix="" device="" keep_healthkit=0 keep_homekit=0
+team="" prefix="" device="" keep_push=0 keep_healthkit=0 keep_homekit=0
 while [ $# -gt 0 ]; do
 	case "$1" in
 	--team) team="${2:-}"; shift 2 ;;
 	--prefix) prefix="${2:-}"; shift 2 ;;
 	--device) device="${2:-}"; shift 2 ;;
+	--keep-push) keep_push=1; shift ;;
 	--keep-healthkit) keep_healthkit=1; shift ;;
 	--keep-homekit) keep_homekit=1; shift ;;
 	*) usage ;;
@@ -64,11 +67,14 @@ find "$work/src/ios" \( -name '*.swift' -o -name '*.plist' -o -name '*.entitleme
 		-e "s/com\.openminis\.Minis/$prefix.Minis/g"
 
 entitlements="$work/src/ios/Minis.entitlements"
-for key in aps-environment com.apple.developer.icloud-container-identifiers com.apple.developer.icloud-services \
+for key in com.apple.developer.icloud-container-identifiers com.apple.developer.icloud-services \
 	com.apple.developer.ubiquity-container-identifiers com.apple.developer.weatherkit \
 	com.apple.developer.nfc.readersession.formats; do
 	/usr/libexec/PlistBuddy -c "Delete :$key" "$entitlements" 2>/dev/null || true
 done
+if [ "$keep_push" -eq 0 ]; then
+	/usr/libexec/PlistBuddy -c "Delete :aps-environment" "$entitlements" 2>/dev/null || true
+fi
 if [ "$keep_healthkit" -eq 0 ]; then
 	/usr/libexec/PlistBuddy -c "Delete :com.apple.developer.healthkit" "$entitlements" 2>/dev/null || true
 	/usr/libexec/PlistBuddy -c "Delete :com.apple.developer.healthkit.access" "$entitlements" 2>/dev/null || true

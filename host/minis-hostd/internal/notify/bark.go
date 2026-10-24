@@ -99,7 +99,7 @@ func (b *Bark) Send(ctx context.Context, n Notice) error {
 
 	var wrote atomic.Bool
 	trace := &httptrace.ClientTrace{
-		WroteRequest: func(httptrace.WroteRequestInfo) { wrote.Store(true) },
+		WroteRequest: func(info httptrace.WroteRequestInfo) { wrote.Store(info.Err == nil) },
 	}
 	endpoint := b.Server + "/" + url.PathEscape(b.DeviceKey)
 	request, err := http.NewRequestWithContext(httptrace.WithClientTrace(ctx, trace),

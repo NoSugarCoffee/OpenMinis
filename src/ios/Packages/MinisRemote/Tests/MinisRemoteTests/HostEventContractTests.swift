@@ -24,9 +24,10 @@ final class HostEventContractTests: XCTestCase {
     }
 
     func testEveryGoldenFileIsCovered() throws {
+        // apns_payload.json is the APNs notice, decrypted by PicoPush's tests rather than this client.
         let names = try FileManager.default.contentsOfDirectory(atPath: Self.contractDirectory.path).sorted()
         XCTAssertEqual(names, [
-            "batches_get.json", "doctor.json", "error_bad_request.json", "error_not_found.json", "error_schema_mismatch.json",
+            "apns_payload.json", "batches_get.json", "doctor.json", "error_bad_request.json", "error_not_found.json", "error_schema_mismatch.json",
             "error_store_unavailable.json", "events_ack.json", "events_get_github.json", "events_get_mail.json",
             "events_list.json", "status.json",
         ], "a new golden file needs a decoding test here")

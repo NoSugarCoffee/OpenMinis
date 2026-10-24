@@ -100,6 +100,8 @@ func Run(env Env, args []string) int {
 		return runUninstallService(env, args[1:])
 	case "pair":
 		return runPair(env, args[1:], productionPairDeps())
+	case "apns":
+		return runAPNs(env, args[1:])
 	default:
 		return fail(env, CodeBadRequest, fmt.Sprintf("unknown command %q", strings.Join(args, " ")))
 	}

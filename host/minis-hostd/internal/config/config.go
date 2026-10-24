@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
@@ -33,7 +34,9 @@ type Config struct {
 	QuietHours *Window
 	Mail       []MailAccount
 	GitHub     *GitHubSource
-	Bark       Bark
+	// Exactly one of Bark and APNs is set.
+	Bark *Bark
+	APNs *APNs
 }
 
 type MailAccount struct {
@@ -63,6 +66,13 @@ type Bark struct {
 	EncryptionKey string
 }
 
+// APNs sends Pico's own notifications with the user's APNs key (apns spec §2). KeyFile is absolute.
+type APNs struct {
+	KeyFile string
+	KeyID   string
+	TeamID  string
+}
+
 // Window is a daily span in minutes after local midnight; Start > End wraps past midnight.
 type Window struct {
 	Start int
@@ -90,6 +100,7 @@ type fileConfig struct {
 	Mail       []fileMail  `toml:"mail"`
 	GitHub     *fileGitHub `toml:"github"`
 	Bark       *fileBark   `toml:"bark"`
+	APNs       *fileAPNs   `toml:"apns"`
 }
 
 type fileWindow struct {
@@ -122,7 +133,14 @@ type fileBark struct {
 	EncryptionKey string `toml:"encryption_key"`
 }
 
+type fileAPNs struct {
+	KeyFile string `toml:"key_file"`
+	KeyID   string `toml:"key_id"`
+	TeamID  string `toml:"team_id"`
+}
+
 var (
+	appleIDPattern  = regexp.MustCompile(`^[A-Z0-9]{10}$`)
 	hostNamePattern = regexp.MustCompile(`^[A-Za-z0-9_-]{1,32}$`)
 	clockPattern    = regexp.MustCompile(`^([01][0-9]|2[0-3]):([0-5][0-9])$`)
 	repoPattern     = regexp.MustCompile(`^[A-Za-z0-9_.-]+/([A-Za-z0-9_.-]+|\*)$`)
@@ -130,7 +148,7 @@ var (
 )
 
 // Load reads the file, refusing one that other users can read because it holds the IMAP app
-// password, the GitHub token and the Bark encryption key.
+// password, the GitHub token and the push keys.
 func Load(path string) (Config, error) {
 	info, err := os.Stat(path)
 	if err != nil {
@@ -289,26 +307,26 @@ func validate(path string, raw fileConfig) (Config, error) {
 		return fail("", "nothing to watch: add a [[mail]] account or a [github] section")
 	}
 
-	if raw.Bark == nil {
-		return fail("bark", "is missing; add the device key and encryption key from the Bark app")
+	if raw.Bark != nil && raw.APNs != nil {
+		return fail("", "both [bark] and [apns] are set; keep the one that should deliver notices")
 	}
-	server := raw.Bark.Server
-	if server == "" {
-		server = DefaultBarkServer
-	}
-	if !strings.HasPrefix(server, "https://") {
-		return fail("bark.server", "%q must be an https:// URL", server)
-	}
-	if raw.Bark.DeviceKey == "" {
-		return fail("bark.device_key", "is empty; copy it from the Bark app's home screen")
-	}
-	if position, ok := badKeyPosition(raw.Bark.EncryptionKey); !ok {
-		if position == 0 {
-			return fail("bark.encryption_key", "must be %d characters, found %d",
-				BarkKeyLength, len([]rune(raw.Bark.EncryptionKey)))
+	var bark *Bark
+	var apns *APNs
+	switch {
+	case raw.APNs != nil:
+		parsed, err := validateAPNs(path, *raw.APNs)
+		if err != nil {
+			return Config{}, err
 		}
-		return fail("bark.encryption_key",
-			"character %d is not one of %q; generate a new key with `minis-hostd doctor`", position, BarkKeyAlphabet)
+		apns = &parsed
+	case raw.Bark != nil:
+		parsed, err := validateBark(path, *raw.Bark)
+		if err != nil {
+			return Config{}, err
+		}
+		bark = &parsed
+	default:
+		return fail("", "no push channel: add [apns] for Pico notifications or [bark] for the Bark app")
 	}
 
 	return Config{
@@ -317,12 +335,59 @@ func validate(path string, raw fileConfig) (Config, error) {
 		QuietHours: quiet,
 		Mail:       mail,
 		GitHub:     github,
-		Bark: Bark{
-			Server:        strings.TrimRight(server, "/"),
-			DeviceKey:     raw.Bark.DeviceKey,
-			EncryptionKey: raw.Bark.EncryptionKey,
-		},
+		Bark:       bark,
+		APNs:       apns,
 	}, nil
+}
+
+func validateBark(path string, raw fileBark) (Bark, error) {
+	fail := func(field, format string, args ...any) (Bark, error) {
+		return Bark{}, &Error{Path: path, Field: field, Message: fmt.Sprintf(format, args...)}
+	}
+	server := raw.Server
+	if server == "" {
+		server = DefaultBarkServer
+	}
+	if !strings.HasPrefix(server, "https://") {
+		return fail("bark.server", "%q must be an https:// URL", server)
+	}
+	if raw.DeviceKey == "" {
+		return fail("bark.device_key", "is empty; copy it from the Bark app's home screen")
+	}
+	if position, ok := badKeyPosition(raw.EncryptionKey); !ok {
+		if position == 0 {
+			return fail("bark.encryption_key", "must be %d characters, found %d",
+				BarkKeyLength, len([]rune(raw.EncryptionKey)))
+		}
+		return fail("bark.encryption_key",
+			"character %d is not one of %q; generate a new key with `minis-hostd doctor`", position, BarkKeyAlphabet)
+	}
+	return Bark{Server: strings.TrimRight(server, "/"), DeviceKey: raw.DeviceKey, EncryptionKey: raw.EncryptionKey}, nil
+}
+
+// validateAPNs checks only the text; the key file itself is read when the notifier is built.
+func validateAPNs(path string, raw fileAPNs) (APNs, error) {
+	fail := func(field, format string, args ...any) (APNs, error) {
+		return APNs{}, &Error{Path: path, Field: field, Message: fmt.Sprintf(format, args...)}
+	}
+	if raw.KeyFile == "" {
+		return fail("apns.key_file", "is empty; name the AuthKey_<key id>.p8 file downloaded from the Apple Developer site")
+	}
+	if !appleIDPattern.MatchString(raw.KeyID) {
+		return fail("apns.key_id", "%q must be the 10-character key ID shown with the key in the Apple Developer site", raw.KeyID)
+	}
+	if !appleIDPattern.MatchString(raw.TeamID) {
+		return fail("apns.team_id", "%q must be the 10-character team ID that signs Pico", raw.TeamID)
+	}
+	keyFile := raw.KeyFile
+	if !filepath.IsAbs(keyFile) {
+		keyFile = filepath.Join(filepath.Dir(path), keyFile)
+	}
+	absolute, err := filepath.Abs(keyFile)
+	if err != nil {
+		return fail("apns.key_file", "%q cannot be made absolute: %v", keyFile, err)
+	}
+	return APNs{KeyFile: absolute, KeyID: raw.KeyID, TeamID: raw.TeamID}, nil
 }
 
 func minutesOfDay(clock string) (int, bool) {

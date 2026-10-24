@@ -1,0 +1,25 @@
+{
+  "key": "Dt4sFmLq9gHlQQOut8eTiKoiGkAu6dSVEr5D4o2L1zk=",
+  "payload": {
+    "aps": {
+      "alert": {
+        "title": "New event",
+        "body": "Open Pico to read it."
+      },
+      "mutable-content": 1,
+      "thread-id": "mac-mini",
+      "sound": "default"
+    },
+    "pico": {
+      "v": 1,
+      "host": "mac-mini",
+      "k": "0123456789abcdef",
+      "c": "myAE/Nst8uIHUqBUKc9fT9u/+ZxjHPPcXwzZByxEIyBLfswQ5AOkbvDTDKKNUmzc5LHKIgqO71TiJAbgy5KWsasO1AaOJedk+jF2i53a4lceXxgqvjLnjt/C86oTmD5oajeYz+OBlZJhPjRzQQntr3dlWyhpLaljMYFqGvIc4w+9lKRLQU6lpmEIM51JnGxH"
+    }
+  },
+  "notice": {
+    "title": "owner/repo",
+    "body": "Mentioned: “Fix” 1",
+    "url": "pico://host-event/mac-mini/01JS0000000000000000000001"
+  }
+}
